@@ -50,7 +50,8 @@ class _AppShellState extends State<AppShell> {
             icon: Icon(destination.icon),
           );
         }).toList(),
-        selectedItemColor: Colors.amber[800],
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: Theme.of(context).primaryColor,
         currentIndex: _selectedIndex,
         onTap: onItemTapped,
       ),
