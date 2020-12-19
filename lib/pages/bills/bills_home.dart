@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import './vendor_card.dart';
 
@@ -10,6 +12,7 @@ class BillsHome extends StatelessWidget {
     Color.fromRGBO(69, 123, 157, 1.0),
     Color.fromRGBO(255, 33, 0, 1.0),
   ];
+  var rng = new Random();
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +27,8 @@ class BillsHome extends StatelessWidget {
               padding: const EdgeInsets.all(10),
               itemCount: mockData.length,
               itemBuilder: (BuildContext context, int index) {
-                return VendorCard(mockData[index], colors[index]);
+                return VendorCard(
+                    mockData[index], colors[index], rng.nextDouble());
               }),
         ));
   }
