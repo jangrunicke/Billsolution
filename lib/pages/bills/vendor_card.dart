@@ -24,7 +24,7 @@ class VendorCard extends StatelessWidget {
             margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
           ),
           Container(
-            child: Text(summierteAusgabenFinal.toStringAsFixed(2) + ',- €',
+            child: Text(summierteAusgabenFinal.toStringAsFixed(2) + ' €',
                 style: TextStyle(color: Colors.white, fontSize: 20)),
             alignment: Alignment.bottomLeft,
           )
