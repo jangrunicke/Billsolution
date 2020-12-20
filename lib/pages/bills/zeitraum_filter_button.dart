@@ -37,7 +37,10 @@ class _ZeitraumFilterButtonState extends State<ZeitraumFilterButton> {
   Widget build(BuildContext context) {
     return Container(
       child: FlatButton(
-        child: Text(this._buttonText),
+        child: Text(
+          this._buttonText,
+          style: TextStyle(color: _selected ? Colors.white : Colors.black),
+        ),
         onPressed: () => {auswaehlen()},
       ),
       decoration: BoxDecoration(

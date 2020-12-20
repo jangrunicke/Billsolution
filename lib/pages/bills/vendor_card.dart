@@ -41,7 +41,7 @@ class VendorCard extends StatelessWidget {
       ),
       padding: EdgeInsets.all(15),
       margin: EdgeInsets.fromLTRB(5, 0, 5, 5),
-      constraints: BoxConstraints(maxHeight: 95, maxWidth: 140),
+      constraints: BoxConstraints(maxWidth: 130),
     );
   }
 }
