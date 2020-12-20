@@ -23,7 +23,21 @@ class BillsHome extends StatelessWidget {
           title: Text('Belege'),
         ),
         body: Column(
-          children: [ZeitraumFilterButton(), VendorList()],
+          children: [
+            Container(
+              child: Row(
+                children: [
+                  ZeitraumFilterButton('1 Woche'),
+                  ZeitraumFilterButton('1 Monat'),
+                  ZeitraumFilterButton('3 Monate'),
+                  ZeitraumFilterButton('1 Jahr')
+                ],
+              ),
+              padding: EdgeInsets.all(10),
+              margin: EdgeInsets.all(5),
+            ),
+            VendorList()
+          ],
         ));
   }
 }

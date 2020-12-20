@@ -1,16 +1,28 @@
 import 'package:flutter/material.dart';
 
 class ZeitraumFilterButton extends StatefulWidget {
+  final String _buttonText;
+
+  ZeitraumFilterButton(this._buttonText);
+
   @override
-  _ZeitraumFilterButtonState createState() => _ZeitraumFilterButtonState();
+  _ZeitraumFilterButtonState createState() =>
+      _ZeitraumFilterButtonState(this._buttonText);
 }
 
 class _ZeitraumFilterButtonState extends State<ZeitraumFilterButton> {
-  bool _selected = false;
+  _ZeitraumFilterButtonState(String buttonText) {
+    _selected = false;
+    this._buttonText = buttonText;
+  }
+
+  String _buttonText;
+
+  bool _selected;
   void auswaehlen() {
     print('Ausgewählt?: ' + _selected.toString());
     setState(() {
-      _selected = true;
+      _selected = _selected ? false : true;
     });
     print('Button wurde ausgewählt');
     print('Ausgewählt?: ' + _selected.toString());
@@ -25,12 +37,14 @@ class _ZeitraumFilterButtonState extends State<ZeitraumFilterButton> {
   Widget build(BuildContext context) {
     return Container(
       child: FlatButton(
-        child: Text('1 Woche'),
+        child: Text(this._buttonText),
         onPressed: () => {auswaehlen()},
       ),
       decoration: BoxDecoration(
-          color: colors[0], borderRadius: BorderRadius.circular(15)),
+          color: _selected ? colors[1] : colors[0],
+          borderRadius: BorderRadius.circular(15)),
       constraints: BoxConstraints(maxHeight: 35, maxWidth: 110),
+      margin: EdgeInsets.fromLTRB(3, 5, 3, 0),
     );
   }
 }
