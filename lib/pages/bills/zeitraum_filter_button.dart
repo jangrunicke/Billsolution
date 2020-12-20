@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
 
-class ZeitraumFilterButton extends StatelessWidget {
+class ZeitraumFilterButton extends StatefulWidget {
+  @override
+  _ZeitraumFilterButtonState createState() => _ZeitraumFilterButtonState();
+}
+
+class _ZeitraumFilterButtonState extends State<ZeitraumFilterButton> {
   void buttonFn() => {};
+  bool _selected = true;
+  final colors = [
+    Color.fromRGBO(224, 224, 244, 1.0),
+    Color.fromRGBO(29, 53, 87, 1.0)
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +21,7 @@ class ZeitraumFilterButton extends StatelessWidget {
         onPressed: () => {},
       ),
       decoration: BoxDecoration(
-          color: Color.fromRGBO(224, 224, 244, 1.0),
+          color: _selected ? colors[1] : colors[2],
           borderRadius: BorderRadius.circular(15)),
       constraints: BoxConstraints(maxHeight: 35, maxWidth: 110),
     );
