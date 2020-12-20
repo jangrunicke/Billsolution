@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import './vendor_card.dart';
 import './vendor_list.dart';
+import './zeitraum_filter_button.dart';
 
 class BillsHome extends StatelessWidget {
   var mockData = ['Rewe', 'DM', 'Edeka', 'Penny', 'Aldi'];
@@ -22,6 +22,8 @@ class BillsHome extends StatelessWidget {
         appBar: AppBar(
           title: Text('Belege'),
         ),
-        body: VendorList());
+        body: Column(
+          children: [ZeitraumFilterButton(), VendorList()],
+        ));
   }
 }
