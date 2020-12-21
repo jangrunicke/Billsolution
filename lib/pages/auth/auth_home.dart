@@ -12,18 +12,22 @@ class AuthHome extends StatelessWidget {
         title: Text('Anmelden'),
       ),
       body: Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Auth Home',
-              style: Theme.of(context).textTheme.headline3,
-            ),
-            RaisedButton(
-              child: Text('Log in'),
-              onPressed: onTappedLogin,
-            )
-          ],
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          TextFormField(
+            decoration:
+                InputDecoration(labelText: 'Gebe deine E-Mail Adresse ein'),
+          ),
+          Text(
+            'Auth Home',
+            style: Theme.of(context).textTheme.headline3,
+          ),
+          RaisedButton(
+            child: Text('Anmelden'),
+            onPressed: onTappedLogin,
+          )
+        ],
       )),
     );
   }
