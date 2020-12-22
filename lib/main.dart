@@ -14,7 +14,7 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  // TODO: Quickfix soltion, statemanagement needed
+  // TODO: Quickfix solution, statemanagement needed
   bool _isLoggedIn = false;
 
   void onTappedLogin() {
@@ -27,15 +27,17 @@ class _AppState extends State<App> {
     if (_isLoggedIn) {
       return AppShell();
     }
-    return AuthHome(onTappedLogin: onTappedLogin,);
+    return AuthHome(
+      onTappedLogin: onTappedLogin,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'BillSolution',
-        theme: AppTheme.themeData,
-        home: buildScreen(),
-        );
+      title: 'BillSolution',
+      theme: AppTheme.themeData,
+      home: buildScreen(),
+    );
   }
 }
