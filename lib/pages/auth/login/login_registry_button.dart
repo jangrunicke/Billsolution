@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import '../auth_theme.dart';
 import '../registry/registry_page.dart';
