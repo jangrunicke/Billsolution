@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'auth_theme.dart';
 
 class LoginButton extends StatelessWidget {
   LoginButton({this.onTappedLogin});
 
   final VoidCallback onTappedLogin;
 
-  final TextStyle style = TextStyle(fontFamily: 'Roboto', fontSize: 20.0);
+  final TextStyle style = AuthTheme().style;
 
   @override
   Widget build(BuildContext context) {
