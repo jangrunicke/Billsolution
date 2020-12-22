@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import '../auth_theme.dart';
 import '../registry/registry_page.dart';
@@ -16,7 +18,8 @@ class LoginRegistryButton extends StatelessWidget {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
-          Navigator.pushNamed(context, '/registry');
+          Route route = MaterialPageRoute(builder: (context) => RegistryPage());
+          Navigator.push(context, route);
         },
         child: Text(
           'Registrieren',
