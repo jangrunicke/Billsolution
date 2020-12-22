@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'login/login_button.dart';
-import 'login/email_field.dart';
-import 'login/password_field.dart';
-import 'login/registry_button.dart';
+import 'login/login_email_field.dart';
+import 'login/login_password_field.dart';
+import 'login/login_registry_button.dart';
 
 class AuthHome extends StatelessWidget {
   AuthHome({this.onTappedLogin});
@@ -31,13 +31,13 @@ class AuthHome extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 55.0),
-                EmailField(),
+                LoginEmailField(),
                 SizedBox(height: 25.0),
-                PasswordField(),
+                LoginPasswordField(),
                 SizedBox(height: 35.0),
                 LoginButton(onTappedLogin: onTappedLogin),
                 SizedBox(height: 25.0),
-                RegistryButton(),
+                LoginRegistryButton(),
               ],
             ),
           ),

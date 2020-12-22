@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import '../auth_theme.dart';
+import '../registry/registry_page.dart';
 
-class RegistryButton extends StatelessWidget {
+class LoginRegistryButton extends StatelessWidget {
   final TextStyle style = AuthTheme().style;
 
   @override
@@ -13,7 +14,10 @@ class RegistryButton extends StatelessWidget {
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () {},
+        onPressed: () {
+          Route route = MaterialPageRoute(builder: (context) => RegistryPage());
+          Navigator.push(context, route);
+        },
         child: Text(
           'Registrieren',
           textAlign: TextAlign.center,

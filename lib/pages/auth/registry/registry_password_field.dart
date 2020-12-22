@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../auth_theme.dart';
 
-class PasswordField extends StatelessWidget {
+class RegistryPasswordField extends StatelessWidget {
   final TextStyle style = AuthTheme().style;
 
   @override
