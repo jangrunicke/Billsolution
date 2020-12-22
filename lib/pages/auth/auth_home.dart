@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'login_button.dart';
-import 'email_field.dart';
-import 'password_field.dart';
-import 'registry_button.dart';
+import 'login/login_button.dart';
+import 'login/email_field.dart';
+import 'login/password_field.dart';
+import 'login/registry_button.dart';
 
 class AuthHome extends StatelessWidget {
   AuthHome({this.onTappedLogin});

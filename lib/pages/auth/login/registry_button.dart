@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'auth_theme.dart';
+import '../auth_theme.dart';
 
 class RegistryButton extends StatelessWidget {
   final TextStyle style = AuthTheme().style;

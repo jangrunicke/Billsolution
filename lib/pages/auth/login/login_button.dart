@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'auth_theme.dart';
+import '../auth_theme.dart';
 
 class LoginButton extends StatelessWidget {
   LoginButton({this.onTappedLogin});
