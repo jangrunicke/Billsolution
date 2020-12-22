@@ -1,9 +1,7 @@
-import 'package:billsolution_app/pages/auth/auth_theme.dart';
+import '../widgets/auth_input_text_field.dart';
+import '../auth_theme.dart';
+import '../widgets/auth_button.dart';
 
-import 'registry_button.dart';
-import 'registry_email_field.dart';
-import 'registry_password_field.dart';
-import 'registry_repeat_password_field.dart';
 import 'package:flutter/material.dart';
 
 class RegistryPage extends StatelessWidget {
@@ -23,17 +21,30 @@ class RegistryPage extends StatelessWidget {
               children: <Widget>[
                 SizedBox(height: 80.0),
                 Text(
-                  'Zum Registrieren bitte E-Mail Adresse und Passwort vergeben. Wir senden Ihnen eine E-Mail, damit Sie ihren Account Bstätigen Können ',
+                  'Zum Registrieren bitte E-Mail Adresse und Passwort vergeben. Wir senden Ihnen eine E-Mail, damit Sie ihren Account Bestätigen Können ',
                   style: AuthTheme().style,
                 ),
                 SizedBox(height: 80.0),
-                RegistryEmailField(),
+                AuthInputTextField(
+                  hintText: 'E-Mail Adresse',
+                  obscureText: false,
+                ),
                 SizedBox(height: 30.0),
-                RegistryPasswordField(),
+                AuthInputTextField(
+                  hintText: 'Passwort',
+                  obscureText: true,
+                ),
                 SizedBox(height: 30.0),
-                RegistryRepeatPasswordField(),
+                AuthInputTextField(
+                  hintText: 'Passwort wiederholen',
+                  obscureText: true,
+                ),
                 SizedBox(height: 55.0),
-                RegistryButton(),
+                AuthButton(
+                  buttonColor: Color(0xff1d3557),
+                  textColor: Colors.white,
+                  text: 'Registrieren',
+                ),
               ],
             ),
           ),

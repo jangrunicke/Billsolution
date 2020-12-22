@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../auth_theme.dart';
 import '../registry/registry_page.dart';
+import '../auth_router.dart';
 
 class LoginRegistryButton extends StatelessWidget {
   final TextStyle style = AuthTheme().style;
@@ -15,8 +16,7 @@ class LoginRegistryButton extends StatelessWidget {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
-          Route route = MaterialPageRoute(builder: (context) => RegistryPage());
-          Navigator.push(context, route);
+          Navigator.pushNamed(context, '/registry');
         },
         child: Text(
           'Registrieren',

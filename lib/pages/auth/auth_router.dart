@@ -1,7 +1,4 @@
-import 'dart:js';
-
 import 'package:billsolution_app/pages/auth/auth_home.dart';
-import 'package:billsolution_app/pages/auth/registry/registry_page.dart';
 import 'package:flutter/material.dart';
 
 class AuthRouter extends StatelessWidget {

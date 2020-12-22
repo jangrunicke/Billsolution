@@ -1,8 +1,10 @@
-import 'package:flutter/material.dart';
+import 'package:billsolution_app/pages/auth/widgets/auth_input_text_field.dart';
+
 import 'login/login_button.dart';
-import 'login/login_email_field.dart';
-import 'login/login_password_field.dart';
 import 'login/login_registry_button.dart';
+import 'login/login_forgot_password_text.dart';
+
+import 'package:flutter/material.dart';
 
 class AuthHome extends StatelessWidget {
   AuthHome({this.onTappedLogin});
@@ -31,9 +33,17 @@ class AuthHome extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 55.0),
-                LoginEmailField(),
+                AuthInputTextField(
+                  hintText: 'E-Mail Adresse',
+                  obscureText: false,
+                ),
                 SizedBox(height: 25.0),
-                LoginPasswordField(),
+                AuthInputTextField(
+                  hintText: 'Passwort',
+                  obscureText: true,
+                ),
+                SizedBox(height: 10.0),
+                LoginForgotPasswordText(),
                 SizedBox(height: 35.0),
                 LoginButton(onTappedLogin: onTappedLogin),
                 SizedBox(height: 25.0),
