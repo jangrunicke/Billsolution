@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import './vendor_list.dart';
 import './zeitraum_filter_button.dart';
+import './add_bill_popup.dart';
 
 class BillsHome extends StatelessWidget {
   var mockData = ['Rewe', 'DM', 'Edeka', 'Penny', 'Aldi'];
@@ -21,6 +22,13 @@ class BillsHome extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: Text('Belege'),
+          actions: [
+            IconButton(
+                icon: Icon(Icons.add),
+                onPressed: () {
+                  AddBillPopup().openPopup(context);
+                }),
+          ],
         ),
         body: Column(
           children: [
