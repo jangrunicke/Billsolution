@@ -20,7 +20,26 @@ class _BelegeListeState extends State<BelegeListe> {
 
   Widget _buildRow() {
     return ListTile(
-        title: Text("Test"),
+        title: Row(
+          children: [
+            Expanded(
+                child: Column(
+              children: [
+                Text("Händler",
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                Text("27.12.2020",
+                    style: TextStyle(color: Color.fromRGBO(152, 152, 152, 1.0)))
+              ],
+              crossAxisAlignment: CrossAxisAlignment.start,
+            )),
+            Text(
+              "28,76€",
+              style: TextStyle(
+                  color: Color.fromRGBO(152, 152, 152, 1.0), fontSize: 18),
+            ),
+          ],
+        ),
         trailing: Icon(
           Icons.arrow_forward_ios,
           color: Color.fromRGBO(152, 152, 152, 1.0),
