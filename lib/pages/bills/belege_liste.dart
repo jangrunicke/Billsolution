@@ -22,8 +22,8 @@ class _BelegeListeState extends State<BelegeListe> {
     return ListTile(
         title: Text("Test"),
         trailing: Icon(
-          Icons.favorite,
-          color: Colors.red,
+          Icons.arrow_forward_ios,
+          color: Color.fromRGBO(152, 152, 152, 1.0),
         ),
         onTap: () {
           setState(() {
