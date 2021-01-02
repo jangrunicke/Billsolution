@@ -1,4 +1,6 @@
+import 'package:billsolution_app/pages/bills/models/zeitraum_filter_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Zeitraumfilter extends StatelessWidget {
   @override
@@ -6,10 +8,10 @@ class Zeitraumfilter extends StatelessWidget {
     return Container(
       child: Row(
         children: [
-          ZeitraumFilterButton('1 Woche'),
-          ZeitraumFilterButton('1 Monat'),
-          ZeitraumFilterButton('3 Monate'),
-          ZeitraumFilterButton('1 Jahr')
+          ZeitraumFilterButton(1, '1 Woche'),
+          ZeitraumFilterButton(2, '1 Monat'),
+          ZeitraumFilterButton(3, '3 Monate'),
+          ZeitraumFilterButton(4, '1 Jahr'),
         ],
       ),
       padding: EdgeInsets.all(10),
@@ -20,30 +22,35 @@ class Zeitraumfilter extends StatelessWidget {
 
 class ZeitraumFilterButton extends StatefulWidget {
   final String _buttonText;
+  final int _index;
 
-  ZeitraumFilterButton(this._buttonText);
+  ZeitraumFilterButton(
+    this._index,
+    this._buttonText,
+  );
 
   @override
   _ZeitraumFilterButtonState createState() =>
-      _ZeitraumFilterButtonState(this._buttonText);
+      _ZeitraumFilterButtonState(this._buttonText, this._index);
 }
 
 class _ZeitraumFilterButtonState extends State<ZeitraumFilterButton> {
-  _ZeitraumFilterButtonState(String buttonText) {
-    _selected = false;
+  _ZeitraumFilterButtonState(String buttonText, int index) {
     this._buttonText = buttonText;
+    this._index = index;
   }
 
   String _buttonText;
+  int _index;
 
-  bool _selected;
   void auswaehlen() {
-    print('Ausgewählt?: ' + _selected.toString());
-    setState(() {
-      _selected = _selected ? false : true;
-    });
-    print('Button wurde ausgewählt');
-    print('Ausgewählt?: ' + _selected.toString());
+    print('Button ${_index} wurde gedrückt');
+    var filterModel = context.read<ZeitraumfilterModel>();
+    print(filterModel.ausgewaehlt);
+    filterModel.ausgewaehlt.index == _index
+        ? filterModel.select(0)
+        : filterModel.select(_index);
+    print(filterModel.ausgewaehlt);
   }
 
   final colors = [
@@ -53,19 +60,25 @@ class _ZeitraumFilterButtonState extends State<ZeitraumFilterButton> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: FlatButton(
-        child: Text(
-          this._buttonText,
-          style: TextStyle(color: _selected ? Colors.white : Colors.black),
-        ),
-        onPressed: () => {auswaehlen()},
-      ),
-      decoration: BoxDecoration(
-          color: _selected ? colors[1] : colors[0],
-          borderRadius: BorderRadius.circular(15)),
-      constraints: BoxConstraints(maxHeight: 35, maxWidth: 110),
-      margin: EdgeInsets.fromLTRB(3, 5, 3, 0),
-    );
+    return Consumer<ZeitraumfilterModel>(
+        builder: (context, zeitraumfilter, child) => Container(
+              child: FlatButton(
+                child: Text(
+                  this._buttonText,
+                  style: TextStyle(
+                      color: zeitraumfilter.ausgewaehlt.index == _index
+                          ? Colors.white
+                          : Colors.black),
+                ),
+                onPressed: () => {auswaehlen()},
+              ),
+              decoration: BoxDecoration(
+                  color: zeitraumfilter.ausgewaehlt.index == _index
+                      ? colors[1]
+                      : colors[0],
+                  borderRadius: BorderRadius.circular(15)),
+              constraints: BoxConstraints(maxHeight: 35, maxWidth: 110),
+              margin: EdgeInsets.fromLTRB(3, 5, 3, 0),
+            ));
   }
 }

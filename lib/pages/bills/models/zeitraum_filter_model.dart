@@ -2,28 +2,34 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class ZeitraumfilterModel with ChangeNotifier {
-  SelectedFilter _ausgewaehlt = SelectedFilter.none;
+  SelectedFilter ausgewaehlt = SelectedFilter.none;
 
   void select(int index) {
     switch (index) {
       case 0:
-        _ausgewaehlt = SelectedFilter.none;
+        ausgewaehlt = SelectedFilter.none;
+        notifyListeners();
         break;
 
       case 1:
-        _ausgewaehlt = SelectedFilter.eineWoche;
+        ausgewaehlt = SelectedFilter.eineWoche;
+        notifyListeners();
         break;
 
       case 2:
-        _ausgewaehlt = SelectedFilter.einMonat;
+        ausgewaehlt = SelectedFilter.einMonat;
+        notifyListeners();
         break;
 
       case 3:
-        _ausgewaehlt = SelectedFilter.dreiMonate;
+        ausgewaehlt = SelectedFilter.dreiMonate;
+        notifyListeners();
         break;
 
       case 4:
-        _ausgewaehlt = SelectedFilter.jahr;
+        ausgewaehlt = SelectedFilter.jahr;
+        notifyListeners();
+        break;
     }
   }
 }
