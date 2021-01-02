@@ -1,5 +1,23 @@
 import 'package:flutter/material.dart';
 
+class Zeitraumfilter extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Row(
+        children: [
+          ZeitraumFilterButton('1 Woche'),
+          ZeitraumFilterButton('1 Monat'),
+          ZeitraumFilterButton('3 Monate'),
+          ZeitraumFilterButton('1 Jahr')
+        ],
+      ),
+      padding: EdgeInsets.all(10),
+      margin: EdgeInsets.all(5),
+    );
+  }
+}
+
 class ZeitraumFilterButton extends StatefulWidget {
   final String _buttonText;
 

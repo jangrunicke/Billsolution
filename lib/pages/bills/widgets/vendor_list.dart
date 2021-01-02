@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 
-import './vendor_card.dart';
+import 'vendor_card.dart';
 
 class VendorList extends StatefulWidget {
   @override

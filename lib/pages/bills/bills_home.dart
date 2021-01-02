@@ -2,13 +2,19 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import './vendor_list.dart';
-import './zeitraum_filter_button.dart';
+import 'widgets/vendor_list.dart';
+import 'widgets/zeitraum_filter.dart';
 import './add_bill_popup.dart';
 import './belege_liste.dart';
 
-class BillsHome extends StatelessWidget {
+class BillsHome extends StatefulWidget {
+  @override
+  _BillsHomeState createState() => _BillsHomeState();
+}
+
+class _BillsHomeState extends State<BillsHome> {
   final mockData = ['Rewe', 'DM', 'Edeka', 'Penny', 'Aldi'];
+
   final colors = [
     Color.fromRGBO(230, 57, 70, 1.0),
     Color.fromRGBO(168, 218, 220, 1.0),
@@ -16,6 +22,7 @@ class BillsHome extends StatelessWidget {
     Color.fromRGBO(69, 123, 157, 1.0),
     Color.fromRGBO(255, 33, 0, 1.0),
   ];
+
   final rng = new Random();
 
   @override
@@ -33,18 +40,7 @@ class BillsHome extends StatelessWidget {
         ),
         body: Column(
           children: [
-            Container(
-              child: Row(
-                children: [
-                  ZeitraumFilterButton('1 Woche'),
-                  ZeitraumFilterButton('1 Monat'),
-                  ZeitraumFilterButton('3 Monate'),
-                  ZeitraumFilterButton('1 Jahr')
-                ],
-              ),
-              padding: EdgeInsets.all(10),
-              margin: EdgeInsets.all(5),
-            ),
+            Zeitraumfilter(),
             VendorList(),
             BelegeListe(),
           ],

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import './add_bill_popup_widgets.dart';
+import 'widgets/add_bill_popup_widgets.dart';
 
 class AddBillPopup {
   void openPopup(BuildContext context) {
