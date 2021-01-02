@@ -1,6 +1,8 @@
 import 'dart:math';
 
+import 'package:billsolution_app/pages/bills/models/zeitraum_filter_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'widgets/vendor_list.dart';
 import 'widgets/zeitraum_filter.dart';
@@ -27,23 +29,26 @@ class _BillsHomeState extends State<BillsHome> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('Belege'),
-          actions: [
-            IconButton(
-                icon: Icon(Icons.add),
-                onPressed: () {
-                  AddBillPopup().openPopup(context);
-                }),
-          ],
-        ),
-        body: Column(
-          children: [
-            Zeitraumfilter(),
-            VendorList(),
-            BelegeListe(),
-          ],
-        ));
+    return ChangeNotifierProvider(
+      create: (context) => ZeitraumfilterModel(),
+      child: Scaffold(
+          appBar: AppBar(
+            title: Text('Belege'),
+            actions: [
+              IconButton(
+                  icon: Icon(Icons.add),
+                  onPressed: () {
+                    AddBillPopup().openPopup(context);
+                  }),
+            ],
+          ),
+          body: Column(
+            children: [
+              Zeitraumfilter(),
+              VendorList(),
+              BelegeListe(),
+            ],
+          )),
+    );
   }
 }
