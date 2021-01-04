@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'widgets/add_bill_popup_widgets.dart';
+import 'widgets/add_bill_widgets.dart';
+import 'add_bill_position.dart';
 
 class AddBillPopup {
   void openPopup(BuildContext context) {
-    //TextEditingController customController = TextEditingController();
+    TextEditingController addBillNameController = new TextEditingController();
+    TextEditingController addShoppingPlaceController =
+        new TextEditingController();
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -48,9 +51,16 @@ class AddBillPopup {
                     SizedBox(
                       height: 30,
                     ),
-                    AddBillInputField('Name'),
-                    AddBillInputField('Einkaufsort'),
-                    HinzufuegenButton(),
+                    AddBillInputField('Name', addBillNameController),
+                    AddBillInputField(
+                        'Einkaufsort', addShoppingPlaceController),
+                    HinzufuegenButton(
+                      () {
+                        Route route = MaterialPageRoute(
+                            builder: (context) => AddBillPosition());
+                        Navigator.push(context, route);
+                      },
+                    ),
                   ],
                 ),
               ),
