@@ -1,6 +1,8 @@
+import 'package:billsolution_app/pages/auth/registry/registry_registry_button.dart';
+
 import '../widgets/auth_input_text_field.dart';
 import '../auth_theme.dart';
-import '../widgets/auth_button.dart';
+import '../popup/popup_button.dart';
 
 import 'package:flutter/material.dart';
 
@@ -40,11 +42,7 @@ class RegistryPage extends StatelessWidget {
                   obscureText: true,
                 ),
                 SizedBox(height: 55.0),
-                AuthButton(
-                  buttonColor: Color(0xff1d3557),
-                  textColor: Colors.white,
-                  text: 'Registrieren',
-                ),
+                RegistryRegistryButton()
               ],
             ),
           ),

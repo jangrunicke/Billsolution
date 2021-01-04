@@ -1,5 +1,6 @@
 import 'package:billsolution_app/pages/auth/auth_theme.dart';
-import 'package:billsolution_app/pages/auth/widgets/auth_button.dart';
+import 'package:billsolution_app/pages/auth/forgot_password/forgot_password_reset_button.dart';
+import 'package:billsolution_app/pages/auth/popup/popup_button.dart';
 import 'package:billsolution_app/pages/auth/widgets/auth_input_text_field.dart';
 import 'package:flutter/material.dart';
 
@@ -29,11 +30,7 @@ class ForgotPasswordPage extends StatelessWidget {
                   obscureText: false,
                 ),
                 SizedBox(height: 100.0),
-                AuthButton(
-                  buttonColor: Color(0xff1d3557),
-                  textColor: Colors.white,
-                  text: 'Zurücksetzen',
-                )
+                ForgotPasswordResetButton()
               ],
             ),
           ),
