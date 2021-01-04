@@ -13,6 +13,9 @@ class ErstellterBeleg with ChangeNotifier {
     beleg.einkaufsort = einkaufsort;
     positionen = List<Belegposition>();
 
+    print('Beleg wurde erstellt');
+    print(beleg);
+
     notifyListeners();
   }
 
@@ -22,6 +25,10 @@ class ErstellterBeleg with ChangeNotifier {
     positionen.add(position);
 
     notifyListeners();
+  }
+
+  List<Belegposition> getPositions() {
+    return positionen;
   }
 }
 
