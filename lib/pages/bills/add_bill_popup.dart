@@ -58,6 +58,7 @@ class AddBillPopup {
                         'Einkaufsort', addShoppingPlaceController),
                     HinzufuegenButton(
                       () {
+                        //TODO: Anpassung mit Provider Scope
                         var name = addBillNameController.text;
                         var einkaufsort = addShoppingPlaceController.text;
 
