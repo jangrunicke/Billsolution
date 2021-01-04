@@ -1,4 +1,6 @@
+import 'package:billsolution_app/pages/bills/models/zeitraum_filter_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class VendorCard extends StatelessWidget {
   final String vendorName;
@@ -9,7 +11,31 @@ class VendorCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var summierteAusgabenFinal = summierteAusgaben * 1000;
+    final filter = context.watch<ZeitraumfilterModel>();
+    double summierteAusgabenFinal;
+
+    // var summierteAusgabenFinal = summierteAusgaben * 1000;
+    switch (filter.ausgewaehlt.index) {
+      case 0:
+        summierteAusgabenFinal = summierteAusgaben * 1000 * 1;
+        break;
+
+      case 1:
+        summierteAusgabenFinal = summierteAusgaben * 1000 * 0.1;
+        break;
+
+      case 2:
+        summierteAusgabenFinal = summierteAusgaben * 1000 * 0.3;
+        break;
+
+      case 3:
+        summierteAusgabenFinal = summierteAusgaben * 1000 * 0.5;
+        break;
+
+      case 4:
+        summierteAusgabenFinal = summierteAusgaben * 1000 * 0.8;
+        break;
+    }
 
     return Container(
       child: Column(

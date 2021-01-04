@@ -1,3 +1,4 @@
+import 'package:billsolution_app/pages/bills/bill_details.dart';
 import 'package:flutter/material.dart';
 
 class BelegeListe extends StatefulWidget {
@@ -45,9 +46,10 @@ class _BelegeListeState extends State<BelegeListe> {
           color: Color.fromRGBO(152, 152, 152, 1.0),
         ),
         onTap: () {
-          setState(() {
-            return null;
-          });
+          Navigator.of(context)
+              .push(MaterialPageRoute<void>(builder: (BuildContext context) {
+            return BillDetails();
+          }));
         });
   }
 
