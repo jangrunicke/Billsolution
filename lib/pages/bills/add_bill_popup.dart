@@ -1,4 +1,6 @@
+import 'package:billsolution_app/pages/bills/models/erstellter_beleg.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'widgets/add_bill_widgets.dart';
 import 'add_bill_position.dart';
 
@@ -56,6 +58,13 @@ class AddBillPopup {
                         'Einkaufsort', addShoppingPlaceController),
                     HinzufuegenButton(
                       () {
+                        var name = addBillNameController.text;
+                        var einkaufsort = addShoppingPlaceController.text;
+
+                        var erstellterBeleg = context.read<ErstellterBeleg>();
+
+                        erstellterBeleg.createBill(name, einkaufsort);
+
                         Route route = MaterialPageRoute(
                             builder: (context) => AddBillPosition());
                         Navigator.push(context, route);
