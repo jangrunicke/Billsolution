@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:billsolution_app/pages/bills/models/erstellter_beleg.dart';
 import 'package:billsolution_app/pages/bills/models/zeitraum_filter_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -29,8 +30,15 @@ class _BillsHomeState extends State<BillsHome> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => ZeitraumfilterModel(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => ZeitraumfilterModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ErstellterBeleg(),
+        ),
+      ],
       child: Scaffold(
           appBar: AppBar(
             title: Text('Belege'),
