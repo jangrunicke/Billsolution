@@ -31,7 +31,7 @@ class BillDetails extends StatelessWidget {
               ),
               constraints: BoxConstraints.expand(
                 width: double.infinity,
-                height: double.infinity,
+                height: 500,
               ),
             )
           ],
@@ -41,5 +41,6 @@ class BillDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return buildGroup('Gruppe 1');
+    // return Scaffold(appBar: AppBar(title: Text('bla')), body: Container());
   }
 }
