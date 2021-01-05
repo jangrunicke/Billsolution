@@ -10,9 +10,8 @@ Customer _$CustomerFromJson(Map<String, dynamic> json) {
   return Customer(
     firstName: json['firstName'] as String,
     lastName: json['lastName'] as String,
-    birthdate: json['birthdate'] == null
-        ? null
-        : DateTime.parse(json['birthdate'] as String),
+    birthdate:
+        const DateTimeConverter().fromJson(json['birthdate'] as Timestamp),
     email: json['email'] as String,
     groups: (json['groups'] as List)?.map((e) => e as String)?.toList(),
   );
@@ -21,7 +20,7 @@ Customer _$CustomerFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$CustomerToJson(Customer instance) => <String, dynamic>{
       'firstName': instance.firstName,
       'lastName': instance.lastName,
-      'birthdate': instance.birthdate?.toIso8601String(),
+      'birthdate': const DateTimeConverter().toJson(instance.birthdate),
       'email': instance.email,
       'groups': instance.groups,
     };

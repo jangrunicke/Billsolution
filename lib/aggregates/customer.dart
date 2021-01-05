@@ -1,9 +1,12 @@
+import 'package:billsolution_app/utils/datetime_converter.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'customer.g.dart';
 
 @JsonSerializable()
+@DateTimeConverter()
 class Customer {
   final String firstName;
   final String lastName;

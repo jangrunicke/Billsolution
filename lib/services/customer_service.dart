@@ -4,7 +4,7 @@ import 'package:billsolution_app/repositorys/customer_repository.dart';
 class CustomerService {
   static CustomerService _instance;
 
-  static get instance {
+  static CustomerService get instance {
     if (_instance == null) {
       _instance = CustomerService._internal();
     }
