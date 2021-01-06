@@ -1,3 +1,5 @@
+import 'package:billsolution_app/aggregates/bill/bill.dart';
+import 'package:billsolution_app/repositorys/bill_repository.dart';
 import 'package:billsolution_app/utils/datetime_converter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +10,7 @@ part 'user.g.dart';
 @JsonSerializable()
 @DateTimeConverter()
 class User {
+  String id;
   final String firstName;
   final String lastName;
   DateTime birthdate;
@@ -23,7 +26,10 @@ class User {
       this.groups});
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
-  
 
   Map<String, dynamic> toJson() => _$UserToJson(this);
+
+  Stream<List<Bill>> getBills() {
+    return BillRepository().findByUser(this.id);
+  }
 }

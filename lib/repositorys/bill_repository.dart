@@ -17,18 +17,35 @@ class BillRepository {
     // TODO: Implement CriteriaObject for more specific quering
     // TODO: Add Id to Bill Object
     return _collectionReference
-      .snapshots()
-      .map((QuerySnapshot snapshot) => snapshot.docs)
-      .map((List<QueryDocumentSnapshot> documents) => documents
-          .map((QueryDocumentSnapshot document) =>
-              Bill.fromJson(document.data()))
-          .toList());
+        .snapshots()
+        .map((QuerySnapshot snapshot) => snapshot.docs)
+        .map((List<QueryDocumentSnapshot> documents) => documents
+            .map((QueryDocumentSnapshot document) =>
+                Bill.fromJson(document.data()))
+            .toList());
   }
 
   Stream<Bill> findById(String id) {
     return _collectionReference
-      .doc(id)
-      .snapshots()
-      .map((DocumentSnapshot document) => Bill.fromJson(document.data()));
+        .doc(id)
+        .snapshots()
+        .map((DocumentSnapshot document) => Bill.fromJson(document.data()));
+  }
+
+  Stream<List<Bill>> findByUser(String userId) {
+    return _collectionReference
+        .where('userId', isEqualTo: userId)
+        .snapshots()
+        .map((QuerySnapshot snapshot) => snapshot.docs)
+        .map((List<QueryDocumentSnapshot> documents) => documents
+            .map((QueryDocumentSnapshot document) =>
+                Bill.fromJson(document.data()))
+            .toList());
+  }
+
+  _buildBillFromDocumentSnapshot(DocumentSnapshot document) {
+    Bill bill = Bill.fromJson(document.data());
+    bill.id = document.id;
+    return bill;
   }
 }

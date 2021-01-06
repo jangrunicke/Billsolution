@@ -8,13 +8,13 @@ part 'bill.g.dart';
 @JsonSerializable()
 @DateTimeConverter()
 class Bill {
+  String id;
   DateTime created_at;
   String shopBillId;
   Shop shop;
 
   Bill({this.created_at, this.shopBillId, this.shop});
-
   factory Bill.fromJson(Map<String, dynamic> json) => _$BillFromJson(json);
-
   Map<String, dynamic> toJson() => _$BillToJson(this);
+
 }
