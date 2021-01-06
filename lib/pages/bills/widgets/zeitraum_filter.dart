@@ -8,10 +8,9 @@ class Zeitraumfilter extends StatelessWidget {
     return Container(
       child: Row(
         children: [
-          ZeitraumFilterButton(1, '1 Woche'),
-          ZeitraumFilterButton(2, '1 Monat'),
-          ZeitraumFilterButton(3, '3 Monate'),
-          ZeitraumFilterButton(4, '1 Jahr'),
+          Expanded(child: ZeitraumFilterButton(1, '1 Woche')),
+          Expanded(child: ZeitraumFilterButton(2, '1 Monat')),
+          Expanded(child: ZeitraumFilterButton(3, '1 Jahr')),
         ],
       ),
       padding: EdgeInsets.all(10),
@@ -68,7 +67,9 @@ class _ZeitraumFilterButtonState extends State<ZeitraumFilterButton> {
                   style: TextStyle(
                       color: zeitraumfilter.ausgewaehlt.index == _index
                           ? Colors.white
-                          : Colors.black),
+                          : Colors.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400),
                 ),
                 onPressed: () => {auswaehlen()},
               ),
@@ -77,7 +78,11 @@ class _ZeitraumFilterButtonState extends State<ZeitraumFilterButton> {
                       ? colors[1]
                       : colors[0],
                   borderRadius: BorderRadius.circular(15)),
-              constraints: BoxConstraints(maxHeight: 35, maxWidth: 110),
+              // constraints: BoxConstraints(maxHeight: 35, maxWidth: 110),
+              constraints: BoxConstraints(
+                maxHeight: 35,
+              ),
+
               margin: EdgeInsets.fromLTRB(3, 5, 3, 0),
             ));
   }
