@@ -12,6 +12,24 @@ class RegistryPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Registrieren'),
+        leadingWidth: 130,
+        leading: FlatButton.icon(
+          onPressed: () => Navigator.of(context).pop(),
+          icon: Icon(
+            Icons.arrow_back_outlined,
+            color: Colors.white,
+            size: 20,
+          ),
+          label: Text(
+            'zurück',
+            textDirection: TextDirection.ltr,
+            style: TextStyle(
+              fontSize: 13,
+              fontFamily: 'Inter',
+              color: Colors.white,
+            ),
+          ),
+        ),
       ),
       body: Center(
         child: Container(
