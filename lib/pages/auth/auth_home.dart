@@ -1,18 +1,18 @@
 import 'package:billsolution_app/aggregates/user.dart';
+import 'package:billsolution_app/components/primary_button.dart';
+import 'package:billsolution_app/components/secondary_button.dart';
 import 'package:billsolution_app/pages/auth/widgets/auth_input_text_field.dart';
 import 'package:billsolution_app/services/auth_service.dart';
 import 'package:billsolution_app/services/user_service.dart';
 import 'package:billsolution_app/user_model.dart';
 import 'package:provider/provider.dart';
 
-import 'login/login_button.dart';
-import 'login/login_registry_button.dart';
+import 'auth_router.dart';
 import 'login/login_forgot_password_text.dart';
 
 import 'package:flutter/material.dart';
 
 class AuthHome extends StatelessWidget {
-
   onTappedLogin(BuildContext context) {
     String id = AuthService().login();
     Stream<User> user = UserService.instance.findById(id);
@@ -51,11 +51,17 @@ class AuthHome extends StatelessWidget {
                   obscureText: true,
                 ),
                 SizedBox(height: 10.0),
-                LoginForgotPasswordText(),
+                LoginForgotPasswordText(
+                    onTap: () => Navigator.pushNamed(
+                        context, AuthRouter.forgotPasswordPath)),
                 SizedBox(height: 35.0),
-                LoginButton(onTappedLogin: () => onTappedLogin(context)),
+                PrimaryButton(
+                    text: 'Anmelden', onPressed: () => onTappedLogin(context)),
                 SizedBox(height: 25.0),
-                LoginRegistryButton(),
+                SecondaryButton(
+                    text: 'Registrieren',
+                    onPressed: () =>
+                        Navigator.pushNamed(context, AuthRouter.registryPath))
               ],
             ),
           ),

@@ -1,8 +1,7 @@
-import 'package:billsolution_app/pages/auth/registry/registry_registry_button.dart';
+import 'package:billsolution_app/components/primary_button.dart';
 
+import '../popup/popup.dart';
 import '../widgets/auth_input_text_field.dart';
-import '../auth_theme.dart';
-import '../popup/popup_button.dart';
 
 import 'package:flutter/material.dart';
 
@@ -42,7 +41,7 @@ class RegistryPage extends StatelessWidget {
                 SizedBox(height: 80.0),
                 Text(
                   'Zum Registrieren bitte E-Mail Adresse und Passwort vergeben. Wir senden Ihnen eine E-Mail, damit Sie ihren Account Bestätigen Können ',
-                  style: AuthTheme().style,
+                  style: Theme.of(context).textTheme.bodyText2,
                 ),
                 SizedBox(height: 80.0),
                 AuthInputTextField(
@@ -60,7 +59,16 @@ class RegistryPage extends StatelessWidget {
                   obscureText: true,
                 ),
                 SizedBox(height: 55.0),
-                RegistryRegistryButton()
+                PrimaryButton(
+                  text: 'Registrieren',
+                  onPressed: () => showDialog(
+                      context: context,
+                      builder: (BuildContext context) => AuthPopup(
+                            title: 'Account erstellt',
+                            text:
+                                'Bitte folge dem Link in deiner Email um deinen Account zu aktivieren',
+                          )),
+                )
               ],
             ),
           ),

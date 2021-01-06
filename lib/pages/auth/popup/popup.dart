@@ -1,6 +1,5 @@
-import 'package:billsolution_app/pages/auth/popup/popup_button.dart';
+import 'package:billsolution_app/components/primary_button.dart';
 import 'package:flutter/material.dart';
-import '../auth_theme.dart';
 
 class AuthPopup extends StatelessWidget {
   final String text;
@@ -29,7 +28,10 @@ class AuthPopup extends StatelessWidget {
       actions: <Widget>[
         Padding(
             padding: const EdgeInsets.fromLTRB(40, 15, 40, 15),
-            child: PopupButton()),
+            child: PrimaryButton(
+                text: 'Ok',
+                onPressed: () =>
+                    Navigator.popUntil(context, ModalRoute.withName('/')))),
       ],
     );
   }

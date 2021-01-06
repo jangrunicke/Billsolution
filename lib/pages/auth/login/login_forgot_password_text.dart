@@ -2,15 +2,18 @@ import '../forgot_password/forgot_password_page.dart';
 import 'package:flutter/material.dart';
 
 class LoginForgotPasswordText extends StatelessWidget {
+  LoginForgotPasswordText({this.onTap});
+
+  final VoidCallback onTap;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Route route =
-            MaterialPageRoute(builder: (context) => ForgotPasswordPage());
-        Navigator.push(context, route);
-      },
-      child: Text('Passwort vergessen?'),
+      onTap: onTap,
+      child: Text(
+        'Passwort vergessen?',
+        style: Theme.of(context).textTheme.bodyText2,
+      ),
     );
   }
 }

@@ -1,16 +1,19 @@
+import 'package:billsolution_app/components/primary_button.dart';
 import 'package:billsolution_app/pages/auth/auth_theme.dart';
-import 'package:billsolution_app/pages/auth/forgot_password/forgot_password_reset_button.dart';
-import 'package:billsolution_app/pages/auth/popup/popup_button.dart';
 import 'package:billsolution_app/pages/auth/widgets/auth_input_text_field.dart';
 import 'package:flutter/material.dart';
+
+import '../popup/popup.dart';
 
 class ForgotPasswordPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Passwort zurücksetzen'),
-        leadingWidth: 100,
+        title: Column(
+          children: [Text('Passwort'), Text('zurücksetzen')],
+        ),
+        leadingWidth: 130,
         leading: FlatButton.icon(
           onPressed: () => Navigator.of(context).pop(),
           icon: Icon(
@@ -40,7 +43,7 @@ class ForgotPasswordPage extends StatelessWidget {
                 SizedBox(height: 150.0),
                 Text(
                   'Bitte gebe die E-Mail Adresse deines Kontos ein. Wir senden einen Link zum zurücksetzen deines Passworts.',
-                  style: AuthTheme().style,
+                  style: Theme.of(context).textTheme.bodyText2,
                 ),
                 SizedBox(height: 100.0),
                 AuthInputTextField(
@@ -48,7 +51,15 @@ class ForgotPasswordPage extends StatelessWidget {
                   obscureText: false,
                 ),
                 SizedBox(height: 100.0),
-                ForgotPasswordResetButton()
+                PrimaryButton(
+                  text: 'Zurücksetzen',
+                  onPressed: () => showDialog(
+                      context: context,
+                      builder: (BuildContext context) => AuthPopup(
+                          title: 'Link versendet',
+                          text:
+                              'Wir haben dir ein Zurücksetzungslink an deine E-Mail Adresse gesendet. Folge den Anweisungen dort, um dein Passwort zurückzusetzen.')),
+                )
               ],
             ),
           ),
