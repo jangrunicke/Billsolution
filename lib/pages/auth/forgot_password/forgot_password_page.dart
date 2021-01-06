@@ -39,7 +39,7 @@ class ForgotPasswordPage extends StatelessWidget {
               children: <Widget>[
                 SizedBox(height: 150.0),
                 Text(
-                  'Bitte gebe die E-Mail Adresse deines Kontos ein. Wir senden einen Link zu zurücksetzen deines Passworts.',
+                  'Bitte gebe die E-Mail Adresse deines Kontos ein. Wir senden einen Link zum zurücksetzen deines Passworts.',
                   style: AuthTheme().style,
                 ),
                 SizedBox(height: 100.0),
