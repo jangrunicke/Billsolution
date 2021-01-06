@@ -1,6 +1,32 @@
+import 'dart:async';
+
+import 'package:billsolution_app/pages/analytics/mock/billposition_class.dart';
+import 'package:billsolution_app/pages/analytics/mock/billposition_stream.dart';
 import 'package:flutter/material.dart';
 
 class AnalyticsHome extends StatelessWidget {
+  Stream stream = new BillpositionStream().getStream();
+
+  List<Widget> buildList() {
+    return [
+      Container(
+        child: StreamBuilder(
+          stream: stream,
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasError) {
+              return Text('Error');
+            }
+            if (snapshot.hasData) {
+              return Text(snapshot.data.name);
+            } else {
+              return Text('Empty');
+            }
+          },
+        ),
+      )
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,9 +55,10 @@ class AnalyticsHome extends StatelessWidget {
         ],
       ),
       body: Container(
-          child: Center(
-        child: (Text('Analytics Home')),
-      )),
+        child: Center(
+          child: ListView(children: buildList()),
+        ),
+      ),
     );
   }
 }
