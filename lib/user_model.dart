@@ -9,7 +9,7 @@ class UserModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  get user => _user;
+  Stream<User> get user => _user;
 
   bool get isLoggedIn => _user != null;
 }

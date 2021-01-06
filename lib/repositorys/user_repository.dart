@@ -20,7 +20,7 @@ class UserRepository {
         .map((QuerySnapshot snapshot) => snapshot.docs)
         .map((List<QueryDocumentSnapshot> documents) => documents
             .map((QueryDocumentSnapshot document) =>
-                User.fromJson(document.data()))
+                _buildUserFromDocumentSnapshot(document))
             .toList());
   }
 
@@ -29,6 +29,12 @@ class UserRepository {
     return _collectionReference
         .doc(id)
         .snapshots()
-        .map((DocumentSnapshot document) => User.fromJson(document.data()));
+        .map((DocumentSnapshot document) => _buildUserFromDocumentSnapshot(document));
+  }
+
+  User _buildUserFromDocumentSnapshot(DocumentSnapshot document) {
+    User user = User.fromJson(document.data());
+    user.id = document.id;
+    return user;
   }
 }
