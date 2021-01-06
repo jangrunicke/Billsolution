@@ -84,11 +84,12 @@ class HinzufuegenButton extends StatelessWidget {
 class AddBillPositionAppBar extends StatelessWidget
     implements PreferredSizeWidget {
   final String _titel;
+  final double _height;
 
-  AddBillPositionAppBar(this._titel);
+  AddBillPositionAppBar(this._titel, this._height);
 
   @override
-  Size get preferredSize => new Size.fromHeight(80.0);
+  Size get preferredSize => new Size.fromHeight(_height);
 
   @override
   Widget build(BuildContext context) {
