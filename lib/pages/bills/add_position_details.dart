@@ -19,7 +19,7 @@ class AddBillPositionDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AddBillPositionAppBar('Position \n hinzufügen'),
+      appBar: AddBillPositionAppBar('Position \n hinzufügen', 86),
       body: Column(
         children: <Widget>[
           Padding(

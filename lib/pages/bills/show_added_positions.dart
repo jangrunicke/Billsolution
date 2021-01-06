@@ -11,7 +11,7 @@ class ShowAddedPositions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AddBillPositionAppBar('Positionen'),
+      appBar: AddBillPositionAppBar('Positionen', 56),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
