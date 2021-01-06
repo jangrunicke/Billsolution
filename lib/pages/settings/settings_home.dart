@@ -1,6 +1,7 @@
-import 'package:billsolution_app/aggregates/customer.dart';
-import 'package:billsolution_app/services/customer_service.dart';
+import 'package:billsolution_app/aggregates/user.dart';
+import 'package:billsolution_app/user_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SettingsHome extends StatelessWidget {
   List<Widget> buildList() {
@@ -12,24 +13,21 @@ class SettingsHome extends StatelessWidget {
       ListTile(
         title: Text('Test2'),
       ),
-      Container(
-        child: StreamBuilder(
-          stream: CustomerService.instance.findById('t6II8iRuTQHQTJrLlphh'),
-          builder:
-              (BuildContext context, AsyncSnapshot<Customer> snapshot) {
-            
+      Container(child: Consumer<UserModel>(builder: (context, user, child) {
+        return StreamBuilder(
+          stream: user.user,
+          builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
             if (snapshot.hasError) {
               return Text('Error');
             }
             if (snapshot.hasData) {
-              return Text(snapshot.data.birthdate.toString());
+              return Text(snapshot.data.firstName);
             } else {
               return Text('Empty');
             }
-
           },
-        ),
-      )
+        );
+      }))
     ];
   }
 

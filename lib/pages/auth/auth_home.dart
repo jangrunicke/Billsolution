@@ -1,4 +1,9 @@
+import 'package:billsolution_app/aggregates/user.dart';
 import 'package:billsolution_app/pages/auth/widgets/auth_input_text_field.dart';
+import 'package:billsolution_app/services/auth_service.dart';
+import 'package:billsolution_app/services/user_service.dart';
+import 'package:billsolution_app/user_model.dart';
+import 'package:provider/provider.dart';
 
 import 'login/login_button.dart';
 import 'login/login_registry_button.dart';
@@ -7,9 +12,12 @@ import 'login/login_forgot_password_text.dart';
 import 'package:flutter/material.dart';
 
 class AuthHome extends StatelessWidget {
-  AuthHome({this.onTappedLogin});
 
-  final VoidCallback onTappedLogin;
+  onTappedLogin(BuildContext context) {
+    String id = AuthService().login();
+    Stream<User> user = UserService.instance.findById(id);
+    Provider.of<UserModel>(context, listen: false).user = user;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +53,7 @@ class AuthHome extends StatelessWidget {
                 SizedBox(height: 10.0),
                 LoginForgotPasswordText(),
                 SizedBox(height: 35.0),
-                LoginButton(onTappedLogin: onTappedLogin),
+                LoginButton(onTappedLogin: () => onTappedLogin(context)),
                 SizedBox(height: 25.0),
                 LoginRegistryButton(),
               ],
