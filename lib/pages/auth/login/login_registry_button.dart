@@ -16,8 +16,8 @@ class LoginRegistryButton extends StatelessWidget {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
-          Route route = MaterialPageRoute(builder: (context) => RegistryPage());
-          Navigator.push(context, route);
+          // Route route = MaterialPageRoute(builder: (context) => RegistryPage());
+          Navigator.pushNamed(context, AuthRouter.registryPath);
         },
         child: Text(
           'Registrieren',

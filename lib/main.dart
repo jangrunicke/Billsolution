@@ -1,5 +1,5 @@
 import 'package:billsolution_app/app_shell.dart';
-import 'package:billsolution_app/pages/auth/auth_home.dart';
+import 'package:billsolution_app/pages/auth/auth_router.dart';
 import 'package:billsolution_app/theme.dart';
 import 'package:billsolution_app/user_model.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +50,7 @@ class _AppState extends State<App> {
         if (user.isLoggedIn) {
           return AppShell();
         }
-        return AuthHome();
+        return AuthRouter();
       }
     );
   }
