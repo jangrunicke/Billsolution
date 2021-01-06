@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import '../auth_theme.dart';
 
 class AuthInputTextField extends StatelessWidget {
-  final TextStyle style = AuthTheme().style;
   final String hintText;
   final bool obscureText;
 
@@ -12,7 +10,7 @@ class AuthInputTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       obscureText: obscureText,
-      style: style,
+      style: Theme.of(context).textTheme.bodyText2,
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
           hintText: hintText,

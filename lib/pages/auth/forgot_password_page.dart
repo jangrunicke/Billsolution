@@ -1,9 +1,8 @@
 import 'package:billsolution_app/components/primary_button.dart';
-import 'package:billsolution_app/pages/auth/auth_theme.dart';
 import 'package:billsolution_app/pages/auth/widgets/auth_input_text_field.dart';
 import 'package:flutter/material.dart';
 
-import '../popup/popup.dart';
+import 'auth_popup.dart';
 
 class ForgotPasswordPage extends StatelessWidget {
   @override
@@ -44,6 +43,7 @@ class ForgotPasswordPage extends StatelessWidget {
                 Text(
                   'Bitte gebe die E-Mail Adresse deines Kontos ein. Wir senden einen Link zum zurücksetzen deines Passworts.',
                   style: Theme.of(context).textTheme.bodyText2,
+                  textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 100.0),
                 AuthInputTextField(

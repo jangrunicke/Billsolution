@@ -1,8 +1,8 @@
 import 'package:billsolution_app/pages/auth/auth_home.dart';
-import 'package:billsolution_app/pages/auth/registry/registry_page.dart';
+import 'package:billsolution_app/pages/auth/registry_page.dart';
 import 'package:flutter/material.dart';
 
-import 'forgot_password/forgot_password_page.dart';
+import 'forgot_password_page.dart';
 
 class AuthRouter extends StatelessWidget {
   static const homePath = '/';

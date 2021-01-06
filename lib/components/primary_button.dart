@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../pages/auth/auth_theme.dart';
-
 class PrimaryButton extends StatelessWidget {
   PrimaryButton({this.text, this.onPressed});
 
   final String text;
   final VoidCallback onPressed;
-  final TextStyle style = AuthTheme().style;
 
   @override
   Widget build(BuildContext context) {

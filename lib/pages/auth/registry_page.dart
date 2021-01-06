@@ -1,7 +1,7 @@
 import 'package:billsolution_app/components/primary_button.dart';
 
-import '../popup/popup.dart';
-import '../widgets/auth_input_text_field.dart';
+import 'auth_popup.dart';
+import 'widgets/auth_input_text_field.dart';
 
 import 'package:flutter/material.dart';
 
@@ -42,6 +42,7 @@ class RegistryPage extends StatelessWidget {
                 Text(
                   'Zum Registrieren bitte E-Mail Adresse und Passwort vergeben. Wir senden Ihnen eine E-Mail, damit Sie ihren Account Bestätigen Können ',
                   style: Theme.of(context).textTheme.bodyText2,
+                  textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 80.0),
                 AuthInputTextField(

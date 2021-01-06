@@ -8,7 +8,7 @@ import 'package:billsolution_app/user_model.dart';
 import 'package:provider/provider.dart';
 
 import 'auth_router.dart';
-import 'login/login_forgot_password_text.dart';
+import 'login_forgot_password_text.dart';
 
 import 'package:flutter/material.dart';
 
