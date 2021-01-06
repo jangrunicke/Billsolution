@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class BillDetails extends StatelessWidget {
-  var mockData = [
+  final mockData = [
     {'name': 'Weihnstephan Milch', 'anzahl': 10, 'preis': 20.87},
     {'name': 'Bergbauernmilch', 'anzahl': 10, 'preis': 13.99},
     {'name': 'Chiqita Banane', 'anzahl': 3, 'preis': 2.99},
@@ -31,6 +31,7 @@ class BillDetails extends StatelessWidget {
                     child: _buildBeleg(),
                   )
                 ],
+                mainAxisAlignment: MainAxisAlignment.start,
               ),
               margin: EdgeInsets.all(15),
               padding: EdgeInsets.all(20),
