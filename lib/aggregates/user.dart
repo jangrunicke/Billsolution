@@ -3,11 +3,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'customer.g.dart';
+part 'user.g.dart';
 
 @JsonSerializable()
 @DateTimeConverter()
-class Customer {
+class User {
   final String firstName;
   final String lastName;
   DateTime birthdate;
@@ -15,15 +15,15 @@ class Customer {
   // TODO: Capsulation -> shallow copy for getter
   List<String> groups;
 
-  Customer(
+  User(
       {@required this.firstName,
       @required this.lastName,
       this.birthdate,
       @required this.email,
       this.groups});
 
-  factory Customer.fromJson(Map<String, dynamic> json) => _$CustomerFromJson(json);
+  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
   
 
-  Map<String, dynamic> toJson() => _$CustomerToJson(this);
+  Map<String, dynamic> toJson() => _$UserToJson(this);
 }
