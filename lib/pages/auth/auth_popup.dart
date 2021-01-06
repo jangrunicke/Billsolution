@@ -30,8 +30,8 @@ class AuthPopup extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(40, 15, 40, 15),
             child: PrimaryButton(
                 text: 'Ok',
-                onPressed: () =>
-                    Navigator.popUntil(context, ModalRoute.withName('/')))),
+                onPressed: () => Navigator.pushNamedAndRemoveUntil(
+                    context, '/', (_) => false))),
       ],
     );
   }
