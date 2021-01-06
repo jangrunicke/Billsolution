@@ -1,5 +1,4 @@
 import 'package:billsolution_app/pages/analytics/mock/billposition_class.dart';
-import 'package:billsolution_app/pages/bills/mock/billposition_stream2.dart';
 import 'package:flutter/material.dart';
 
 class BillDetails extends StatefulWidget {
@@ -43,7 +42,23 @@ class _BillDetailsState extends State<BillDetails> {
               return Text('Error');
             }
             if (snapshot.hasData) {
-              return Text(snapshot.data[1].name);
+              return ListView.separated(
+                itemCount: snapshot.data.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return ListTile(
+                    title: Row(
+                      children: [
+                        Expanded(child: Text(snapshot.data[index].name)),
+                        Flexible(
+                            child: Text(snapshot.data[index].amount.toString()))
+                      ],
+                    ),
+                    trailing: Text(snapshot.data[index].price.toString() + '€'),
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) =>
+                    const Divider(),
+              );
             } else {
               return Text('Nichts');
             }
