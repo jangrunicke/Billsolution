@@ -1,12 +1,15 @@
+import 'package:billsolution_app/aggregates/bill/bill.dart';
+import 'package:billsolution_app/aggregates/bill/shop.dart';
+import 'package:billsolution_app/utils/datetime_converter.dart';
 import 'package:flutter/material.dart';
 import 'widgets/add_bill_widgets.dart';
 import 'add_bill_position.dart';
 
 class AddBillPopup {
   void openPopup(BuildContext context) {
-    TextEditingController addBillNameController = new TextEditingController();
-    TextEditingController addShoppingPlaceController =
-        new TextEditingController();
+    TextEditingController addShopNameController = new TextEditingController();
+    TextEditingController addBillDateController = new TextEditingController();
+
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -15,9 +18,9 @@ class AddBillPopup {
                 borderRadius: BorderRadius.circular(8.0)),
             child: Container(
               width: 340,
-              height: 418,
+              height: 425,
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(15, 10, 15, 15),
+                padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -51,12 +54,17 @@ class AddBillPopup {
                     SizedBox(
                       height: 30,
                     ),
-                    AddBillInputField('Name', addBillNameController),
-                    AddBillInputField(
-                        'Einkaufsort', addShoppingPlaceController),
+                    AddBillInputField('Shop', addShopNameController),
+                    AddBillInputField('Datum', addBillDateController),
                     HinzufuegenButton(
                       () {
-                        //TODO: addBill() auf das user Objekt aufrufen
+                        DateTime newDate =
+                            DateTime.parse(addBillDateController.text);
+                        Shop newShop = Shop(name: addShopNameController.text);
+
+                        Bill newBill =
+                            new Bill(created_at: newDate, shop: newShop);
+
                         Route route = MaterialPageRoute(
                             builder: (context) => AddBillPosition());
                         Navigator.push(context, route);
