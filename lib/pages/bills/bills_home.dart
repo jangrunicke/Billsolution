@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 
 import 'widgets/vendor_list.dart';
 import 'widgets/zeitraum_filter.dart';
-import './add_bill_popup.dart';
+import 'add_bill.dart';
 import './belege_liste.dart';
 
 class BillsHome extends StatelessWidget {
@@ -37,7 +37,9 @@ class BillsHome extends StatelessWidget {
               IconButton(
                   icon: Icon(Icons.add),
                   onPressed: () {
-                    AddBillPopup().openPopup(context);
+                    Route route =
+                        MaterialPageRoute(builder: (context) => AddBillPopup());
+                    Navigator.push(context, route);
                   }),
             ],
           ),
