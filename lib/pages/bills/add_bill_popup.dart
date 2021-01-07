@@ -1,4 +1,8 @@
+import 'package:billsolution_app/aggregates/bill/bill.dart';
+import 'package:billsolution_app/aggregates/user.dart';
+import 'package:billsolution_app/user_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'widgets/add_bill_widgets.dart';
 import 'add_bill_position.dart';
 
@@ -7,6 +11,9 @@ class AddBillPopup {
     TextEditingController addBillNameController = new TextEditingController();
     TextEditingController addShoppingPlaceController =
         new TextEditingController();
+
+    var user = context.read<UserModel>();
+
     showDialog(
         context: context,
         builder: (BuildContext context) {
