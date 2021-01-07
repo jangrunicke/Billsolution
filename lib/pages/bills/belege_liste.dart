@@ -3,6 +3,7 @@ import 'package:billsolution_app/aggregates/user.dart';
 import 'package:billsolution_app/pages/bills/bill_details.dart';
 import 'package:billsolution_app/user_model.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'package:provider/provider.dart';
 
@@ -83,7 +84,8 @@ class BelegeListe extends StatelessWidget {
   }
 
   String _toDateFormat(DateTime date) {
-    return date.toString();
+    DateFormat formatter = DateFormat('dd.MM.yyyy');
+    return formatter.format(date);
   }
 
   @override
