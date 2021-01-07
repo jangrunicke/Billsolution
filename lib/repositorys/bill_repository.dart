@@ -43,7 +43,7 @@ class BillRepository {
             .toList());
   }
 
-  Future<Bill> addBill(Bill bill) async {
+  Future<Bill> add(Bill bill) async {
     try {
       Map<String, dynamic> billAsJson = bill.toJson();
       DocumentReference documentReference =

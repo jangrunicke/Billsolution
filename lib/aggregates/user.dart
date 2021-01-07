@@ -35,6 +35,6 @@ class User {
 
   Future<Bill> addBill(Bill bill) {
     bill.userId = this.id;
-    return BillRepository().addBill(bill);
+    return BillRepository().add(bill);
   }
 }
