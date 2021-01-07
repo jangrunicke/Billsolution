@@ -1,5 +1,7 @@
 import 'package:billsolution_app/aggregates/bill/bill.dart';
+import 'package:billsolution_app/aggregates/bill/location.dart';
 import 'package:billsolution_app/aggregates/bill/shop.dart';
+import 'package:billsolution_app/aggregates/bill/vendor.dart';
 import 'package:billsolution_app/aggregates/user.dart';
 import 'package:billsolution_app/services/bill_service.dart';
 import 'package:flutter/material.dart';
@@ -9,47 +11,74 @@ import 'add_bill_position.dart';
 
 class AddBillPopup extends StatelessWidget {
   TextEditingController addShopNameController = new TextEditingController();
+  TextEditingController addShopVendorNameController =
+      new TextEditingController();
+  TextEditingController addShopVendorCategoryController =
+      new TextEditingController();
+  TextEditingController addShopLocationStreetController =
+      new TextEditingController();
+  TextEditingController addShopLocationCityController =
+      new TextEditingController();
+  TextEditingController addShopLocationZipController =
+      new TextEditingController();
+  TextEditingController addShopLocationCountryController =
+      new TextEditingController();
   TextEditingController addBillDateController = new TextEditingController();
+  TextEditingController addShopBillIdController = new TextEditingController();
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AddBillPositionAppBar('Beleg \n hinzufügen', 86),
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 15,
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            AddBillInputField('Shop', addShopNameController),
-            AddBillInputField('Datum', addBillDateController),
-            HinzufuegenButton(
-              () {
-                var inputDate =
-                    DateFormat("dd.MM.yyyy").parse(addBillDateController.text);
+        padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+        child: ListView(children: [
+          AddBillInputField('Shop', addShopNameController),
+          AddBillInputField('Straße', addShopLocationStreetController),
+          AddBillInputField('Postleitzahl', addShopLocationZipController),
+          AddBillInputField('Stadt', addShopLocationCityController),
+          AddBillInputField('Land', addShopLocationCountryController),
+          AddBillInputField('Vendor Name', addShopVendorNameController),
+          AddBillInputField(
+              'Vendor Kategorie', addShopVendorCategoryController),
+          AddBillInputField('Bill ID', addShopBillIdController),
+          AddBillInputField('Datum', addBillDateController),
+          HinzufuegenButton(
+            () {
+              var inputDate =
+                  DateFormat("dd.MM.yyyy").parse(addBillDateController.text);
 
-                var outputDate =
-                    DateFormat("yyyy-MM-dd").parse("$inputDate").toString();
+              var outputDate =
+                  DateFormat("yyyy-MM-dd").parse("$inputDate").toString();
 
-                DateTime newDate = DateTime.parse(outputDate);
+              DateTime newDate = DateTime.parse(outputDate);
 
-                Shop newShop = Shop(name: addShopNameController.text);
+              Location newLocation = Location(
+                  street: addShopLocationStreetController.text,
+                  city: addShopLocationCityController.text,
+                  zip: addShopLocationZipController.text,
+                  country: addShopLocationCountryController.text);
 
-                Bill newBill = new Bill(created_at: newDate, shop: newShop);
+              Vendor newVendor = Vendor(
+                  name: addShopVendorNameController.text,
+                  category: addShopVendorCategoryController.text);
 
-                print(newBill.created_at);
-                print(newBill.shop);
+              Shop newShop = Shop(
+                  name: addShopNameController.text,
+                  location: newLocation,
+                  vendor: newVendor);
 
-                Route route =
-                    MaterialPageRoute(builder: (context) => AddBillPosition());
-                Navigator.push(context, route);
-              },
-            ),
-          ],
-        ),
+              Bill newBill = new Bill(
+                created_at: newDate,
+                shopBillId: addShopBillIdController.text,
+                shop: newShop,
+              );
+
+              Route route =
+                  MaterialPageRoute(builder: (context) => AddBillPosition());
+              Navigator.push(context, route);
+            },
+          ),
+        ]),
       ),
     );
   }
