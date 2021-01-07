@@ -9,12 +9,7 @@ import 'widgets/zeitraum_filter.dart';
 import './add_bill_popup.dart';
 import './belege_liste.dart';
 
-class BillsHome extends StatefulWidget {
-  @override
-  _BillsHomeState createState() => _BillsHomeState();
-}
-
-class _BillsHomeState extends State<BillsHome> {
+class BillsHome extends StatelessWidget {
   final mockData = ['Rewe', 'DM', 'Edeka', 'Penny', 'Aldi'];
 
   final colors = [
