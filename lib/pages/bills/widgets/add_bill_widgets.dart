@@ -15,7 +15,7 @@ class AddBillInputField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.fromLTRB(5, 10, 0, 10),
+          padding: EdgeInsets.fromLTRB(5, 15, 0, 10),
           child: Text(
             _textInputLabel,
             style: TextStyle(
@@ -57,7 +57,7 @@ class HinzufuegenButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(0, 15, 0, 10),
+      padding: EdgeInsets.fromLTRB(0, 20, 0, 10),
       child: SizedBox(
         width: 340,
         height: 50,
