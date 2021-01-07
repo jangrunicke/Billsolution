@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'shop.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Shop {
   String name;
   Location location;

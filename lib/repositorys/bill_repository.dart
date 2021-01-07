@@ -43,6 +43,20 @@ class BillRepository {
             .toList());
   }
 
+  Future<Bill> addBill(Bill bill) async {
+    try {
+      Map<String, dynamic> billAsJson = bill.toJson();
+      DocumentReference documentReference =
+          await _collectionReference.add(billAsJson);
+      // TODO: Performance optimization, created bill will always be fetched for read again
+      DocumentSnapshot document = await documentReference.get();
+      Bill billFromBackend = _buildBillFromDocumentSnapshot(document);
+      return billFromBackend;
+    } catch (err) {
+      print(err);
+    }
+  }
+
   _buildBillFromDocumentSnapshot(DocumentSnapshot document) {
     Bill bill = Bill.fromJson(document.data());
     bill.id = document.id;

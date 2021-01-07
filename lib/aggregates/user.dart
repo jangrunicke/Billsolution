@@ -7,7 +7,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'user.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 @DateTimeConverter()
 class User {
   String id;
@@ -31,5 +31,10 @@ class User {
 
   Stream<List<Bill>> getBills() {
     return BillRepository().findByUser(this.id);
+  }
+
+  Future<Bill> addBill(Bill bill) {
+    bill.userId = this.id;
+    return BillRepository().addBill(bill);
   }
 }

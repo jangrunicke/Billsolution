@@ -20,6 +20,6 @@ Shop _$ShopFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$ShopToJson(Shop instance) => <String, dynamic>{
       'name': instance.name,
-      'location': instance.location,
-      'vendor': instance.vendor,
+      'location': instance.location?.toJson(),
+      'vendor': instance.vendor?.toJson(),
     };
