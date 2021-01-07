@@ -1,31 +1,16 @@
 import 'package:billsolution_app/aggregates/bill/bill.dart';
-<<<<<<< HEAD
-import 'package:billsolution_app/aggregates/user.dart';
-import 'package:billsolution_app/user_model.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-=======
 import 'package:billsolution_app/aggregates/bill/shop.dart';
 import 'package:billsolution_app/aggregates/user.dart';
 import 'package:billsolution_app/services/bill_service.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
->>>>>>> 2bf99101d6208f45d1778e5829a138d9c4c1a65b
 import 'widgets/add_bill_widgets.dart';
 import 'add_bill_position.dart';
 
 class AddBillPopup {
   void openPopup(BuildContext context) {
-<<<<<<< HEAD
-    TextEditingController addBillNameController = new TextEditingController();
-    TextEditingController addShoppingPlaceController =
-        new TextEditingController();
-
-    var user = context.read<UserModel>();
-=======
     TextEditingController addShopNameController = new TextEditingController();
     TextEditingController addBillDateController = new TextEditingController();
->>>>>>> 2bf99101d6208f45d1778e5829a138d9c4c1a65b
 
     showDialog(
         context: context,
