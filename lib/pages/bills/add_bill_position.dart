@@ -6,9 +6,7 @@ class AddBillPosition extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AddBillPositionAppBar(
-        'Positionen',
-      ),
+      appBar: AddBillPositionAppBar('Positionen', 56.0),
       body: Padding(
         padding: EdgeInsets.fromLTRB(35, 35, 35, 15),
         child: Container(

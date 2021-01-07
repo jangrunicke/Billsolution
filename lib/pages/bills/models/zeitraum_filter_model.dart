@@ -22,11 +22,6 @@ class ZeitraumfilterModel with ChangeNotifier {
         break;
 
       case 3:
-        ausgewaehlt = SelectedFilter.dreiMonate;
-        notifyListeners();
-        break;
-
-      case 4:
         ausgewaehlt = SelectedFilter.jahr;
         notifyListeners();
         break;
@@ -38,6 +33,5 @@ enum SelectedFilter {
   none,
   eineWoche,
   einMonat,
-  dreiMonate,
   jahr,
 }
