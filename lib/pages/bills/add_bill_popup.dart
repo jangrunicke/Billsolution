@@ -1,6 +1,9 @@
 import 'package:billsolution_app/aggregates/bill/bill.dart';
 import 'package:billsolution_app/aggregates/bill/shop.dart';
+import 'package:billsolution_app/aggregates/user.dart';
+import 'package:billsolution_app/services/bill_service.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'widgets/add_bill_widgets.dart';
 import 'add_bill_position.dart';
 
@@ -57,12 +60,21 @@ class AddBillPopup {
                     AddBillInputField('Datum', addBillDateController),
                     HinzufuegenButton(
                       () {
+                        // var inputFormat = DateFormat("dd.MM.yyyy");
+                        // var date1 = inputFormat.parse(addBillDateController.text);
+
+                        // var outputFormat = DateFormat("yyyy-MM-dd");
+                        // var date2 = outputFormat.parse("$date1").toString();
+
                         DateTime newDate =
                             DateTime.parse(addBillDateController.text);
                         Shop newShop = Shop(name: addShopNameController.text);
 
                         Bill newBill =
                             new Bill(created_at: newDate, shop: newShop);
+
+                        print(newBill.created_at);
+                        print(newBill.shop);
 
                         Route route = MaterialPageRoute(
                             builder: (context) => AddBillPosition());
