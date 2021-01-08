@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:billsolution_app/aggregates/bill/bill.dart';
 import 'package:billsolution_app/aggregates/billposition/billposition.dart';
 import 'package:billsolution_app/aggregates/user.dart';
+import 'package:billsolution_app/pages/analytics/analytics_category_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,14 +11,7 @@ import 'package:provider/provider.dart';
 import '../../user_model.dart';
 
 class AnalyticsHome extends StatelessWidget {
-  String aggreagtion(Stream<List<Bill>> stream, String category) {
-    String test = stream.first.toString();
-
-    final subscrition = stream.listen((event) {
-      test = event.first.id;
-    });
-    return test;
-  }
+  // aggreagtion(Stream<List<Bill>> stream, String category) {}
 
   @override
   Widget build(BuildContext context) {
@@ -38,24 +32,20 @@ class AnalyticsHome extends StatelessWidget {
         ],
       ),
       body: Center(
-        child: Container(
-          child: Consumer<UserModel>(builder: (context, user, child) {
-            return StreamBuilder(
-              stream: user.user,
-              builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
-                if (snapshot.hasError) {
-                  return Text(snapshot.error.toString());
-                }
-                if (snapshot.hasData) {
-                  return Text(aggreagtion(snapshot.data.getBills(), 'hallo'));
-                } else {
-                  return Text('Empty');
-                }
-              },
-            );
-          }),
+          child: Container(
+        child: Padding(
+          padding: const EdgeInsets.all(36),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              AnalyticsCategoryCard(
+                category: 'Lebensmittel',
+              )
+            ],
+          ),
         ),
-      ),
+      )),
     );
   }
 }
