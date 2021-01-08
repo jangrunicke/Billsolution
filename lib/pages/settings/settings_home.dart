@@ -63,7 +63,19 @@ class SettingsHome extends StatelessWidget {
             if (!snapshot.hasData) {
               return Text('Empty');
             }
-            return Text(snapshot.data.first.shop.name);
+            return StreamBuilder(
+              stream: snapshot.data.first.getCalculatedSum(),
+              builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
+                if (snapshot.hasError) {
+                  return Text(snapshot.error.toString());
+                }
+                if (!snapshot.hasData) {
+                  return Text('Empty');
+                }
+                return Text(snapshot.data.toString());
+              },
+            );
+            return Text(snapshot.data.first.created_at.toString());
           },
         ),
       ),
@@ -137,6 +149,7 @@ class SettingsHome extends StatelessWidget {
                                   category: 'Lebensmittel Discounter'),
                               name: 'Rewe Lampert',
                             ),
+                            groups: ['Bus ausbauen'],
                             created_at: DateTime.now(),
                             shopBillId: '002'));
                         print(bill.id);

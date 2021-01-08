@@ -21,7 +21,7 @@ class BillRepository {
         .map((QuerySnapshot snapshot) => snapshot.docs)
         .map((List<QueryDocumentSnapshot> documents) => documents
             .map((QueryDocumentSnapshot document) =>
-                Bill.fromJson(document.data()))
+                _buildBillFromDocumentSnapshot(document))
             .toList());
   }
 
@@ -39,7 +39,7 @@ class BillRepository {
         .map((QuerySnapshot snapshot) => snapshot.docs)
         .map((List<QueryDocumentSnapshot> documents) => documents
             .map((QueryDocumentSnapshot document) =>
-                Bill.fromJson(document.data()))
+                _buildBillFromDocumentSnapshot(document))
             .toList());
   }
 
@@ -57,7 +57,7 @@ class BillRepository {
     }
   }
 
-  _buildBillFromDocumentSnapshot(DocumentSnapshot document) {
+  Bill _buildBillFromDocumentSnapshot(DocumentSnapshot document) {
     Bill bill = Bill.fromJson(document.data());
     bill.id = document.id;
     return bill;
