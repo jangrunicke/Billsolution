@@ -27,6 +27,29 @@ class ZeitraumfilterModel with ChangeNotifier {
         break;
     }
   }
+
+  DateTime getLastValidDate() {
+    switch (ausgewaehlt) {
+      case SelectedFilter.none:
+        return DateTime(2005);
+        break;
+
+      case SelectedFilter.eineWoche:
+        var now = DateTime.now();
+        return now.subtract(Duration(days: 7));
+        break;
+
+      case SelectedFilter.einMonat:
+        var now = DateTime.now();
+        return now.subtract(Duration(days: 31));
+        break;
+
+      case SelectedFilter.jahr:
+        var now = DateTime.now();
+        return now.subtract(Duration(days: 365));
+        break;
+    }
+  }
 }
 
 enum SelectedFilter {

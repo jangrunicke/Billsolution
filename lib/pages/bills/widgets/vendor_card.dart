@@ -20,30 +20,32 @@ class VendorCard extends StatelessWidget {
 
     return Container(
       child: FlatButton(
-        child: Column(
-          children: [
-            Text(
-              vendorName + ':',
-              style: TextStyle(
-                  fontSize: 20,
-                  color: filter.selectedFilter == vendorName
-                      ? Colors.white
-                      : Colors.black87,
-                  fontWeight: FontWeight.normal),
-            ),
-            Container(
-              margin: EdgeInsets.all(10),
-            ),
-            Text(summierteAusgaben.toStringAsFixed(2) + ' €',
+        child: Expanded(
+          child: Column(
+            children: [
+              Text(
+                vendorName + ':',
                 style: TextStyle(
+                    fontSize: 20,
                     color: filter.selectedFilter == vendorName
                         ? Colors.white
                         : Colors.black87,
-                    fontSize: 20,
-                    fontWeight: FontWeight.normal))
-          ],
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
+                    fontWeight: FontWeight.normal),
+              ),
+              Container(
+                margin: EdgeInsets.all(10),
+              ),
+              Text(summierteAusgaben.toStringAsFixed(2) + ' €',
+                  style: TextStyle(
+                      color: filter.selectedFilter == vendorName
+                          ? Colors.white
+                          : Colors.black87,
+                      fontSize: 20,
+                      fontWeight: FontWeight.normal))
+            ],
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+          ),
         ),
         onPressed: () => _auswaehlen(context),
       ),
@@ -54,15 +56,18 @@ class VendorCard extends StatelessWidget {
             : Colors.white,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
-          filter.selectedFilter == this.vendorName
-              ? BoxShadow()
-              : BoxShadow(
-                  blurRadius: 4.0, offset: Offset(0.0, 4.0), color: Colors.grey)
+          // filter.selectedFilter == this.vendorName
+          //     ? BoxShadow()
+          //     : BoxShadow(
+          //         blurRadius: 4.0, offset: Offset(0.0, 4.0), color: Colors.grey)
+          BoxShadow(
+              blurRadius: 4.0, offset: Offset(0.0, 4.0), color: Colors.grey)
         ],
       ),
       padding: EdgeInsets.fromLTRB(5, 15, 5, 15),
       margin: EdgeInsets.fromLTRB(5, 0, 5, 5),
       constraints: BoxConstraints(minWidth: 150),
+      alignment: Alignment.topLeft,
     );
   }
 }

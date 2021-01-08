@@ -1,6 +1,8 @@
 import 'package:billsolution_app/aggregates/bill/bill.dart';
 import 'package:billsolution_app/aggregates/user.dart';
 import 'package:billsolution_app/pages/bills/bill_details.dart';
+import 'package:billsolution_app/pages/bills/models/vendor_filter_model.dart';
+import 'package:billsolution_app/pages/bills/models/zeitraum_filter_model.dart';
 import 'package:billsolution_app/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -25,10 +27,28 @@ class BelegeListe extends StatelessWidget {
                     if (snapshot.hasError) {
                       return Text(snapshot.error.toString());
                     }
-                    // if (!snapshot.hasData) {
-                    //   return Text('Empty');
-                    // }
-                    return _buildBillListView(snapshot.data, context);
+                    var tempbills = List<Bill>();
+                    var finalBills = List<Bill>();
+                    var zeitraumfilter = context.watch<ZeitraumfilterModel>();
+                    var lastValidDate = zeitraumfilter.getLastValidDate();
+
+                    var vendorfilter = context.watch<VendorFilterModel>();
+                    snapshot.data.forEach((bill) {
+                      if (vendorfilter.selectedFilter == '') {
+                        tempbills.add(bill);
+                      } else if (bill.shop.vendor.name ==
+                          vendorfilter.selectedFilter) {
+                        tempbills.add(bill);
+                      }
+                    });
+
+                    tempbills.forEach((bill) {
+                      if (bill.created_at.isAfter(lastValidDate)) {
+                        finalBills.add(bill);
+                      }
+                    });
+
+                    return _buildBillListView(finalBills, context);
                   });
             }
             return Text('Waiting');
