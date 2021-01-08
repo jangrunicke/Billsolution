@@ -103,42 +103,6 @@ class AddBillPopup extends StatelessWidget {
                     return Text('Waiting');
                   });
             })
-            // HinzufuegenButton(
-            //   () {
-            //     var inputDate =
-            //         DateFormat("dd.MM.yyyy").parse(addBillDateController.text);
-
-            //     var outputDate =
-            //         DateFormat("yyyy-MM-dd").parse("$inputDate").toString();
-
-            //     DateTime newDate = DateTime.parse(outputDate);
-
-            //     Location newLocation = Location(
-            //         street: addShopLocationStreetController.text,
-            //         city: addShopLocationCityController.text,
-            //         zip: addShopLocationZipController.text,
-            //         country: addShopLocationCountryController.text);
-
-            //     Vendor newVendor = Vendor(
-            //         name: addShopVendorNameController.text,
-            //         category: addShopVendorCategoryController.text);
-
-            //     Shop newShop = Shop(
-            //         name: addShopNameController.text,
-            //         location: newLocation,
-            //         vendor: newVendor);
-
-            //     Bill newBill = new Bill(
-            //       created_at: newDate,
-            //       shopBillId: addShopBillIdController.text,
-            //       shop: newShop,
-            //     );
-
-            //     Route route =
-            //         MaterialPageRoute(builder: (context) => AddBillPosition());
-            //     Navigator.push(context, route);
-            //   },
-            // ),
           ],
         ),
       ),
