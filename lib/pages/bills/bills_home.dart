@@ -31,6 +31,7 @@ class BillsHome extends StatelessWidget {
         ),
       ],
       child: Scaffold(
+          backgroundColor: Color.fromRGBO(249, 249, 249, 1.0),
           appBar: AppBar(
             title: Text('Belege'),
             actions: [
