@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:billsolution_app/aggregates/bill/bill.dart';
-import 'package:billsolution_app/aggregates/bill/vendor.dart';
 import 'package:billsolution_app/aggregates/user.dart';
+import 'package:billsolution_app/pages/bills/models/zeitraum_filter_model.dart';
 import 'package:billsolution_app/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,16 +14,6 @@ class VendorList extends StatefulWidget {
 }
 
 class _VendorListState extends State<VendorList> {
-  var mockData = ['Rewe', 'DM', 'Edeka', 'Penny', 'Aldi'];
-  var colors = [
-    Color.fromRGBO(230, 57, 70, 1.0),
-    Color.fromRGBO(168, 218, 220, 1.0),
-    Color.fromRGBO(254, 168, 168, 1.0),
-    Color.fromRGBO(69, 123, 157, 1.0),
-    Color.fromRGBO(255, 33, 0, 1.0),
-  ];
-  var rng = new Random();
-
   List<String> _getDistinctVendors(List<Bill> bills) {
     var vendors = List<String>();
     bills.map((bill) => bill.shop.vendor).forEach((vendor) {
@@ -50,13 +40,32 @@ class _VendorListState extends State<VendorList> {
       });
       result.add(VendorCardData(name: vendor, aggPrice: aggPrice));
     });
-    return result;
+
+    result.sort((a, b) => a.aggPrice.compareTo(b.aggPrice));
+    var orderedResult = result.reversed.toList();
+    return orderedResult;
   }
 
-  _buildList(List<Bill> bills) {
+  List<Bill> _filterBillList(List<Bill> bills, DateTime lastValidDate) {
+    var zeitfilter = context.read<ZeitraumfilterModel>();
+    var lastValidDate = zeitfilter.getLastValidDate();
+    var filteredBills = List<Bill>();
+
+    bills.forEach((bill) {
+      if (bill.created_at.isAfter(lastValidDate)) {
+        filteredBills.add(bill);
+      }
+    });
+
+    return filteredBills;
+  }
+
+  _buildList(List<Bill> bills, DateTime lastValidDate) {
     if (bills != null) {
-      List<String> vendors = _getDistinctVendors(bills);
-      List<VendorCardData> data = _getVendorCardData(bills, vendors);
+      List<Bill> filterdBills = _filterBillList(bills, lastValidDate);
+
+      List<String> vendors = _getDistinctVendors(filterdBills);
+      List<VendorCardData> data = _getVendorCardData(filterdBills, vendors);
 
       List<VendorCard> cards = List<VendorCard>();
       data.forEach((vendor) {
@@ -76,7 +85,8 @@ class _VendorListState extends State<VendorList> {
 
   @override
   Widget build(BuildContext context) {
-    // var latestUser = context.watch<UserModel>();
+    var zeitraumfilter = context.watch<ZeitraumfilterModel>();
+    var lastValidDate = zeitraumfilter.getLastValidDate();
 
     return Container(
         constraints: BoxConstraints(maxHeight: 140),
@@ -99,7 +109,7 @@ class _VendorListState extends State<VendorList> {
                           if (snapshot.hasError) {
                             print(snapshot.error.toString());
                           }
-                          return _buildList(snapshot.data);
+                          return _buildList(snapshot.data, lastValidDate);
                         });
                   }
                   return Text('No Data');
