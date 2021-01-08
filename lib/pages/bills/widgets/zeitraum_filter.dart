@@ -74,10 +74,20 @@ class _ZeitraumFilterButtonState extends State<ZeitraumFilterButton> {
                 onPressed: () => {auswaehlen()},
               ),
               decoration: BoxDecoration(
-                  color: zeitraumfilter.ausgewaehlt.index == _index
-                      ? colors[1]
-                      : colors[0],
-                  borderRadius: BorderRadius.circular(15)),
+                color: zeitraumfilter.ausgewaehlt.index == _index
+                    ? colors[1]
+                    : Colors.white,
+                borderRadius: BorderRadius.circular(15),
+                boxShadow: [
+                  zeitraumfilter.ausgewaehlt.index == _index
+                      ? BoxShadow()
+                      : BoxShadow(
+                          blurRadius: 4.0,
+                          offset: Offset(0.0, 4.0),
+                          color: Colors.grey)
+                ],
+              ),
+
               // constraints: BoxConstraints(maxHeight: 35, maxWidth: 110),
               constraints: BoxConstraints(
                 maxHeight: 35,
