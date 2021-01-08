@@ -24,11 +24,43 @@ class _VendorListState extends State<VendorList> {
   ];
   var rng = new Random();
 
-  _buildList(Set<Vendor> vendors) {
-    List<VendorCard> cards = List<VendorCard>();
-    if (vendors != null) {
-      vendors.forEach((vendor) {
-        cards.add(VendorCard(vendor.name, rng.nextDouble() * 2000));
+  List<String> _getDistinctVendors(List<Bill> bills) {
+    var vendors = List<String>();
+    bills.map((bill) => bill.shop.vendor).forEach((vendor) {
+      if (!vendors.contains(vendor.name)) {
+        vendors.add(vendor.name);
+      }
+    });
+    return vendors;
+  }
+
+  List<VendorCardData> _getVendorCardData(
+      List<Bill> bills, List<String> vendors) {
+    var result = List<VendorCardData>();
+    vendors.forEach((vendor) {
+      double aggPrice = 0;
+      bills.forEach((bill) async {
+        if (bill.shop.vendor.name == vendor) {
+          var sum = 0.0;
+          await for (var value in bill.getCalculatedSum()) {
+            sum += value;
+          }
+          aggPrice += sum;
+        }
+      });
+      result.add(VendorCardData(name: vendor, aggPrice: aggPrice));
+    });
+    return result;
+  }
+
+  _buildList(List<Bill> bills) {
+    if (bills != null) {
+      List<String> vendors = _getDistinctVendors(bills);
+      List<VendorCardData> data = _getVendorCardData(bills, vendors);
+
+      List<VendorCard> cards = List<VendorCard>();
+      data.forEach((vendor) {
+        cards.add(VendorCard(vendor.name, vendor.aggPrice));
       });
       return ListView(
         scrollDirection: Axis.horizontal,
@@ -58,17 +90,15 @@ class _VendorListState extends State<VendorList> {
                   }
                   if (snapshot.hasData) {
                     return StreamBuilder(
-                        stream: snapshot.data
-                            .getBills()
-                            .map((list) =>
-                                list.map((Bill bill) => bill.shop.vendor))
-                            .map((list) => list.toSet()),
+                        stream: snapshot.data.getBills(),
+                        // .map((list) =>
+                        //     list.map((Bill bill) => bill.shop.vendor))
+                        // .map((list) => list.toList()),
                         builder: (BuildContext context,
-                            AsyncSnapshot<Set<Vendor>> snapshot) {
+                            AsyncSnapshot<List<Bill>> snapshot) {
                           if (snapshot.hasError) {
                             print(snapshot.error.toString());
                           }
-
                           return _buildList(snapshot.data);
                         });
                   }
@@ -77,4 +107,11 @@ class _VendorListState extends State<VendorList> {
           },
         ));
   }
+}
+
+class VendorCardData {
+  String name;
+  double aggPrice;
+
+  VendorCardData({this.name, this.aggPrice});
 }

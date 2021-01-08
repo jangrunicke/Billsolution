@@ -67,11 +67,17 @@ class BelegeListe extends StatelessWidget {
               ],
               crossAxisAlignment: CrossAxisAlignment.start,
             )),
-            Text(
-              "28,76€",
-              style: TextStyle(
-                  color: Color.fromRGBO(152, 152, 152, 1.0), fontSize: 18),
-            ),
+            StreamBuilder(
+                stream: bill.getCalculatedSum(),
+                builder:
+                    (BuildContext context, AsyncSnapshot<double> snapshot) {
+                  return Text(
+                    snapshot.data.toString() + '€',
+                    style: TextStyle(
+                        color: Color.fromRGBO(152, 152, 152, 1.0),
+                        fontSize: 18),
+                  );
+                })
           ],
         ),
         trailing: Icon(
