@@ -39,14 +39,17 @@ class BelegeListe extends StatelessWidget {
   }
 
   Widget _buildBillListView(List<Bill> bills, BuildContext context) {
-    return ListView.separated(
-      padding: EdgeInsets.all(10),
-      itemCount: bills.length,
-      itemBuilder: (BuildContext context, int index) {
-        return _buildBillListTile(bills[index], context);
-      },
-      separatorBuilder: (BuildContext context, int index) => const Divider(),
-    );
+    if (bills != null) {
+      return ListView.separated(
+        padding: EdgeInsets.all(10),
+        itemCount: bills.length,
+        itemBuilder: (BuildContext context, int index) {
+          return _buildBillListTile(bills[index], context);
+        },
+        separatorBuilder: (BuildContext context, int index) => const Divider(),
+      );
+    }
+    return Text('Waiting');
   }
 
   Widget _buildBillListTile(Bill bill, BuildContext context) {
@@ -78,7 +81,7 @@ class BelegeListe extends StatelessWidget {
         onTap: () {
           Navigator.of(context)
               .push(MaterialPageRoute<void>(builder: (BuildContext context) {
-            return BillDetails();
+            return BillDetails(bill);
           }));
         });
   }

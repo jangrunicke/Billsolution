@@ -1,45 +1,47 @@
-import 'package:billsolution_app/pages/analytics/mock/billposition_class.dart';
+import 'package:billsolution_app/aggregates/bill/bill.dart';
+import 'package:billsolution_app/aggregates/billposition/billposition.dart';
+import 'package:billsolution_app/user_model.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-class BillDetails extends StatefulWidget {
-  // final mockData = [
-  //   {'name': 'Weihnstephan Milch', 'anzahl': 10, 'preis': 20.87},
-  //   {'name': 'Bergbauernmilch', 'anzahl': 10, 'preis': 13.99},
-  //   {'name': 'Chiqita Banane', 'anzahl': 3, 'preis': 2.99},
-  //   {'name': 'Zahnpasta', 'anzahl': 1, 'preis': 3.29},
-  // ];
+class BillDetails extends StatelessWidget {
+  Bill _bill;
 
-  @override
-  _BillDetailsState createState() => _BillDetailsState();
-}
+  BillDetails(this._bill);
 
-class _BillDetailsState extends State<BillDetails> {
-  final Stream<List<Billposition>> _positions =
-      Stream<List<Billposition>>.fromIterable(<List<Billposition>>[
-    [
-      Billposition(
-          name: 'Zahnpasta', amount: 10, price: 1.12, category: 'Hygiene'),
-      Billposition(
-          name: 'Milch', amount: 2, price: 1.42, category: 'Lebensmittel'),
-      Billposition(
-          name: 'Paprika', amount: 1, price: 1.02, category: 'Lebensmittel')
-    ].toList()
-  ]);
+  // final Stream<List<Billposition>> _positions =
+  //     Stream<List<Billposition>>.fromIterable(<List<Billposition>>[
+  //   [
+  //     Billposition(
+  //         name: 'Zahnpasta', amount: 10, price: 1.12, category: 'Hygiene'),
+  //     Billposition(
+  //         name: 'Milch', amount: 2, price: 1.42, category: 'Lebensmittel'),
+  //     Billposition(
+  //         name: 'Paprika', amount: 1, price: 1.02, category: 'Lebensmittel')
+  //   ].toList()
+  // ]);
 
   @override
   Widget build(BuildContext context) {
+    final DateFormat formatter = DateFormat('dd.MM.yyyy');
+
     return Scaffold(
         appBar: AppBar(
           title: Column(
-            children: [Text('Rewe Einkauf'), Text('27.12.2020')],
+            children: [
+              Text(_bill.shop.name),
+              Text(formatter.format(_bill.created_at))
+            ],
           ),
         ),
         body: Container(
             child: StreamBuilder(
-          stream: _positions,
-          builder: (context, snapshot) {
+          stream: _bill.getBillpositions(),
+          builder: (BuildContext context,
+              AsyncSnapshot<List<Billposition>> snapshot) {
             if (snapshot.hasError) {
-              return Text('Error');
+              return Text(snapshot.error.toString());
             }
             if (snapshot.hasData) {
               return ListView.separated(
@@ -48,7 +50,7 @@ class _BillDetailsState extends State<BillDetails> {
                   return ListTile(
                     title: Row(
                       children: [
-                        Expanded(child: Text(snapshot.data[index].name)),
+                        Expanded(child: Text(snapshot.data[index].productName)),
                         Flexible(
                             child: Text(snapshot.data[index].amount.toString()))
                       ],

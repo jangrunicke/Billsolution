@@ -26,21 +26,26 @@ class _VendorListState extends State<VendorList> {
 
   _buildList(Set<Vendor> vendors) {
     List<VendorCard> cards = List<VendorCard>();
-    vendors.forEach((vendor) {
-      cards.add(VendorCard(vendor.name, colors[3], rng.nextDouble()));
-    });
+    if (vendors != null) {
+      vendors.forEach((vendor) {
+        cards.add(VendorCard(vendor.name, rng.nextDouble() * 2000));
+      });
+      return ListView(
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.all(10),
+        children: [
+          ...cards,
+        ],
+      );
+    }
 
-    return ListView(
-      scrollDirection: Axis.horizontal,
-      padding: const EdgeInsets.all(10),
-      children: [
-        ...cards,
-      ],
-    );
+    return Text('Waiting');
   }
 
   @override
   Widget build(BuildContext context) {
+    // var latestUser = context.watch<UserModel>();
+
     return Container(
         constraints: BoxConstraints(maxHeight: 140),
         child: Consumer<UserModel>(
@@ -51,30 +56,25 @@ class _VendorListState extends State<VendorList> {
                   if (snapshot.hasError) {
                     return Text(snapshot.error.toString());
                   }
-                  return StreamBuilder(
-                      stream: snapshot.data
-                          .getBills()
-                          .map((list) =>
-                              list.map((Bill bill) => bill.shop.vendor))
-                          .map((list) => list.toSet()),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<Set<Vendor>> snapshot) {
-                        return _buildList(snapshot.data);
-                      });
+                  if (snapshot.hasData) {
+                    return StreamBuilder(
+                        stream: snapshot.data
+                            .getBills()
+                            .map((list) =>
+                                list.map((Bill bill) => bill.shop.vendor))
+                            .map((list) => list.toSet()),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<Set<Vendor>> snapshot) {
+                          if (snapshot.hasError) {
+                            print(snapshot.error.toString());
+                          }
+
+                          return _buildList(snapshot.data);
+                        });
+                  }
+                  return Text('No Data');
                 });
           },
-        )
-
-        // stream: snapshot.data.getBills().map((list) => list.map((Bill bill) => bill.shop.vendor)).distinct(),
-
-        // ListView.builder(
-        // scrollDirection: Axis.horizontal,
-        // padding: const EdgeInsets.all(10),
-        // itemCount: mockData.length,
-        // itemBuilder: (BuildContext context, int index) {
-        //   return VendorCard(
-        //       mockData[index], colors[rng.nextInt(5 - 1)], rng.nextDouble());
-        // }),
-        );
+        ));
   }
 }
