@@ -11,7 +11,6 @@ class Billposition {
   double price;
   double tax;
   double discount;
-  List<String> groups;
   String category;
 
   Billposition(
@@ -20,7 +19,6 @@ class Billposition {
       this.price,
       this.tax,
       this.discount,
-      this.groups,
       this.category});
 
   factory Billposition.fromJson(Map<String, dynamic> json) =>

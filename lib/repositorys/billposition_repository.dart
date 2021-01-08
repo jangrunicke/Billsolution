@@ -56,7 +56,7 @@ class BillpositionRepository {
     }
   }
 
-  _buildBillpositionFromDocumentSnapshot(DocumentSnapshot document) {
+  Billposition _buildBillpositionFromDocumentSnapshot(DocumentSnapshot document) {
     Billposition billposition = Billposition.fromJson(document.data());
     billposition.id = document.id;
     return billposition;
