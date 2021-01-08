@@ -17,24 +17,25 @@ class BelegeListe extends StatelessWidget {
             if (snapshot.hasError) {
               return Text(snapshot.error.toString());
             }
-            if (!snapshot.hasData) {
-              return Text('User ist leer');
+            if (snapshot.hasData) {
+              return StreamBuilder(
+                  stream: snapshot.data.getBills(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<List<Bill>> snapshot) {
+                    if (snapshot.hasError) {
+                      return Text(snapshot.error.toString());
+                    }
+                    // if (!snapshot.hasData) {
+                    //   return Text('Empty');
+                    // }
+                    return _buildBillListView(snapshot.data, context);
+                  });
             }
-            return StreamBuilder(
-                stream: snapshot.data.getBills(),
-                builder:
-                    (BuildContext context, AsyncSnapshot<List<Bill>> snapshot) {
-                  if (snapshot.hasError) {
-                    return Text(snapshot.error.toString());
-                  }
-                  // if (!snapshot.hasData) {
-                  //   return Text('Empty');
-                  // }
-                  return _buildBillListView(snapshot.data, context);
-                });
+            return Text('Waiting');
           },
         );
       }),
+      margin: EdgeInsets.all(5),
     );
   }
 
@@ -99,6 +100,17 @@ class BelegeListe extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(child: _buildBelege(context));
+    return Expanded(
+        child: Container(
+      child: _buildBelege(context),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: [
+            BoxShadow(
+                blurRadius: 4, color: Colors.grey, offset: Offset(0.0, 0.4)),
+          ]),
+      margin: EdgeInsets.all(15),
+    ));
   }
 }
