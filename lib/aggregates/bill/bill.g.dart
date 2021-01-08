@@ -14,6 +14,7 @@ Bill _$BillFromJson(Map<String, dynamic> json) {
     shop: json['shop'] == null
         ? null
         : Shop.fromJson(json['shop'] as Map<String, dynamic>),
+    groups: (json['groups'] as List)?.map((e) => e as String)?.toList(),
     userId: json['userId'] as String,
   );
 }
@@ -22,5 +23,6 @@ Map<String, dynamic> _$BillToJson(Bill instance) => <String, dynamic>{
       'created_at': const DateTimeConverter().toJson(instance.created_at),
       'shopBillId': instance.shopBillId,
       'shop': instance.shop?.toJson(),
+      'groups': instance.groups,
       'userId': instance.userId,
     };

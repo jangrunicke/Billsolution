@@ -16,9 +16,10 @@ class Bill {
   DateTime created_at;
   String shopBillId;
   Shop shop;
+  List<String> groups;
   String userId;
 
-  Bill({this.created_at, this.shopBillId, this.shop, this.userId});
+  Bill({this.created_at, this.shopBillId, this.shop, this.groups, this.userId});
   factory Bill.fromJson(Map<String, dynamic> json) => _$BillFromJson(json);
   Map<String, dynamic> toJson() => _$BillToJson(this);
 
@@ -29,5 +30,20 @@ class Bill {
   Future<Billposition> addBillposition(Billposition billposition) {
     billposition.id = this.id;
     return BillpositionRepository().add(billposition);
+  }
+
+  Stream<double> getCalculatedSum() {
+    return this.getBillpositions().map<double>((List<Billposition> bills) {
+      double sum = 0;
+      bills.forEach((Billposition billposition) {
+        final double netto = billposition.price * billposition.amount;
+        double brutto = netto + netto * billposition.tax;
+        if (billposition.discount != null) {
+          brutto = brutto * (1 - billposition.discount);
+        }
+        sum += brutto;
+      });
+      return sum;
+    });
   }
 }
