@@ -56,7 +56,7 @@ class VendorCard extends StatelessWidget {
                   blurRadius: 4.0, offset: Offset(0.0, 4.0), color: Colors.grey)
         ],
       ),
-      padding: EdgeInsets.all(15),
+      padding: EdgeInsets.fromLTRB(5, 15, 5, 15),
       margin: EdgeInsets.fromLTRB(5, 0, 5, 5),
       constraints: BoxConstraints(minWidth: 150),
     );
