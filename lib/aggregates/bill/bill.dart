@@ -51,16 +51,13 @@ class Bill {
     return this.getBillpositions().map<double>((List<Billposition> bills) {
       double sum = 0;
       bills.forEach((Billposition billposition) {
-        int categoryCount = billposition.category.length;
-        for (int i = 0; i < categoryCount; ++i) {
-          if (billposition.category[i] == category) {
-            final double netto = billposition.price * billposition.amount;
-            double brutto = netto + netto * billposition.tax;
-            if (billposition.discount != null) {
-              brutto = brutto * (1 - billposition.discount);
-            }
-            sum += brutto;
+        if (billposition.category == category) {
+          final double netto = billposition.price * billposition.amount;
+          double brutto = netto + netto * billposition.tax;
+          if (billposition.discount != null) {
+            brutto = brutto * (1 - billposition.discount);
           }
+          sum += brutto;
         }
       });
       return sum;
