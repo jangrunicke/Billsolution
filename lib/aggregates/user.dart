@@ -1,4 +1,5 @@
 import 'package:billsolution_app/aggregates/bill/bill.dart';
+import 'package:billsolution_app/aggregates/billposition/billposition.dart';
 import 'package:billsolution_app/repositorys/bill_repository.dart';
 import 'package:billsolution_app/utils/datetime_converter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -37,4 +38,23 @@ class User {
     bill.userId = this.id;
     return BillRepository().add(bill);
   }
+
+  // Funktion bringt Fehler bei der foreachschleife
+
+  // Stream<double> calculateSummOfCategory(String category) {
+  //   return this.getBills().map((List<Bill> bills) {
+  //     double sum = 0;
+  //     bills.forEach((Bill bill) {
+  //       bill.getBillpositions().forEach((Billposition billposition) {
+  //         final double netto = billposition.price * billposition.amount;
+  //         double brutto = netto * billposition.tax;
+  //         if (billposition.discount != null) {
+  //           brutto = brutto * (1 - billposition.discount);
+  //         }
+  //         sum += brutto;
+  //       });
+  //     });
+  //     return sum;
+  //   });
+  //}
 }
