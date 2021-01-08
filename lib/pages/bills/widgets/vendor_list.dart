@@ -28,7 +28,7 @@ class _VendorListState extends State<VendorList> {
     List<VendorCard> cards = List<VendorCard>();
     if (vendors != null) {
       vendors.forEach((vendor) {
-        cards.add(VendorCard(vendor.name, colors[3], rng.nextDouble()));
+        cards.add(VendorCard(vendor.name, rng.nextDouble() * 2000));
       });
       return ListView(
         scrollDirection: Axis.horizontal,

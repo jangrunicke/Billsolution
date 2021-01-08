@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:billsolution_app/pages/bills/models/vendor_filter_model.dart';
 import 'package:billsolution_app/pages/bills/models/zeitraum_filter_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -29,6 +30,9 @@ class BillsHome extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => ZeitraumfilterModel(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => VendorFilterModel(),
+        )
       ],
       child: Scaffold(
           backgroundColor: Color.fromRGBO(249, 249, 249, 1.0),
