@@ -26,7 +26,9 @@ class VendorCard extends StatelessWidget {
               vendorName + ':',
               style: TextStyle(
                   fontSize: 20,
-                  color: Colors.black87,
+                  color: filter.selectedFilter == vendorName
+                      ? Colors.white
+                      : Colors.black87,
                   fontWeight: FontWeight.normal),
             ),
             Container(
@@ -34,7 +36,9 @@ class VendorCard extends StatelessWidget {
             ),
             Text(summierteAusgaben.toStringAsFixed(2) + ' €',
                 style: TextStyle(
-                    color: Colors.black87,
+                    color: filter.selectedFilter == vendorName
+                        ? Colors.white
+                        : Colors.black87,
                     fontSize: 20,
                     fontWeight: FontWeight.normal))
           ],
