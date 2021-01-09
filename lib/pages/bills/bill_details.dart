@@ -10,7 +10,7 @@ class BillDetails extends StatelessWidget {
 
   BillDetails(this._bill);
 
-  Widget _buildInfos() {
+  Widget _buildInfos(BuildContext context) {
     return Container(
       child: StreamBuilder(
         stream: _bill.getCalculatedSum(),
@@ -23,17 +23,18 @@ class BillDetails extends StatelessWidget {
               children: [
                 Text(
                   'Total: ' + snapshot.data.toString() + ' €',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.white),
                 ),
                 SizedBox(height: 15),
                 Row(
                   children: [
                     Icon(
                       Icons.location_on,
-                      color: Colors.grey,
+                      color: Colors.white,
                     ),
                     SizedBox(
-                      width: 10,
+                      width: 15,
                     ),
                     Column(
                       children: [
@@ -43,10 +44,10 @@ class BillDetails extends StatelessWidget {
                               _bill.shop.location.city +
                               ' ' +
                               _bill.shop.location.zip,
-                          style: TextStyle(color: Colors.grey),
+                          style: TextStyle(color: Colors.white),
                         ),
                         Text(_bill.shop.location.street,
-                            style: TextStyle(color: Colors.grey)),
+                            style: TextStyle(color: Colors.white)),
                       ],
                       crossAxisAlignment: CrossAxisAlignment.start,
                     ),
@@ -61,19 +62,19 @@ class BillDetails extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.shopping_bag,
-                      color: Colors.grey,
+                      color: Colors.white,
                     ),
                     SizedBox(
-                      width: 10,
+                      width: 15,
                     ),
                     Column(
                       children: [
                         Text(
                           _bill.shop.vendor.name,
-                          style: TextStyle(color: Colors.grey),
+                          style: TextStyle(color: Colors.white),
                         ),
                         Text(_bill.shop.vendor.category,
-                            style: TextStyle(color: Colors.grey)),
+                            style: TextStyle(color: Colors.white)),
                       ],
                       crossAxisAlignment: CrossAxisAlignment.start,
                     ),
@@ -89,12 +90,16 @@ class BillDetails extends StatelessWidget {
         },
       ),
       decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(15),
+          color: Theme.of(context).primaryColor,
+          // borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(25),
+            bottomRight: Radius.circular(25),
+          ),
           boxShadow: [
             BoxShadow(blurRadius: 4, color: Colors.grey, offset: Offset(0, 4)),
           ]),
-      margin: EdgeInsets.all(15),
+      // margin: EdgeInsets.all(15),
       padding: EdgeInsets.fromLTRB(25, 15, 20, 25),
       alignment: Alignment.topLeft,
     );
@@ -113,25 +118,101 @@ class BillDetails extends StatelessWidget {
                   return Text(snapshot.error.toString());
                 }
                 if (snapshot.hasData) {
-                  return ListView.separated(
-                    itemCount: snapshot.data.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return ListTile(
-                        title: Row(
-                          children: [
-                            Expanded(
-                                child: Text(snapshot.data[index].productName)),
-                            Flexible(
-                                child: Text(
-                                    snapshot.data[index].amount.toString()))
-                          ],
+                  return Column(
+                    children: [
+                      Flexible(
+                        child: ListView.separated(
+                          padding: EdgeInsets.all(15),
+                          itemCount: snapshot.data.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return ListTile(
+                                title: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        snapshot.data[index].productName,
+                                        style: TextStyle(
+                                            fontFamily: 'Roboto',
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                    Text(
+                                      'x' +
+                                          snapshot.data[index].amount
+                                              .toString(),
+                                      style: TextStyle(
+                                          fontFamily: 'Roboto',
+                                          fontSize: 18,
+                                          color: Colors.grey),
+                                    ),
+                                    SizedBox(
+                                      width: 50,
+                                    )
+                                  ],
+                                ),
+                                trailing: Expanded(
+                                  child: Text(
+                                    snapshot.data[index].price.toString() + '€',
+                                    style: TextStyle(
+                                        fontFamily: 'Roboto',
+                                        fontSize: 18,
+                                        color: Colors.grey),
+                                  ),
+                                ));
+                          },
+                          separatorBuilder: (BuildContext context, int index) =>
+                              const Divider(),
                         ),
-                        trailing:
-                            Text(snapshot.data[index].price.toString() + '€'),
-                      );
-                    },
-                    separatorBuilder: (BuildContext context, int index) =>
-                        const Divider(),
+                      ),
+                      Container(
+                        child: StreamBuilder(
+                            stream: _bill.getCalculatedSum(),
+                            builder: (BuildContext context,
+                                AsyncSnapshot<double> snapshot) {
+                              if (snapshot.hasError) {
+                                return Text(snapshot.error.toString());
+                              }
+                              if (snapshot.hasData) {
+                                return Column(
+                                  children: [
+                                    Divider(
+                                      color: Colors.black,
+                                      thickness: 1.5,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            'Total: ',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                            textAlign: TextAlign.start,
+                                          ),
+                                        ),
+                                        Text(
+                                          snapshot.data.toString() + '€',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                          textAlign: TextAlign.end,
+                                        ),
+                                      ],
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                    )
+                                  ],
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                );
+                              }
+                              return Text('Waiting');
+                            }),
+                        alignment: Alignment.topRight,
+                        margin: EdgeInsets.all(15),
+                      ),
+                    ],
                   );
                 } else {
                   return Text('Nichts');
@@ -139,36 +220,19 @@ class BillDetails extends StatelessWidget {
               },
             ),
           ),
-          Container(
-            child: StreamBuilder(
-                stream: _bill.getCalculatedSum(),
-                builder:
-                    (BuildContext context, AsyncSnapshot<double> snapshot) {
-                  if (snapshot.hasError) {
-                    return Text(snapshot.error.toString());
-                  }
-                  if (snapshot.hasData) {
-                    return Text(
-                      'Total: ' + snapshot.data.toString() + '€',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.end,
-                    );
-                  }
-                  return Text('Waiting');
-                }),
-            alignment: Alignment.topRight,
-            margin: EdgeInsets.all(15),
-          )
         ],
       ),
       decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(15), topRight: Radius.circular(15)),
+
+          // borderRadius: BorderRadius.only(
+          //     topLeft: Radius.circular(25), topRight: Radius.circular(25)),
+          borderRadius: BorderRadius.circular(25),
           boxShadow: [
             BoxShadow(
-                blurRadius: 4.0, color: Colors.grey, offset: Offset(0, -4.0))
+                blurRadius: 4.0, color: Colors.grey, offset: Offset(0, 4.0))
           ]),
+      margin: EdgeInsets.fromLTRB(15, 25, 15, 15),
     );
   }
 
@@ -184,9 +248,10 @@ class BillDetails extends StatelessWidget {
               Text(formatter.format(_bill.created_at))
             ],
           ),
+          elevation: 0,
         ),
         body: Column(
-          children: [_buildInfos(), Expanded(child: _buildPositons())],
+          children: [_buildInfos(context), Expanded(child: _buildPositons())],
         ),
         backgroundColor: Color.fromRGBO(249, 249, 249, 1.0));
   }
