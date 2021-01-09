@@ -39,22 +39,19 @@ class User {
     return BillRepository().add(bill);
   }
 
-  // Funktion bringt Fehler bei der foreachschleife
+  Stream<List<Billposition>> getBillpositions() {}
 
-  // Stream<double> calculateSummOfCategory(String category) {
-  //   return this.getBills().map((List<Bill> bills) {
-  //     double sum = 0;
-  //     bills.forEach((Bill bill) {
-  //       bill.getBillpositions().forEach((Billposition billposition) {
-  //         final double netto = billposition.price * billposition.amount;
-  //         double brutto = netto * billposition.tax;
-  //         if (billposition.discount != null) {
-  //           brutto = brutto * (1 - billposition.discount);
-  //         }
-  //         sum += brutto;
-  //       });
-  //     });
-  //     return sum;
-  //   });
-  //}
+  // Funktion funktioniert nur auf Ebene des ersten Streams
+
+  Stream<double> calculateSummOfCategory(String category) {
+    return this.getBills().map<double>((List<Bill> bills) {
+      double sum = 0;
+      bills.forEach((Bill bill) {
+        bill.getCalculatedSumOfCategory(category).map((double x) {});
+        // Bis hier hin funktionieren die Schleifen und Maps
+        // sum += 1;
+      });
+      return sum;
+    });
+  }
 }

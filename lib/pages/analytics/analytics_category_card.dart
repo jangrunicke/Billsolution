@@ -1,4 +1,5 @@
 import 'package:billsolution_app/aggregates/bill/bill.dart';
+import 'package:billsolution_app/aggregates/billposition/billposition.dart';
 import 'package:billsolution_app/aggregates/user.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -49,6 +50,7 @@ class AnalyticsCategoryCard extends StatelessWidget {
                         if (!snapshot.hasData) {
                           return Text('Empty');
                         }
+                        // return Text(snapshot.data.toString());
                         return StreamBuilder(
                           stream: snapshot.data.first
                               .getCalculatedSumOfCategory(category),
