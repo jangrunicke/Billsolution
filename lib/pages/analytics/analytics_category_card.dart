@@ -49,8 +49,20 @@ class AnalyticsCategoryCard extends StatelessWidget {
                         if (!snapshot.hasData) {
                           return Text('Empty');
                         }
-                        return Text(
-                            snapshot.data.first.getCalculatedSum().toString());
+                        return StreamBuilder(
+                          stream: snapshot.data.first
+                              .getCalculatedSumOfCategory(category),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<double> snapshot) {
+                            if (snapshot.hasError) {
+                              return Text(snapshot.error.toString());
+                            }
+                            if (!snapshot.hasData) {
+                              return Text('Empty');
+                            }
+                            return Text(snapshot.data.toString());
+                          },
+                        );
                       });
                 });
           },

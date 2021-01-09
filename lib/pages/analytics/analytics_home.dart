@@ -40,7 +40,10 @@ class AnalyticsHome extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               AnalyticsCategoryCard(
-                category: 'Lebensmittel',
+                category: 'Reisen',
+              ),
+              AnalyticsCategoryCard(
+                category: 'Hygiene',
               )
             ],
           ),
