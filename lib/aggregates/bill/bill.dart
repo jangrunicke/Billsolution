@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:billsolution_app/aggregates/bill/shop.dart';
 import 'package:billsolution_app/aggregates/billposition/billposition.dart';
 import 'package:billsolution_app/repositorys/billposition_repository.dart';
@@ -47,6 +49,11 @@ class Bill {
     });
   }
 
+  double roundDouble(double value, int places) {
+    double mod = pow(10.0, places);
+    return ((value * mod).round().toDouble() / mod);
+  }
+
   Stream<double> getCalculatedSumOfCategory(String category) {
     return this.getBillpositions().map<double>((List<Billposition> bills) {
       double sum = 0;
@@ -60,7 +67,8 @@ class Bill {
           sum += brutto;
         }
       });
-      return sum;
+      double roundedSum = roundDouble(sum, 2);
+      return roundedSum;
     });
   }
 }

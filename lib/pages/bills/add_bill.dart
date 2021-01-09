@@ -13,21 +13,24 @@ import 'add_bill_position.dart';
 import 'package:provider/provider.dart';
 
 class AddBillPopup extends StatelessWidget {
-  TextEditingController addShopNameController = new TextEditingController();
-  TextEditingController addShopVendorNameController =
+  final TextEditingController addShopNameController =
       new TextEditingController();
-  TextEditingController addShopVendorCategoryController =
+  final TextEditingController addShopVendorNameController =
       new TextEditingController();
-  TextEditingController addShopLocationStreetController =
+  final TextEditingController addShopVendorCategoryController =
       new TextEditingController();
-  TextEditingController addShopLocationCityController =
+  final TextEditingController addShopLocationStreetController =
       new TextEditingController();
-  TextEditingController addShopLocationZipController =
+  final TextEditingController addShopLocationCityController =
       new TextEditingController();
-  TextEditingController addShopLocationCountryController =
+  final TextEditingController addShopLocationZipController =
       new TextEditingController();
-  TextEditingController addBillDateController = new TextEditingController();
-  TextEditingController addShopBillIdController = new TextEditingController();
+  final TextEditingController addShopLocationCountryController =
+      new TextEditingController();
+  final TextEditingController addBillDateController =
+      new TextEditingController();
+  final TextEditingController addShopBillIdController =
+      new TextEditingController();
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,63 +49,60 @@ class AddBillPopup extends StatelessWidget {
                 'Vendor Kategorie', addShopVendorCategoryController),
             AddBillInputField('Bill ID', addShopBillIdController),
             AddBillInputField('Datum', addBillDateController),
-            Consumer<UserModel>(builder: (context, user, child) {
-              return StreamBuilder(
-                  stream: user.user,
-                  builder:
-                      (BuildContext context, AsyncSnapshot<User> snapshot) {
-                    if (snapshot.hasError) {
-                      return Text(snapshot.error.toString());
-                    }
-                    if (snapshot.hasData) {
-                      return HinzufuegenButton(() async {
-                        try {
-                          User latestUser = snapshot.data;
-                          var inputDate = DateFormat("dd.MM.yyyy")
-                              .parse(addBillDateController.text);
+            StreamBuilder(
+                stream: UserService.instance.findById('hVPLNhZ4UBfJdPWkemK3'),
+                builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
+                  if (snapshot.hasError) {
+                    return Text(snapshot.error.toString());
+                  }
+                  if (snapshot.hasData) {
+                    return HinzufuegenButton(() async {
+                      try {
+                        User latestUser = snapshot.data;
+                        var inputDate = DateFormat("dd.MM.yyyy")
+                            .parse(addBillDateController.text);
 
-                          var outputDate = DateFormat("yyyy-MM-dd")
-                              .parse("$inputDate")
-                              .toString();
+                        var outputDate = DateFormat("yyyy-MM-dd")
+                            .parse("$inputDate")
+                            .toString();
 
-                          DateTime newDate = DateTime.parse(outputDate);
+                        DateTime newDate = DateTime.parse(outputDate);
 
-                          Location newLocation = Location(
-                              street: addShopLocationStreetController.text,
-                              city: addShopLocationCityController.text,
-                              zip: addShopLocationZipController.text,
-                              country: addShopLocationCountryController.text);
+                        Location newLocation = Location(
+                            street: addShopLocationStreetController.text,
+                            city: addShopLocationCityController.text,
+                            zip: addShopLocationZipController.text,
+                            country: addShopLocationCountryController.text);
 
-                          Vendor newVendor = Vendor(
-                              name: addShopVendorNameController.text,
-                              category: addShopVendorCategoryController.text);
+                        Vendor newVendor = Vendor(
+                            name: addShopVendorNameController.text,
+                            category: addShopVendorCategoryController.text);
 
-                          Shop newShop = Shop(
-                              name: addShopNameController.text,
-                              location: newLocation,
-                              vendor: newVendor);
+                        Shop newShop = Shop(
+                            name: addShopNameController.text,
+                            location: newLocation,
+                            vendor: newVendor);
 
-                          Bill newBill = new Bill(
-                            created_at: newDate,
-                            shopBillId: addShopBillIdController.text,
-                            shop: newShop,
-                          );
+                        Bill newBill = new Bill(
+                          created_at: newDate,
+                          shopBillId: addShopBillIdController.text,
+                          shop: newShop,
+                        );
 
-                          Bill bill = await latestUser.addBill(newBill);
+                        Bill bill = await latestUser.addBill(newBill);
 
-                          print(bill.id);
+                        print(bill.id);
 
-                          Route route = MaterialPageRoute(
-                              builder: (context) => AddBillPosition());
-                          Navigator.push(context, route);
-                        } catch (error) {
-                          print(error.toString());
-                        }
-                      });
-                    }
-                    return Text('Waiting');
-                  });
-            })
+                        Route route = MaterialPageRoute(
+                            builder: (context) => AddBillPosition());
+                        Navigator.push(context, route);
+                      } catch (error) {
+                        print(error.toString());
+                      }
+                    });
+                  }
+                  return Text('Waiting');
+                }),
           ],
         ),
       ),
