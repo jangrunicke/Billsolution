@@ -25,33 +25,41 @@ class _VendorListState extends State<VendorList> {
     return vendors;
   }
 
+  // VendorCardData _calculateVendorCardData(Stream<Bill> stream, String vendor) {
+  //   var aggPrice = 0.0;
+
+  //   StreamBuilder(
+  //     stream: stream.where((bill) => bill.shop.vendor.name == vendor),
+  //     builder: (BuildContext context, AsyncSnapshot<Bill> snapshot) {
+  //       snapshot.data.getCalculatedSum().listen((sum) {
+
+  //       }).onDone(() {
+  //         return VendorCardData(name: vendor, aggPrice: 2.0);
+  //       });
+  //     },
+  //   );
+  // }
+
   List<VendorCardData> _getVendorCardData(
       List<Bill> bills, List<String> vendors) {
     var result = List<VendorCardData>();
+    var stream = Stream<Bill>.fromIterable(bills);
+
     vendors.forEach((vendor) {
+      // result.add(_calculateVendorCardData(stream, vendor));
+
       double aggPrice = 0;
-      // bills.forEach((bill) async {
-      //   if (bill.shop.vendor.name == vendor) {
-      //     var sum = 0.0;
-      //     await for (var value in bill.getCalculatedSum()) {
-      //       sum += value;
-      //     }
-      //     aggPrice += sum;
-      //   }
-      // });
 
-      var done = false;
-
-      while (!done) {
-        bills.forEach((bill) {
-          if (bill.shop.vendor.name == vendor) {
-            bill.getCalculatedSum().listen((sum) {
-              aggPrice += sum;
-            });
+      bills.forEach((bill) async {
+        if (bill.shop.vendor.name == vendor) {
+          var sum = 0.0;
+          await for (var value in bill.getCalculatedSum()) {
+            sum += value;
           }
-        });
-        done = true;
-      }
+          aggPrice += sum;
+        }
+      });
+
       result.add(VendorCardData(name: vendor, aggPrice: aggPrice));
     });
 
