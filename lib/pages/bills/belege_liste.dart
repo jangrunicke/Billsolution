@@ -27,28 +27,31 @@ class BelegeListe extends StatelessWidget {
                     if (snapshot.hasError) {
                       return Text(snapshot.error.toString());
                     }
-                    var tempbills = List<Bill>();
-                    var finalBills = List<Bill>();
-                    var zeitraumfilter = context.watch<ZeitraumfilterModel>();
-                    var lastValidDate = zeitraumfilter.getLastValidDate();
+                    if (snapshot.hasData) {
+                      var tempbills = List<Bill>();
+                      var finalBills = List<Bill>();
+                      var zeitraumfilter = context.watch<ZeitraumfilterModel>();
+                      var lastValidDate = zeitraumfilter.getLastValidDate();
 
-                    var vendorfilter = context.watch<VendorFilterModel>();
-                    snapshot.data.forEach((bill) {
-                      if (vendorfilter.selectedFilter == '') {
-                        tempbills.add(bill);
-                      } else if (bill.shop.vendor.name ==
-                          vendorfilter.selectedFilter) {
-                        tempbills.add(bill);
-                      }
-                    });
+                      var vendorfilter = context.watch<VendorFilterModel>();
+                      snapshot.data.forEach((bill) {
+                        if (vendorfilter.selectedFilter == '') {
+                          tempbills.add(bill);
+                        } else if (bill.shop.vendor.name ==
+                            vendorfilter.selectedFilter) {
+                          tempbills.add(bill);
+                        }
+                      });
 
-                    tempbills.forEach((bill) {
-                      if (bill.created_at.isAfter(lastValidDate)) {
-                        finalBills.add(bill);
-                      }
-                    });
+                      tempbills.forEach((bill) {
+                        if (bill.created_at.isAfter(lastValidDate)) {
+                          finalBills.add(bill);
+                        }
+                      });
 
-                    return _buildBillListView(finalBills, context);
+                      return _buildBillListView(finalBills, context);
+                    }
+                    return Text('Waiting');
                   });
             }
             return Text('Waiting');

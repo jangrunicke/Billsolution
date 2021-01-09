@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 import 'package:billsolution_app/aggregates/bill/bill.dart';
 import 'package:billsolution_app/aggregates/user.dart';
@@ -29,15 +30,28 @@ class _VendorListState extends State<VendorList> {
     var result = List<VendorCardData>();
     vendors.forEach((vendor) {
       double aggPrice = 0;
-      bills.forEach((bill) async {
-        if (bill.shop.vendor.name == vendor) {
-          var sum = 0.0;
-          await for (var value in bill.getCalculatedSum()) {
-            sum += value;
+      // bills.forEach((bill) async {
+      //   if (bill.shop.vendor.name == vendor) {
+      //     var sum = 0.0;
+      //     await for (var value in bill.getCalculatedSum()) {
+      //       sum += value;
+      //     }
+      //     aggPrice += sum;
+      //   }
+      // });
+
+      var done = false;
+
+      while (!done) {
+        bills.forEach((bill) {
+          if (bill.shop.vendor.name == vendor) {
+            bill.getCalculatedSum().listen((sum) {
+              aggPrice += sum;
+            });
           }
-          aggPrice += sum;
-        }
-      });
+        });
+        done = true;
+      }
       result.add(VendorCardData(name: vendor, aggPrice: aggPrice));
     });
 
