@@ -1,6 +1,7 @@
 import 'package:billsolution_app/aggregates/bill/bill.dart';
 import 'package:billsolution_app/aggregates/billposition/billposition.dart';
 import 'package:billsolution_app/aggregates/user.dart';
+import 'package:billsolution_app/pages/analytics/analytics_graphic.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -17,7 +18,7 @@ class AnalyticsCategoryCard extends StatelessWidget {
         padding: EdgeInsets.all(8),
         child: Container(
           width: 500,
-          height: 100,
+          height: 125,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
             color: Colors.white,
@@ -30,7 +31,9 @@ class AnalyticsCategoryCard extends StatelessWidget {
             ],
           ),
           child: Column(children: [
-            Text(category),
+            Text(
+              category,
+            ),
             Consumer<UserModel>(
               builder: (context, user, child) {
                 return StreamBuilder(
@@ -65,13 +68,25 @@ class AnalyticsCategoryCard extends StatelessWidget {
                                 if (!snapshot.hasData) {
                                   return Text('Empty');
                                 }
-                                return Text(snapshot.data.toString());
+                                return Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      snapshot.data.toString(),
+                                      style: TextStyle(fontSize: 15),
+                                    ),
+                                    // ChartsDemo(
+                                    //   betrag: snapshot.data.toString(),
+                                    // ),
+                                  ],
+                                );
                               },
                             );
                           });
                     });
               },
-            )
+            ),
           ]),
         ));
   }

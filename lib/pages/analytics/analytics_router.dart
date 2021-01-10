@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 
 class AnalyticsRouter extends StatelessWidget {
   static const homePath = '/';
-  //static const demoChart = '/chart';
+  static const demoChart = '/chart';
 
   Route<dynamic> generateRoutes(RouteSettings settings) {
     switch (settings.name) {
       case homePath:
         return MaterialPageRoute(builder: (context) => AnalyticsHome());
-      //case demoChart:
-      //return MaterialPageRoute(builder: (context) => ChartsDemo());
+      case demoChart:
+        return MaterialPageRoute(builder: (context) => ChartsDemo());
     }
   }
 

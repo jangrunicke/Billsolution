@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../user_model.dart';
+import 'analytics_router.dart';
 
 class AnalyticsHome extends StatelessWidget {
   // aggreagtion(Stream<List<Bill>> stream, String category) {}
@@ -37,10 +38,10 @@ class AnalyticsHome extends StatelessWidget {
           padding: const EdgeInsets.all(36),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               AnalyticsCategoryCard(
-                category: 'Privat',
+                category: 'Lebensmittel',
               ),
               AnalyticsCategoryCard(
                 category: 'Lebensmittel',
@@ -50,7 +51,7 @@ class AnalyticsHome extends StatelessWidget {
               ),
               AnalyticsCategoryCard(
                 category: 'Hygiene',
-              )
+              ),
             ],
           ),
         ),
