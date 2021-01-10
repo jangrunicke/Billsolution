@@ -22,7 +22,7 @@ class BillDetails extends StatelessWidget {
             return Column(
               children: [
                 Text(
-                  'Total: ' + snapshot.data.toString() + ' €',
+                  'Total: ' + snapshot.data.toStringAsFixed(2) + ' €',
                   style: TextStyle(
                       fontWeight: FontWeight.bold, color: Colors.white),
                 ),
@@ -128,36 +128,39 @@ class BillDetails extends StatelessWidget {
                             return ListTile(
                                 title: Row(
                                   children: [
-                                    Expanded(
-                                      child: Text(
-                                        snapshot.data[index].productName,
-                                        style: TextStyle(
-                                            fontFamily: 'Roboto',
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
                                     Text(
-                                      'x' +
-                                          snapshot.data[index].amount
-                                              .toString(),
+                                      snapshot.data[index].productName,
                                       style: TextStyle(
                                           fontFamily: 'Roboto',
                                           fontSize: 18,
-                                          color: Colors.grey),
+                                          fontWeight: FontWeight.bold),
                                     ),
-                                    SizedBox(
-                                      width: 50,
+                                    Expanded(
+                                      child: Text(
+                                        'x' +
+                                            snapshot.data[index].amount
+                                                .toInt()
+                                                .toString(),
+                                        style: TextStyle(
+                                            fontFamily: 'Roboto',
+                                            fontSize: 18,
+                                            color: Colors.grey),
+                                        textAlign: TextAlign.end,
+                                      ),
                                     )
                                   ],
                                 ),
-                                trailing: Expanded(
+                                trailing: SizedBox(
+                                  width: 100,
                                   child: Text(
-                                    snapshot.data[index].price.toString() + '€',
+                                    snapshot.data[index].price
+                                            .toStringAsFixed(2) +
+                                        '€',
                                     style: TextStyle(
                                         fontFamily: 'Roboto',
                                         fontSize: 18,
                                         color: Colors.grey),
+                                    textAlign: TextAlign.end,
                                   ),
                                 ));
                           },
@@ -191,7 +194,8 @@ class BillDetails extends StatelessWidget {
                                           ),
                                         ),
                                         Text(
-                                          snapshot.data.toString() + '€',
+                                          snapshot.data.toStringAsFixed(2) +
+                                              '€',
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold),
                                           textAlign: TextAlign.end,

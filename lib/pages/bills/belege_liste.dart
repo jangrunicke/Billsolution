@@ -95,12 +95,19 @@ class BelegeListe extends StatelessWidget {
                 stream: bill.getCalculatedSum(),
                 builder:
                     (BuildContext context, AsyncSnapshot<double> snapshot) {
-                  return Text(
-                    snapshot.data.toString() + '€',
-                    style: TextStyle(
-                        color: Color.fromRGBO(152, 152, 152, 1.0),
-                        fontSize: 18),
-                  );
+                  if (snapshot.hasError) {
+                    return Text(snapshot.error.toString());
+                  }
+
+                  if (snapshot.hasData) {
+                    return Text(
+                      snapshot.data.toStringAsFixed(2) + '€',
+                      style: TextStyle(
+                          color: Color.fromRGBO(152, 152, 152, 1.0),
+                          fontSize: 18),
+                    );
+                  }
+                  return Text('Waiting');
                 })
           ],
         ),
