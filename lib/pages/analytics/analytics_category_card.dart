@@ -13,63 +13,66 @@ class AnalyticsCategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 500,
-      height: 150,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey,
-            offset: Offset(0.0, 1.0),
-            blurRadius: 6.0,
+    return Padding(
+        padding: EdgeInsets.all(8),
+        child: Container(
+          width: 500,
+          height: 100,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey,
+                offset: Offset(0.0, 1.0),
+                blurRadius: 6.0,
+              ),
+            ],
           ),
-        ],
-      ),
-      child: Column(children: [
-        Text(category),
-        Consumer<UserModel>(
-          builder: (context, user, child) {
-            return StreamBuilder(
-                stream: user.user,
-                builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
-                  if (snapshot.hasError) {
-                    return Text(snapshot.error.toString());
-                  }
-                  if (!snapshot.hasData) {
-                    return Text('Empty');
-                  }
-                  return StreamBuilder(
-                      stream: snapshot.data.getBills(),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<List<Bill>> snapshot) {
-                        if (snapshot.hasError) {
-                          return Text(snapshot.error.toString());
-                        }
-                        if (!snapshot.hasData) {
-                          return Text('Empty');
-                        }
-                        // return Text(snapshot.data.toString());
-                        return StreamBuilder(
-                          stream: snapshot.data.first
-                              .getCalculatedSumOfCategory(category),
+          child: Column(children: [
+            Text(category),
+            Consumer<UserModel>(
+              builder: (context, user, child) {
+                return StreamBuilder(
+                    stream: user.user,
+                    builder:
+                        (BuildContext context, AsyncSnapshot<User> snapshot) {
+                      if (snapshot.hasError) {
+                        return Text(snapshot.error.toString());
+                      }
+                      if (!snapshot.hasData) {
+                        return Text('Empty');
+                      }
+                      return StreamBuilder(
+                          stream: snapshot.data.getBills(),
                           builder: (BuildContext context,
-                              AsyncSnapshot<double> snapshot) {
+                              AsyncSnapshot<List<Bill>> snapshot) {
                             if (snapshot.hasError) {
                               return Text(snapshot.error.toString());
                             }
                             if (!snapshot.hasData) {
                               return Text('Empty');
                             }
-                            return Text(snapshot.data.toString());
-                          },
-                        );
-                      });
-                });
-          },
-        )
-      ]),
-    );
+                            // return Text(snapshot.data.toString());
+                            return StreamBuilder(
+                              stream: snapshot.data.first
+                                  .getCalculatedSumOfCategory(category),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<double> snapshot) {
+                                if (snapshot.hasError) {
+                                  return Text(snapshot.error.toString());
+                                }
+                                if (!snapshot.hasData) {
+                                  return Text('Empty');
+                                }
+                                return Text(snapshot.data.toString());
+                              },
+                            );
+                          });
+                    });
+              },
+            )
+          ]),
+        ));
   }
 }
