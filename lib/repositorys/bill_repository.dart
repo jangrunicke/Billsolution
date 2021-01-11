@@ -1,4 +1,5 @@
 import 'package:billsolution_app/aggregates/bill/bill.dart';
+import 'package:billsolution_app/repositorys/criteria.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class BillRepository {
@@ -12,14 +13,18 @@ class BillRepository {
     _collectionReference = FirebaseFirestore.instance.collection('bills');
   }
 
-  Stream<List<Bill>> find() {
+  Stream<List<Bill>> find({List<Criteria> criterias}) {
     // TODO: Error Handling
-    // TODO: Implement CriteriaObject for more specific quering
-    // TODO: Add Id to Bill Object
-    return _collectionReference
-        .snapshots()
-        .map((QuerySnapshot snapshot) => snapshot.docs)
-        .map((List<QueryDocumentSnapshot> documents) => documents
+    Query query = _collectionReference;
+    if (criterias != null) {
+      criterias.forEach((Criteria criteria) {
+        query = criteria.addCriteriaToFirestoreQuery(query);
+      });
+    }
+    return query
+      .snapshots()
+      .map((QuerySnapshot snapshot) => snapshot.docs)
+      .map((List<QueryDocumentSnapshot> documents) => documents
             .map((QueryDocumentSnapshot document) =>
                 _buildBillFromDocumentSnapshot(document))
             .toList());
@@ -34,7 +39,6 @@ class BillRepository {
 
   Stream<List<Bill>> findByUser(String userId) {
     return _collectionReference
-        .where('userId', isEqualTo: userId)
         .snapshots()
         .map((QuerySnapshot snapshot) => snapshot.docs)
         .map((List<QueryDocumentSnapshot> documents) => documents
