@@ -6,6 +6,7 @@ part 'billposition.g.dart';
 class Billposition {
   @JsonKey(ignore: true)
   String id;
+  String billId;
   String productName;
   double amount;
   double price;
@@ -13,8 +14,8 @@ class Billposition {
   double discount;
   String category;
 
-  Billposition(
-      {this.productName,
+  Billposition({
+      this.productName,
       this.amount,
       this.price,
       this.tax,

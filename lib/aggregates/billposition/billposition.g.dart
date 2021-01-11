@@ -14,11 +14,12 @@ Billposition _$BillpositionFromJson(Map<String, dynamic> json) {
     tax: (json['tax'] as num)?.toDouble(),
     discount: (json['discount'] as num)?.toDouble(),
     category: json['category'] as String,
-  );
+  )..billId = json['billId'] as String;
 }
 
 Map<String, dynamic> _$BillpositionToJson(Billposition instance) =>
     <String, dynamic>{
+      'billId': instance.billId,
       'productName': instance.productName,
       'amount': instance.amount,
       'price': instance.price,

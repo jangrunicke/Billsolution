@@ -30,7 +30,7 @@ class Bill {
   }
 
   Future<Billposition> addBillposition(Billposition billposition) {
-    billposition.id = this.id;
+    billposition.billId = this.id;
     return BillpositionRepository().add(billposition);
   }
 
