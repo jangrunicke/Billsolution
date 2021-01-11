@@ -25,21 +25,24 @@ class AddBillInputField extends StatelessWidget {
             ),
           ),
         ),
-        TextField(
-          controller: _textEditingController,
-          style: TextStyle(fontFamily: 'SF Pro Text', fontSize: 15.0),
-          decoration: InputDecoration(
-            contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8.0),
-              borderSide: BorderSide(
-                color: Color.fromARGB(255, 224, 224, 224),
+        Container(
+          width: 380,
+          child: TextField(
+            controller: _textEditingController,
+            style: TextStyle(fontFamily: 'SF Pro Text', fontSize: 15.0),
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.0),
+                borderSide: BorderSide(
+                  color: Color.fromARGB(255, 224, 224, 224),
+                ),
               ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8.0),
-              borderSide: BorderSide(
-                color: Color.fromARGB(255, 29, 53, 87),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.0),
+                borderSide: BorderSide(
+                  color: Color.fromARGB(255, 29, 53, 87),
+                ),
               ),
             ),
           ),

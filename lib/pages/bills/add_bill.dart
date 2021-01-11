@@ -3,6 +3,7 @@ import 'package:billsolution_app/aggregates/bill/location.dart';
 import 'package:billsolution_app/aggregates/bill/shop.dart';
 import 'package:billsolution_app/aggregates/bill/vendor.dart';
 import 'package:billsolution_app/aggregates/user.dart';
+import 'package:billsolution_app/pages/bills/add_position_details.dart';
 import 'package:billsolution_app/services/bill_service.dart';
 import 'package:billsolution_app/services/user_service.dart';
 import 'package:billsolution_app/user_model.dart';
@@ -94,7 +95,7 @@ class AddBillPopup extends StatelessWidget {
                         print(bill.id);
 
                         Route route = MaterialPageRoute(
-                            builder: (context) => AddBillPosition());
+                            builder: (context) => AddBillPositionDetails(bill));
                         Navigator.push(context, route);
                       } catch (error) {
                         print(error.toString());
