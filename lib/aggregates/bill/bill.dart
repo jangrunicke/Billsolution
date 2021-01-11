@@ -2,7 +2,9 @@ import 'dart:math';
 
 import 'package:billsolution_app/aggregates/bill/shop.dart';
 import 'package:billsolution_app/aggregates/billposition/billposition.dart';
+import 'package:billsolution_app/repositorys/bill_repository.dart';
 import 'package:billsolution_app/repositorys/billposition_repository.dart';
+import 'package:billsolution_app/repositorys/criteria.dart';
 import 'package:billsolution_app/utils/datetime_converter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -38,37 +40,42 @@ class Bill {
     return this.getBillpositions().map<double>((List<Billposition> bills) {
       double sum = 0;
       bills.forEach((Billposition billposition) {
-        final double netto = billposition.price * billposition.amount;
-        double brutto = netto + netto * billposition.tax;
-        if (billposition.discount != null) {
-          brutto = brutto * (1 - billposition.discount);
-        }
-        sum += brutto;
+        sum += _calculateBillposition(billposition);
       });
       return sum;
     });
   }
 
-  double roundDouble(double value, int places) {
-    double mod = pow(10.0, places);
-    return ((value * mod).round().toDouble() / mod);
-  }
+  // double roundDouble(double value, int places) {
+  //   double mod = pow(10.0, places);
+  //   return ((value * mod).round().toDouble() / mod);
+  // }
 
   Stream<double> getCalculatedSumOfCategory(String category) {
-    return this.getBillpositions().map<double>((List<Billposition> bills) {
-      double sum = 0;
-      bills.forEach((Billposition billposition) {
-        if (billposition.category == category) {
-          final double netto = billposition.price * billposition.amount;
-          double brutto = netto + netto * billposition.tax;
-          if (billposition.discount != null) {
-            brutto = brutto * (1 - billposition.discount);
-          }
-          sum += brutto;
-        }
-      });
-      double roundedSum = roundDouble(sum, 2);
-      return roundedSum;
-    });
+    List<Criteria> criterias = [
+      Criteria(field: 'category', operator: 'isEqualTo', value: category),
+      Criteria(field: 'billId', operator: 'isEqualTo', value: this.id),
+    ];
+
+    Stream<double> sum = BillpositionRepository()
+        .find(criterias: criterias)
+        .map<double>((List<Billposition> billpositions) {
+          double sum = 0;
+          billpositions.forEach((Billposition billposition) {
+            sum += _calculateBillposition(billposition);
+          });
+          return sum;
+        });
+
+    return sum;
+  }
+
+  double _calculateBillposition(Billposition billposition) {
+    final double netto = billposition.price * billposition.amount;
+    double brutto = netto + netto * billposition.tax;
+    if (billposition.discount != null) {
+      brutto = brutto * (1 - billposition.discount);
+    }
+    return brutto;
   }
 }

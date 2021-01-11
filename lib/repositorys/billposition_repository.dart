@@ -22,13 +22,15 @@ class BillpositionRepository {
         query = criteria.addCriteriaToFirestoreQuery(query);
       });
     }
-    return query
+    Stream<List<Billposition>> result = query
         .snapshots()
         .map((QuerySnapshot snapshot) => snapshot.docs)
         .map((List<QueryDocumentSnapshot> documents) => documents
             .map((QueryDocumentSnapshot document) =>
                 _buildBillpositionFromDocumentSnapshot(document))
             .toList());
+
+    return result;
   }
 
   Stream<Billposition> findById(String id) {

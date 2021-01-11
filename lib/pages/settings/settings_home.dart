@@ -13,7 +13,21 @@ class SettingsHome extends StatelessWidget {
   Widget buildBillListTile(Bill bill) {
     return ListTile(
       title: Text(bill.shop.name),
-      subtitle: Text(bill.created_at.toIso8601String()),
+      subtitle: StreamBuilder(
+        stream: bill.getCalculatedSumOfCategory('Lebensmittel'),
+        builder: (context, AsyncSnapshot<double> snapshot) {
+          if (snapshot.hasError) {
+            return Text(snapshot.error);
+          }
+          if (!snapshot.hasData) {
+            return Text('Waiting');
+          }
+          if (snapshot.data == null) {
+            return Text('Null');
+          }
+          return Text(snapshot.data.toString());
+        },
+      ),
     );
   }
 
@@ -98,19 +112,19 @@ class SettingsHome extends StatelessWidget {
           Expanded(
             child: Container(
               child: Consumer<User>(builder: (context, user, child) {
-                  return StreamBuilder(
-                    stream: user.getBills(),
-                    builder: (BuildContext context,
-                        AsyncSnapshot<List<Bill>> snapshot) {
-                      if (snapshot.hasError) {
-                        return Text(snapshot.error.toString());
-                      }
-                      if (!snapshot.hasData) {
-                        return Text('Empty');
-                      }
-                      return buildBillListView(snapshot.data);
-                    },
-                  );
+                return StreamBuilder(
+                  stream: user.getBills(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<List<Bill>> snapshot) {
+                    if (snapshot.hasError) {
+                      return Text(snapshot.error.toString());
+                    }
+                    if (!snapshot.hasData) {
+                      return Text('Empty');
+                    }
+                    return buildBillListView(snapshot.data);
+                  },
+                );
               }),
             ),
           ),
