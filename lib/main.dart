@@ -1,5 +1,6 @@
 import 'package:billsolution_app/app_shell.dart';
 import 'package:billsolution_app/pages/auth/auth_router.dart';
+import 'package:billsolution_app/services/user_service.dart';
 import 'package:billsolution_app/theme.dart';
 import 'package:billsolution_app/user_model.dart';
 import 'package:flutter/material.dart';
@@ -8,10 +9,17 @@ import 'package:provider/provider.dart';
 
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => UserModel(),
-      child: App(),
-    ),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => UserModel(),
+        ),
+        StreamProvider(
+          create: (context) => UserService.instance.findById(Provider.of<UserModel>(context, listen: false).userId),
+        ),
+      ],
+      child: App()
+    )
   );
 }
 

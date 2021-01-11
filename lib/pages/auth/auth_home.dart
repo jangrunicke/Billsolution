@@ -16,6 +16,7 @@ class AuthHome extends StatelessWidget {
   onTappedLogin(BuildContext context) {
     String id = AuthService().login();
     Stream<User> user = UserService.instance.findById(id);
+    Provider.of<UserModel>(context, listen: false).userId = id;
     Provider.of<UserModel>(context, listen: false).user = user;
   }
 

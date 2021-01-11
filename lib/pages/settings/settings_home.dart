@@ -97,32 +97,20 @@ class SettingsHome extends StatelessWidget {
           ),
           Expanded(
             child: Container(
-              child: Consumer<UserModel>(builder: (context, user, child) {
-                return StreamBuilder(
-                  stream: user.user,
-                  builder:
-                      (BuildContext context, AsyncSnapshot<User> snapshot) {
-                    if (snapshot.hasError) {
-                      return Text(snapshot.error.toString());
-                    }
-                    if (!snapshot.hasData) {
-                      return Text('Empty');
-                    }
-                    return StreamBuilder(
-                      stream: snapshot.data.getBills(),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<List<Bill>> snapshot) {
-                        if (snapshot.hasError) {
-                          return Text(snapshot.error.toString());
-                        }
-                        if (!snapshot.hasData) {
-                          return Text('Empty');
-                        }
-                        return buildBillListView(snapshot.data);
-                      },
-                    );
-                  },
-                );
+              child: Consumer<User>(builder: (context, user, child) {
+                  return StreamBuilder(
+                    stream: user.getBills(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<List<Bill>> snapshot) {
+                      if (snapshot.hasError) {
+                        return Text(snapshot.error.toString());
+                      }
+                      if (!snapshot.hasData) {
+                        return Text('Empty');
+                      }
+                      return buildBillListView(snapshot.data);
+                    },
+                  );
               }),
             ),
           ),
