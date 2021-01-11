@@ -17,7 +17,7 @@ class AddBillPosition extends StatelessWidget {
     return Scaffold(
       appBar: AddBillPositionAppBar('Positionen', 56.0),
       body: Container(
-        height: 2000,
+        height: 500,
         child: ListView(
           children: [
             StreamBuilder(
@@ -30,7 +30,7 @@ class AddBillPosition extends StatelessWidget {
                   }
                   if (snapshot.hasData) {
                     return Container(
-                        height: 1500,
+                        height: 400,
                         child: ListView.builder(
                             itemCount: snapshot.data.length,
                             itemBuilder: (BuildContext context, int index) {
