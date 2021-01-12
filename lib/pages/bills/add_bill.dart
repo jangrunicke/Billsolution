@@ -57,50 +57,53 @@ class AddBillPopup extends StatelessWidget {
                     return Text(snapshot.error.toString());
                   }
                   if (snapshot.hasData) {
-                    return HinzufuegenButton(() async {
-                      try {
-                        User latestUser = snapshot.data;
-                        var inputDate = DateFormat("dd.MM.yyyy")
-                            .parse(addBillDateController.text);
+                    return HinzufuegenButton(
+                        label: 'Hinzufügen',
+                        onPressed: () async {
+                          try {
+                            User latestUser = snapshot.data;
+                            var inputDate = DateFormat("dd.MM.yyyy")
+                                .parse(addBillDateController.text);
 
-                        var outputDate = DateFormat("yyyy-MM-dd")
-                            .parse("$inputDate")
-                            .toString();
+                            var outputDate = DateFormat("yyyy-MM-dd")
+                                .parse("$inputDate")
+                                .toString();
 
-                        DateTime newDate = DateTime.parse(outputDate);
+                            DateTime newDate = DateTime.parse(outputDate);
 
-                        Location newLocation = Location(
-                            street: addShopLocationStreetController.text,
-                            city: addShopLocationCityController.text,
-                            zip: addShopLocationZipController.text,
-                            country: addShopLocationCountryController.text);
+                            Location newLocation = Location(
+                                street: addShopLocationStreetController.text,
+                                city: addShopLocationCityController.text,
+                                zip: addShopLocationZipController.text,
+                                country: addShopLocationCountryController.text);
 
-                        Vendor newVendor = Vendor(
-                            name: addShopVendorNameController.text,
-                            category: addShopVendorCategoryController.text);
+                            Vendor newVendor = Vendor(
+                                name: addShopVendorNameController.text,
+                                category: addShopVendorCategoryController.text);
 
-                        Shop newShop = Shop(
-                            name: addShopNameController.text,
-                            location: newLocation,
-                            vendor: newVendor);
+                            Shop newShop = Shop(
+                                name: addShopNameController.text,
+                                location: newLocation,
+                                vendor: newVendor);
 
-                        Bill newBill = new Bill(
-                          created_at: newDate,
-                          shopBillId: addShopBillIdController.text,
-                          shop: newShop,
-                        );
+                            Bill newBill = new Bill(
+                              created_at: newDate,
+                              shopBillId: addShopBillIdController.text,
+                              shop: newShop,
+                            );
 
-                        Bill bill = await latestUser.addBill(newBill);
+                            Bill bill = await latestUser.addBill(newBill);
 
-                        print(bill.id);
+                            print(bill.id);
 
-                        Route route = MaterialPageRoute(
-                            builder: (context) => AddBillPositionDetails(bill));
-                        Navigator.push(context, route);
-                      } catch (error) {
-                        print(error.toString());
-                      }
-                    });
+                            Route route = MaterialPageRoute(
+                                builder: (context) =>
+                                    AddBillPositionDetails(bill));
+                            Navigator.push(context, route);
+                          } catch (error) {
+                            print(error.toString());
+                          }
+                        });
                   }
                   return Text('Waiting');
                 }),

@@ -54,23 +54,26 @@ class AddBillInputField extends StatelessWidget {
 
 // Button zum Hinzufügen
 class HinzufuegenButton extends StatelessWidget {
-  HinzufuegenButton(this._onPressed);
-  final VoidCallback _onPressed;
+  final VoidCallback onPressed;
+  final label;
+
+  HinzufuegenButton({@required this.onPressed, this.label});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.fromLTRB(0, 20, 0, 10),
       child: SizedBox(
-        width: 340,
+        width: //340,
+            426,
         height: 50,
         child: RaisedButton(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.0),
           ),
-          onPressed: _onPressed,
+          onPressed: onPressed,
           child: Text(
-            'Hinzufügen',
+            this.label,
             style: TextStyle(
                 color: Colors.white,
                 fontFamily: 'Avenir Next',
@@ -99,11 +102,11 @@ class AddBillPositionAppBar extends StatelessWidget
     return AppBar(
       leadingWidth: 120,
       elevation: 1,
-      backgroundColor: Color.fromARGB(240, 249, 249, 249),
+      backgroundColor: Color.fromARGB(255, 29, 53, 87),
       title: Text(
         this._titel,
         style: TextStyle(
-          color: Colors.black,
+          color: Colors.white,
           fontSize: 25,
           fontFamily: 'Avenir Next',
         ),
@@ -114,7 +117,7 @@ class AddBillPositionAppBar extends StatelessWidget
         onPressed: () => Navigator.of(context).pop(),
         icon: Icon(
           Icons.arrow_back_outlined,
-          color: Color.fromARGB(255, 29, 53, 87),
+          color: Colors.white,
           size: 20,
         ),
         label: Text(
@@ -123,7 +126,7 @@ class AddBillPositionAppBar extends StatelessWidget
           style: TextStyle(
             fontSize: 13,
             fontFamily: 'Inter',
-            color: Color.fromARGB(255, 29, 53, 87),
+            color: Colors.white,
           ),
         ),
       ),
