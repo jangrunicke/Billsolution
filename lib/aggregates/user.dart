@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:billsolution_app/aggregates/bill/bill.dart';
+import 'package:billsolution_app/aggregates/bill/vendor.dart';
 import 'package:billsolution_app/aggregates/billposition/billposition.dart';
 import 'package:billsolution_app/repositorys/bill_repository.dart';
+import 'package:billsolution_app/repositorys/criteria.dart';
 import 'package:billsolution_app/utils/datetime_converter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -53,6 +55,41 @@ class User {
           (List<double> list) => list.fold(
               0, (previousValue, element) => previousValue + element));
       // Flattening streams
+      yield* sumStream;
+    }
+  }
+
+  Stream<double> calculatedSumOfVendor(Vendor vendor) async* {
+    assert(vendor != null);
+    List<Criteria> criterias = [];
+    
+    if (vendor.name != null) {
+      criterias.add(Criteria(
+          field: 'shop.vendor.name',
+          operator: 'isEqualTo',
+          value: vendor.name));
+    }
+
+    if (vendor.category != null) {
+      criterias.add(Criteria(
+          field: 'shop.vendor.category',
+          operator: 'isEqualTo',
+          value: vendor.category));
+    }
+
+    Stream<List<Bill>> billsStream =
+        BillRepository().find(criterias: criterias);
+
+    await for (List<Bill> bills in billsStream) {
+      List<Stream<double>> streams = List<Stream<double>>();
+      bills.forEach((Bill bill) {
+        streams.add(bill.getCalculatedSum());
+      });
+      Stream<List<double>> combinedStream = CombineLatestStream.list(streams);
+      Stream<double> sumStream = combinedStream.map<double>(
+          (List<double> list) => list.fold(
+              0, (previousValue, element) => previousValue + element));
+
       yield* sumStream;
     }
   }
