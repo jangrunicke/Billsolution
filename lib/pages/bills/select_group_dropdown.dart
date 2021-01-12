@@ -4,7 +4,9 @@ class SelectGroupDropDown extends StatefulWidget {
   _SelectGroupDropDownState createState() => _SelectGroupDropDownState();
   String currentValue;
 
-  SelectGroupDropDown(this.currentValue);
+  String getCurrentValue() {
+    return currentValue;
+  }
 }
 
 class _SelectGroupDropDownState extends State<SelectGroupDropDown> {
@@ -59,6 +61,7 @@ class _SelectGroupDropDownState extends State<SelectGroupDropDown> {
                         () {
                           widget.currentValue = newValue;
                           state.didChange(newValue);
+                          print(widget.currentValue);
                         },
                       );
                     },

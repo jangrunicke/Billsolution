@@ -34,8 +34,6 @@ class AddBillPopup extends StatelessWidget {
   final TextEditingController addShopBillIdController =
       new TextEditingController();
 
-  final String currentValue = 'Lebensmittel';
-
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AddBillPositionAppBar('Beleg \n hinzufügen', 86),
@@ -54,7 +52,7 @@ class AddBillPopup extends StatelessWidget {
                   AddBillInputField('Stadt', addShopLocationCityController),
                   AddBillInputField('Land', addShopLocationCountryController),
                   AddBillInputField('Vendor Name', addShopVendorNameController),
-                  SelectGroupDropDown(currentValue),
+                  SelectGroupDropDown(),
                   // AddBillInputField(
                   //     'Vendor Kategorie', addShopVendorCategoryController),
                   AddBillInputField('Bill ID', addShopBillIdController),
@@ -94,7 +92,7 @@ class AddBillPopup extends StatelessWidget {
 
                             Vendor newVendor = Vendor(
                               name: addShopVendorNameController.text,
-                              category: currentValue,
+                              category: SelectGroupDropDown().getCurrentValue(),
                             );
 
                             Shop newShop = Shop(
