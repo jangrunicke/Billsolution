@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 
 class SelectGroupDropDown extends StatefulWidget {
   _SelectGroupDropDownState createState() => _SelectGroupDropDownState();
+  String currentValue;
+
+  SelectGroupDropDown(this.currentValue);
 }
 
 class _SelectGroupDropDownState extends State<SelectGroupDropDown> {
@@ -11,8 +14,6 @@ class _SelectGroupDropDownState extends State<SelectGroupDropDown> {
     'Elektronik',
     'Klamotten',
   ];
-
-  String _currentSelectedValue;
 
   @override
   Widget build(BuildContext context) {
@@ -47,16 +48,16 @@ class _SelectGroupDropDownState extends State<SelectGroupDropDown> {
                       TextStyle(color: Colors.redAccent, fontSize: 16.0),
                   hintText: 'Bitte wähle eine Gruppe',
                 ),
-                isEmpty: _currentSelectedValue == '',
+                isEmpty: widget.currentValue == '',
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton<String>(
                     elevation: 1,
-                    value: _currentSelectedValue,
+                    value: widget.currentValue,
                     isDense: true,
                     onChanged: (String newValue) {
                       setState(
                         () {
-                          _currentSelectedValue = newValue;
+                          widget.currentValue = newValue;
                           state.didChange(newValue);
                         },
                       );

@@ -4,6 +4,7 @@ import 'package:billsolution_app/aggregates/bill/shop.dart';
 import 'package:billsolution_app/aggregates/bill/vendor.dart';
 import 'package:billsolution_app/aggregates/user.dart';
 import 'package:billsolution_app/pages/bills/add_position_details.dart';
+import 'package:billsolution_app/pages/bills/select_group_dropdown.dart';
 import 'package:billsolution_app/services/bill_service.dart';
 import 'package:billsolution_app/services/user_service.dart';
 import 'package:billsolution_app/user_model.dart';
@@ -33,31 +34,45 @@ class AddBillPopup extends StatelessWidget {
   final TextEditingController addShopBillIdController =
       new TextEditingController();
 
+  final String currentValue = 'Lebensmittel';
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AddBillPositionAppBar('Beleg \n hinzufügen', 86),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-        child: ListView(
-          children: <Widget>[
-            AddBillInputField('Shop', addShopNameController),
-            AddBillInputField('Straße', addShopLocationStreetController),
-            AddBillInputField('Postleitzahl', addShopLocationZipController),
-            AddBillInputField('Stadt', addShopLocationCityController),
-            AddBillInputField('Land', addShopLocationCountryController),
-            AddBillInputField('Vendor Name', addShopVendorNameController),
-            AddBillInputField(
-                'Vendor Kategorie', addShopVendorCategoryController),
-            AddBillInputField('Bill ID', addShopBillIdController),
-            AddBillInputField('Datum', addBillDateController),
-            StreamBuilder(
-                stream: UserService.instance.findById('hVPLNhZ4UBfJdPWkemK3'),
-                builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
-                  if (snapshot.hasError) {
-                    return Text(snapshot.error.toString());
-                  }
-                  if (snapshot.hasData) {
-                    return HinzufuegenButton(
+      body: Column(
+        children: [
+          Container(
+            height: 600,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+              child: ListView(
+                children: <Widget>[
+                  AddBillInputField('Shop', addShopNameController),
+                  AddBillInputField('Straße', addShopLocationStreetController),
+                  AddBillInputField(
+                      'Postleitzahl', addShopLocationZipController),
+                  AddBillInputField('Stadt', addShopLocationCityController),
+                  AddBillInputField('Land', addShopLocationCountryController),
+                  AddBillInputField('Vendor Name', addShopVendorNameController),
+                  SelectGroupDropDown(currentValue),
+                  // AddBillInputField(
+                  //     'Vendor Kategorie', addShopVendorCategoryController),
+                  AddBillInputField('Bill ID', addShopBillIdController),
+                  AddBillInputField('Datum', addBillDateController),
+                ],
+              ),
+            ),
+          ),
+          StreamBuilder(
+              stream: UserService.instance.findById('hVPLNhZ4UBfJdPWkemK3'),
+              builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
+                if (snapshot.hasError) {
+                  return Text(snapshot.error.toString());
+                }
+                if (snapshot.hasData) {
+                  return Padding(
+                    padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                    child: HinzufuegenButton(
                         label: 'Hinzufügen',
                         onPressed: () async {
                           try {
@@ -78,8 +93,9 @@ class AddBillPopup extends StatelessWidget {
                                 country: addShopLocationCountryController.text);
 
                             Vendor newVendor = Vendor(
-                                name: addShopVendorNameController.text,
-                                category: addShopVendorCategoryController.text);
+                              name: addShopVendorNameController.text,
+                              category: currentValue,
+                            );
 
                             Shop newShop = Shop(
                                 name: addShopNameController.text,
@@ -103,12 +119,12 @@ class AddBillPopup extends StatelessWidget {
                           } catch (error) {
                             print(error.toString());
                           }
-                        });
-                  }
-                  return Text('Waiting');
-                }),
-          ],
-        ),
+                        }),
+                  );
+                }
+                return Text('Waiting');
+              }),
+        ],
       ),
     );
   }

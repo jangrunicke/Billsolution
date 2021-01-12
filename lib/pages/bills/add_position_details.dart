@@ -27,53 +27,60 @@ class AddBillPositionDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AddBillPositionAppBar('Position \n hinzufügen', 86),
-      body: ListView(
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.fromLTRB(20, 20, 45, 20),
-            child: AddBillInputField(
-              'Name',
-              productNameController,
+      body: Column(
+        children: [
+          Container(
+            height: 600,
+            child: ListView(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.fromLTRB(20, 20, 45, 10),
+                  child: AddBillInputField(
+                    'Name',
+                    productNameController,
+                  ),
+                ),
+                //SelectGroupDropDown(),
+                Row(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(20, 10, 5, 10),
+                      child: Container(
+                        width: 255,
+                        alignment: Alignment.centerLeft,
+                        child: AddBillInputField(
+                          'Preis',
+                          priceController,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(5, 10, 20, 10),
+                      child: Container(
+                        width: 100,
+                        alignment: Alignment.centerRight,
+                        child: AddBillInputField(
+                          'Anzahl',
+                          amountController,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Padding(
+                    padding: EdgeInsets.fromLTRB(20, 10, 0, 10),
+                    child: AddBillInputField('Mwst.', taxController)),
+                Padding(
+                    padding: EdgeInsets.fromLTRB(20, 10, 0, 10),
+                    child: AddBillInputField('Rabatt', discountController)),
+                Padding(
+                    padding: EdgeInsets.fromLTRB(20, 10, 0, 0),
+                    child: AddBillInputField('Kategorie', categoryController)),
+              ],
             ),
           ),
-          //SelectGroupDropDown(),
-          Row(
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.fromLTRB(20, 10, 5, 20),
-                child: Container(
-                  width: 255,
-                  alignment: Alignment.centerLeft,
-                  child: AddBillInputField(
-                    'Preis',
-                    priceController,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(5, 20, 20, 20),
-                child: Container(
-                  width: 100,
-                  alignment: Alignment.centerRight,
-                  child: AddBillInputField(
-                    'Anzahl',
-                    amountController,
-                  ),
-                ),
-              ),
-            ],
-          ),
           Padding(
-              padding: EdgeInsets.fromLTRB(20, 10, 0, 20),
-              child: AddBillInputField('Mwst.', taxController)),
-          Padding(
-              padding: EdgeInsets.fromLTRB(20, 10, 0, 20),
-              child: AddBillInputField('Rabatt', discountController)),
-          Padding(
-              padding: EdgeInsets.fromLTRB(20, 10, 0, 0),
-              child: AddBillInputField('Kategorie', categoryController)),
-          Padding(
-            padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
+            padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
             child: HinzufuegenButton(
                 label: 'Hinzufügen',
                 onPressed: () async {
