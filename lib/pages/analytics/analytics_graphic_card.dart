@@ -41,6 +41,12 @@ class AnalyticsGraphicCard extends StatelessWidget {
     return StreamBuilder(
       stream: stream,
       builder: (context, AsyncSnapshot<double> snapshot) {
+        if (snapshot.hasError) {
+          return Text(snapshot.error.toString());
+        }
+        if (!snapshot.hasData) {
+          return Text('Empty');
+        }
         return Container(
             width: 350, height: 22, child: barchart(snapshot.data.toString()));
       },
