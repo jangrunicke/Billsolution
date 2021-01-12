@@ -4,7 +4,6 @@ import 'package:billsolution_app/aggregates/bill/shop.dart';
 import 'package:billsolution_app/aggregates/bill/vendor.dart';
 import 'package:billsolution_app/aggregates/user.dart';
 import 'package:billsolution_app/services/bill_service.dart';
-import 'package:billsolution_app/services/user_service.dart';
 import 'package:billsolution_app/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -109,22 +108,38 @@ class SettingsHome extends StatelessWidget {
               children: buildList(),
             ),
           ),
+          Consumer<User>(builder: (context, user, child) {
+            return StreamBuilder(
+              stream: user.calculateSummOfCategory('Lebensmittel'),
+              builder: (context, AsyncSnapshot<double> snapshot) {
+                if (snapshot.hasError) {
+                  return Text(snapshot.error.toString());
+                }
+                if (!snapshot.hasData) {
+                  return Text('Empty');
+                }
+                return Text(snapshot.data.toString());
+              },
+            );
+          }),
           Expanded(
             child: Container(
               child: Consumer<User>(builder: (context, user, child) {
-                return StreamBuilder(
-                  stream: user.getBills(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<List<Bill>> snapshot) {
-                    if (snapshot.hasError) {
-                      return Text(snapshot.error.toString());
-                    }
-                    if (!snapshot.hasData) {
-                      return Text('Empty');
-                    }
-                    return buildBillListView(snapshot.data);
-                  },
-                );
+                if (user != null) {
+                  return StreamBuilder(
+                    stream: user.getBills(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<List<Bill>> snapshot) {
+                      if (snapshot.hasError) {
+                        return Text(snapshot.error.toString());
+                      }
+                      if (!snapshot.hasData) {
+                        return Text('Empty');
+                      }
+                      return buildBillListView(snapshot.data);
+                    },
+                  );
+                }
               }),
             ),
           ),

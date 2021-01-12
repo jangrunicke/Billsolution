@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:billsolution_app/aggregates/bill/bill.dart';
 import 'package:billsolution_app/aggregates/billposition/billposition.dart';
 import 'package:billsolution_app/repositorys/bill_repository.dart';
@@ -5,6 +7,7 @@ import 'package:billsolution_app/utils/datetime_converter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:rxdart/streams.dart';
 
 part 'user.g.dart';
 
@@ -39,19 +42,18 @@ class User {
     return BillRepository().add(bill);
   }
 
-  Stream<List<Billposition>> getBillpositions() {}
-
-  // Funktion funktioniert nur auf Ebene des ersten Streams
-
-  Stream<double> calculateSummOfCategory(String category) {
-    return this.getBills().map<double>((List<Bill> bills) {
-      double sum = 0;
+  Stream<double> calculateSumOfCategory(String category) async* {
+    await for (List<Bill> bills in this.getBills()) {
+      List<Stream<double>> streams = List<Stream<double>>();
       bills.forEach((Bill bill) {
-        bill.getCalculatedSumOfCategory(category).map((double x) {});
-        // Bis hier hin funktionieren die Schleifen und Maps
-        // sum += 1;
+        streams.add(bill.getCalculatedSumOfCategory(category));
       });
-      return sum;
-    });
+      Stream<List<double>> combinedStream = CombineLatestStream.list(streams);
+      Stream<double> sumStream = combinedStream.map<double>(
+          (List<double> list) => list.fold(
+              0, (previousValue, element) => previousValue + element));
+      // Flattening streams
+      yield* sumStream;
+    }
   }
 }
