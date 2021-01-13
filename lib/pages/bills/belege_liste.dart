@@ -45,7 +45,7 @@ class BelegeListe extends StatelessWidget {
 
                   return _buildBillListView(finalBills, context);
                 }
-                // TODO return Text('Waiting');
+                return Text('Waiting');
               });
         }
         return Text('Waiting');
