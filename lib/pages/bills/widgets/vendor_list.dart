@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:billsolution_app/aggregates/bill/bill.dart';
+import 'package:billsolution_app/aggregates/bill/vendor.dart';
 import 'package:billsolution_app/aggregates/user.dart';
 import 'package:billsolution_app/pages/bills/models/zeitraum_filter_model.dart';
 import 'package:billsolution_app/user_model.dart';
@@ -15,11 +16,13 @@ class VendorList extends StatefulWidget {
 }
 
 class _VendorListState extends State<VendorList> {
-  List<String> _getDistinctVendors(List<Bill> bills) {
-    var vendors = List<String>();
+  List<Vendor> _getDistinctVendors(List<Bill> bills) {
+    var vendornames = List<String>();
+    var vendors = List<Vendor>();
     bills.map((bill) => bill.shop.vendor).forEach((vendor) {
-      if (!vendors.contains(vendor.name)) {
-        vendors.add(vendor.name);
+      if (!vendornames.contains(vendor.name)) {
+        vendornames.add(vendor.name);
+        vendors.add(vendor);
       }
     });
     return vendors;
@@ -40,59 +43,76 @@ class _VendorListState extends State<VendorList> {
   //   );
   // }
 
-  List<VendorCardData> _getVendorCardData(
-      List<Bill> bills, List<String> vendors) {
-    var result = List<VendorCardData>();
-    var stream = Stream<Bill>.fromIterable(bills);
+  // List<VendorCardData> _getVendorCardData(
+  //     List<Bill> bills, List<String> vendors) {
+  //   var result = List<VendorCardData>();
+  //   var stream = Stream<Bill>.fromIterable(bills);
 
-    vendors.forEach((vendor) {
-      // result.add(_calculateVendorCardData(stream, vendor));
+  //   vendors.forEach((vendor) {
+  //     // result.add(_calculateVendorCardData(stream, vendor));
 
-      double aggPrice = 0;
+  //     double aggPrice = 0;
 
-      bills.forEach((bill) async {
-        if (bill.shop.vendor.name == vendor) {
-          var sum = 0.0;
-          await for (var value in bill.getCalculatedSum()) {
-            sum += value;
-          }
-          aggPrice += sum;
-        }
-      });
+  //     bills.forEach((bill) async {
+  //       if (bill.shop.vendor.name == vendor) {
+  //         var sum = 0.0;
+  //         await for (var value in bill.getCalculatedSum()) {
+  //           sum += value;
+  //         }
+  //         aggPrice += sum;
+  //       }
+  //     });
 
-      result.add(VendorCardData(name: vendor, aggPrice: aggPrice));
-    });
+  //     result.add(VendorCardData(name: vendor, aggPrice: aggPrice));
+  //   });
 
-    result.sort((a, b) => a.aggPrice.compareTo(b.aggPrice));
-    var orderedResult = result.reversed.toList();
-    return orderedResult;
-  }
+  //   result.sort((a, b) => a.aggPrice.compareTo(b.aggPrice));
+  //   var orderedResult = result.reversed.toList();
+  //   return orderedResult;
+  // }
 
-  List<Bill> _filterBillList(List<Bill> bills, DateTime lastValidDate) {
-    var zeitfilter = context.read<ZeitraumfilterModel>();
-    var lastValidDate = zeitfilter.getLastValidDate();
-    var filteredBills = List<Bill>();
+  // List<Bill> _filterBillList(List<Bill> bills, DateTime lastValidDate) {
+  //   var zeitfilter = context.read<ZeitraumfilterModel>();
+  //   var lastValidDate = zeitfilter.getLastValidDate();
+  //   var filteredBills = List<Bill>();
 
-    bills.forEach((bill) {
-      if (bill.created_at.isAfter(lastValidDate)) {
-        filteredBills.add(bill);
+  //   bills.forEach((bill) {
+  //     if (bill.created_at.isAfter(lastValidDate)) {
+  //       filteredBills.add(bill);
+  //     }
+  //   });
+
+  //   return filteredBills;
+  // }
+
+  Widget _buildVendorCard(Vendor vendor) {
+    return Consumer<User>(builder: (context, user, child) {
+      if (user != null) {
+        return StreamBuilder(
+            stream: user.calculatedSumOfVendor(vendor),
+            builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
+              if (snapshot.hasError) {
+                return Text(snapshot.error.toString());
+              }
+              if (snapshot.hasData) {
+                return VendorCard(vendor.name, snapshot.data);
+              }
+              return Text('Waiting inner');
+            });
       }
     });
-
-    return filteredBills;
   }
 
   _buildList(List<Bill> bills, DateTime lastValidDate) {
     if (bills != null) {
-      List<Bill> filterdBills = _filterBillList(bills, lastValidDate);
+      List<Vendor> vendors = _getDistinctVendors(bills);
 
-      List<String> vendors = _getDistinctVendors(filterdBills);
-      List<VendorCardData> data = _getVendorCardData(filterdBills, vendors);
+      var cards = List<Widget>();
 
-      List<VendorCard> cards = List<VendorCard>();
-      data.forEach((vendor) {
-        cards.add(VendorCard(vendor.name, vendor.aggPrice));
+      vendors.forEach((vendor) {
+        cards.add(_buildVendorCard(vendor));
       });
+
       return ListView(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.all(10),

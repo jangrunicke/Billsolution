@@ -36,21 +36,21 @@ class AnalyticsHome extends StatelessWidget {
           child: Container(
         child: Padding(
           padding: const EdgeInsets.all(36),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
+          child: ListView(
+            // crossAxisAlignment: CrossAxisAlignment.center,
+            // mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               AnalyticsCategoryCard(
                 category: 'Lebensmittel',
               ),
               AnalyticsCategoryCard(
-                category: 'Lebensmittel',
+                category: 'Hygiene',
               ),
               AnalyticsCategoryCard(
                 category: 'Reisen',
               ),
               AnalyticsCategoryCard(
-                category: 'Hygiene',
+                category: 'Auto',
               ),
             ],
           ),
