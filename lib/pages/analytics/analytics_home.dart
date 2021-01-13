@@ -29,7 +29,7 @@ class AnalyticsHome extends StatelessWidget {
         children: [
           AnalyticsCategoryCard(
             category: 'Gesamt',
-            color: Colors.black,
+            color: Theme.of(context).primaryColor,
           ),
           AnalyticsCategoryList(),
         ],
