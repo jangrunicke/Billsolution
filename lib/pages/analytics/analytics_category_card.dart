@@ -1,9 +1,5 @@
-import 'dart:math';
-
 import 'package:billsolution_app/aggregates/user.dart';
-import 'package:billsolution_app/components/secondary_button.dart';
 import 'package:billsolution_app/pages/analytics/analytics_graphic_card.dart';
-import 'package:billsolution_app/pages/analytics/widgets/analytics_details_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -11,21 +7,16 @@ class AnalyticsCategoryCard extends StatelessWidget {
   final String category;
   final Color color;
 
-  AnalyticsCategoryCard({this.category, this.color});
-
-  double roundDouble(String ergebnis) {
-    double sum = double.parse(ergebnis);
-    double mod = pow(10.0, 2);
-    return ((sum * mod).round().toDouble() / mod);
-  }
+  AnalyticsCategoryCard({
+    this.category,
+    this.color,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(10, 15, 10, 15),
+      padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
       child: Container(
-        width: 500,
-        height: 184,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
           color: Colors.white,
@@ -43,6 +34,38 @@ class AnalyticsCategoryCard extends StatelessWidget {
               if (user == null) {
                 return Text('Empty');
               }
+              if (category == 'Gesamt') {
+                return StreamBuilder(
+                  stream: user.calculateSum(),
+                  builder: (context, AsyncSnapshot<double> snapshot) {
+                    if (snapshot.hasError) {
+                      return Text(snapshot.error.toString());
+                    }
+                    if (!snapshot.hasData) {
+                      return Text('Empty');
+                    }
+                    return Column(children: <Widget>[
+                      Row(
+                        children: [
+                          SizedBox(width: 10),
+                          Text(
+                            category,
+                          ),
+                        ],
+                      ),
+                      AnalyticsGraphicCard(
+                        stream: user.calculateSum(),
+                        color: color,
+                      ),
+                      SizedBox(height: 40),
+                      // AnalyticsDetailsButton(
+                      //   onPressed: null,
+                      //   text: 'Details',
+                      // )
+                    ]);
+                  },
+                );
+              }
               return StreamBuilder(
                 stream: user.calculateSumOfCategory(category),
                 builder: (context, AsyncSnapshot<double> snapshot) {
@@ -52,24 +75,29 @@ class AnalyticsCategoryCard extends StatelessWidget {
                   if (!snapshot.hasData) {
                     return Text('Empty');
                   }
-                  return Column(children: <Widget>[
-                    SizedBox(height: 5),
-                    Text(
-                      category,
-                      textAlign: TextAlign.left,
-                    ),
-                    SizedBox(height: 5),
-                    Text(roundDouble(snapshot.data.toString()).toString()),
-                    AnalyticsGraphicCard(
-                      stream: user.calculateSumOfCategory(category),
-                      color: color,
-                    ),
-                    SizedBox(height: 50.0),
-                    AnalyticsDetailsButton(
-                      onPressed: null,
-                      text: 'Details',
-                    )
-                  ]);
+                  return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        SizedBox(height: 5),
+                        Row(
+                          children: [
+                            SizedBox(width: 10),
+                            Text(
+                              category,
+                            ),
+                          ],
+                        ),
+                        AnalyticsGraphicCard(
+                          stream: user.calculateSumOfCategory(category),
+                          color: color,
+                        ),
+                        SizedBox(height: 40.0),
+                        // AnalyticsDetailsButton(
+                        //   onPressed: null,
+                        //   text: 'Details',
+                        // )
+                      ]);
                 },
               );
             },

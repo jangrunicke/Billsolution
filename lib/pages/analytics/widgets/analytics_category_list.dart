@@ -6,12 +6,15 @@ class AnalyticsCategoryList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 550,
+      height: 600,
       child: ListView(
         // crossAxisAlignment: CrossAxisAlignment.center,
         // mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          AnalyticsCategoryCard(category: 'Lebensmittel', color: Colors.green),
+          AnalyticsCategoryCard(
+            category: 'Lebensmittel',
+            color: Colors.green,
+          ),
           AnalyticsCategoryCard(
             category: 'Hygiene',
             color: Colors.blue,
@@ -23,6 +26,10 @@ class AnalyticsCategoryList extends StatelessWidget {
           AnalyticsCategoryCard(
             category: 'Auto',
             color: Colors.pink,
+          ),
+          AnalyticsCategoryCard(
+            category: 'Büroartikel',
+            color: Colors.orange,
           ),
         ],
       ),

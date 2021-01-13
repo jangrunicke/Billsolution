@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 
@@ -9,6 +10,12 @@ class AnalyticsGraphicCard extends StatelessWidget {
   static double _getReferenz(double betrag) {
     int referenz = (betrag ~/ 100);
     return (referenz * 100 + 100).toDouble();
+  }
+
+  static double _roundDouble(String ergebnis) {
+    double sum = double.parse(ergebnis);
+    double mod = pow(10.0, 2);
+    return ((sum * mod).round().toDouble() / mod);
   }
 
   List<charts.Series<Billposition, String>> _generateData(String betrag) {
@@ -24,10 +31,16 @@ class AnalyticsGraphicCard extends StatelessWidget {
         measureFn: (Billposition billposition, _) => billposition.price,
         colorFn: (Billposition billposition, _) =>
             charts.ColorUtil.fromDartColor(color),
+        labelAccessorFn: (Billposition billposition, _) =>
+            '${_roundDouble(billposition.price.toString()).toString()}' + '€',
         data: desktopSaleData,
       )
     ];
   }
+
+  // charts.BarLabelDecorator bardecorater() {
+  //   charts.BarLabelDecorator bl = new charts.BarLabelDecorator(labelAnchor: charts.BarLabelAnchor.end);
+  // }
 
   barchart(String streamString) {
     return charts.BarChart(
@@ -35,6 +48,9 @@ class AnalyticsGraphicCard extends StatelessWidget {
       animate: true,
       vertical: false,
       domainAxis: charts.OrdinalAxisSpec(renderSpec: charts.NoneRenderSpec()),
+      barRendererDecorator: new charts.BarLabelDecorator(
+        labelAnchor: charts.BarLabelAnchor.end,
+      ),
     );
   }
 
@@ -49,8 +65,7 @@ class AnalyticsGraphicCard extends StatelessWidget {
         if (!snapshot.hasData) {
           return Text('Empty');
         }
-        return Container(
-            width: 350, height: 22, child: barchart(snapshot.data.toString()));
+        return Container(height: 22, child: barchart(snapshot.data.toString()));
       },
     );
   }
