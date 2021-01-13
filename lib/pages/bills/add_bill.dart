@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:billsolution_app/aggregates/bill/bill.dart';
 import 'package:billsolution_app/aggregates/bill/location.dart';
 import 'package:billsolution_app/aggregates/bill/shop.dart';
@@ -55,76 +57,68 @@ class AddBillPopup extends StatelessWidget {
                   AddBillInputField('Land', addShopLocationCountryController),
                   AddBillInputField('Vendor Name', addShopVendorNameController),
                   dropDown,
-                  // AddBillInputField(
-                  //     'Vendor Kategorie', addShopVendorCategoryController),
                   AddBillInputField('Bill ID', addShopBillIdController),
                   AddBillInputField('Datum', addBillDateController),
                 ],
               ),
             ),
           ),
-          StreamBuilder(
-              stream: UserService.instance.findById('hVPLNhZ4UBfJdPWkemK3'),
-              builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
-                if (snapshot.hasError) {
-                  return Text(snapshot.error.toString());
-                }
-                if (snapshot.hasData) {
-                  return Padding(
-                    padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                    child: HinzufuegenButton(
-                        label: 'Hinzufügen',
-                        onPressed: () async {
-                          try {
-                            User latestUser = snapshot.data;
-                            var inputDate = DateFormat("dd.MM.yyyy")
-                                .parse(addBillDateController.text);
+          Consumer<User>(builder: (context, user, child) {
+            if (user != null) {
+              return Padding(
+                padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                child: HinzufuegenButton(
+                    label: 'Hinzufügen',
+                    onPressed: () async {
+                      try {
+                        User latestUser = user;
+                        var inputDate = DateFormat("dd.MM.yyyy")
+                            .parse(addBillDateController.text);
 
-                            var outputDate = DateFormat("yyyy-MM-dd")
-                                .parse("$inputDate")
-                                .toString();
+                        var outputDate = DateFormat("yyyy-MM-dd")
+                            .parse("$inputDate")
+                            .toString();
 
-                            DateTime newDate = DateTime.parse(outputDate);
+                        DateTime newDate = DateTime.parse(outputDate);
 
-                            Location newLocation = Location(
-                                street: addShopLocationStreetController.text,
-                                city: addShopLocationCityController.text,
-                                zip: addShopLocationZipController.text,
-                                country: addShopLocationCountryController.text);
+                        Location newLocation = Location(
+                            street: addShopLocationStreetController.text,
+                            city: addShopLocationCityController.text,
+                            zip: addShopLocationZipController.text,
+                            country: addShopLocationCountryController.text);
 
-                            Vendor newVendor = Vendor(
-                              name: addShopVendorNameController.text,
-                              category: dropDown.getCurrentValue(),
-                            );
+                        Vendor newVendor = Vendor(
+                          name: addShopVendorNameController.text,
+                          category: dropDown.getCurrentValue(),
+                        );
 
-                            Shop newShop = Shop(
-                                name: addShopNameController.text,
-                                location: newLocation,
-                                vendor: newVendor);
+                        Shop newShop = Shop(
+                            name: addShopNameController.text,
+                            location: newLocation,
+                            vendor: newVendor);
 
-                            Bill newBill = new Bill(
-                              created_at: newDate,
-                              shopBillId: addShopBillIdController.text,
-                              shop: newShop,
-                            );
+                        Bill newBill = new Bill(
+                          created_at: newDate,
+                          shopBillId: addShopBillIdController.text,
+                          shop: newShop,
+                        );
 
-                            Bill bill = await latestUser.addBill(newBill);
+                        Bill bill = await latestUser.addBill(newBill);
 
-                            print(dropDown.getCurrentValue());
-                            print(bill.id);
+                        print(dropDown.getCurrentValue());
+                        print(bill.id);
 
-                            Route route = MaterialPageRoute(
-                                builder: (context) =>
-                                    AddBillPositionDetails(bill));
-                            Navigator.push(context, route);
-                          } catch (error) {
-                            print(error.toString());
-                          }
-                        }),
-                  );
-                }
-                return Text('Waiting');
-              }),
+                        Route route = MaterialPageRoute(
+                            builder: (context) => AddBillPositionDetails(bill));
+                        Navigator.push(context, route);
+                      } catch (error) {
+                        print(error.toString());
+                      }
+                    }),
+              );
+            }
+            return Text('Waiting');
+          }),
         ],
       ),
     );

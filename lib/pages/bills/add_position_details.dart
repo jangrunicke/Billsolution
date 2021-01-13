@@ -2,7 +2,6 @@ import 'package:billsolution_app/aggregates/billposition/billposition.dart';
 import 'package:billsolution_app/pages/bills/add_bill_position.dart';
 import 'package:flutter/material.dart';
 import './widgets/add_bill_widgets.dart';
-import './select_group_dropdown.dart';
 import 'package:billsolution_app/aggregates/bill/bill.dart';
 
 class AddBillPositionDetails extends StatelessWidget {
@@ -19,7 +18,7 @@ class AddBillPositionDetails extends StatelessWidget {
 
   final TextEditingController categoryController = new TextEditingController();
 
-  Bill bill;
+  final Bill bill;
 
   AddBillPositionDetails(this.bill);
 
@@ -40,7 +39,6 @@ class AddBillPositionDetails extends StatelessWidget {
                     productNameController,
                   ),
                 ),
-                //SelectGroupDropDown(),
                 Row(
                   children: <Widget>[
                     Padding(

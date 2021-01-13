@@ -23,18 +23,18 @@ class _SelectGroupDropDownState extends State<SelectGroupDropDown> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.fromLTRB(20, 30, 0, 5),
+          padding: EdgeInsets.fromLTRB(5, 15, 0, 5),
           child: Text(
             'Gruppe',
             style: TextStyle(
-              fontSize: 12,
-              fontFamily: 'Avenir Next',
+              fontSize: 14,
+              fontFamily: 'SF Pro Text',
               color: Color.fromARGB(255, 65, 65, 65),
             ),
           ),
         ),
         Padding(
-          padding: EdgeInsets.fromLTRB(20, 5, 45, 20),
+          padding: EdgeInsets.fromLTRB(0, 5, 7, 15),
           child: FormField<String>(
             builder: (FormFieldState<String> state) {
               return InputDecorator(
