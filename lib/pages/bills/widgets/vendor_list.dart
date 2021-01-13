@@ -85,36 +85,36 @@ class _VendorListState extends State<VendorList> {
   //   return filteredBills;
   // }
 
-  Widget _buildVendorCard(Vendor vendor) {
+  Widget _buildVendorCard(Vendor vendor, DateTime lastValidDate) {
+    var zeitraumfilter = context.read<ZeitraumfilterModel>();
+    var lastValidDate = zeitraumfilter.getLastValidDate();
+
     return Consumer<User>(builder: (context, user, child) {
       if (user != null) {
-        return Consumer<ZeitraumfilterModel>(builder: (context, filter, child) {
-          var lastValidDate = filter.getLastValidDate();
-          return StreamBuilder(
-              stream:
-                  user.calculatedSumOfVendor(vendor, startingAt: lastValidDate),
-              builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
-                if (snapshot.hasError) {
-                  return Text(snapshot.error.toString());
-                }
-                if (snapshot.hasData) {
-                  return VendorCard(vendor.name, snapshot.data);
-                }
-                return Text('Waiting inner');
-              });
-        });
+        return StreamBuilder(
+            stream:
+                user.calculatedSumOfVendor(vendor, startingAt: lastValidDate),
+            builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
+              if (snapshot.hasError) {
+                return Text(snapshot.error.toString());
+              }
+              if (snapshot.hasData) {
+                return VendorCard(vendor.name, snapshot.data);
+              }
+              return Text('Waiting inner');
+            });
       }
     });
   }
 
-  _buildList(List<Bill> bills, DateTime lastValidDate) {
+  Widget _buildList(List<Bill> bills, DateTime lastValidDate) {
     if (bills != null) {
       List<Vendor> vendors = _getDistinctVendors(bills);
 
       var cards = List<Widget>();
 
       vendors.forEach((vendor) {
-        cards.add(_buildVendorCard(vendor));
+        cards.add(_buildVendorCard(vendor, lastValidDate));
       });
 
       return ListView(
