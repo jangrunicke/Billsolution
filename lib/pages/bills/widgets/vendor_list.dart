@@ -150,7 +150,9 @@ class _VendorListState extends State<VendorList> {
                     if (snapshot.hasError) {
                       print(snapshot.error.toString());
                     }
-                    return _buildList(snapshot.data, lastValidDate);
+                    if (snapshot.hasData) {
+                      return _buildList(snapshot.data, lastValidDate);
+                    }
                   });
             }
             return Text('Waiting');
