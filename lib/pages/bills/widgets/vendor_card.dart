@@ -20,7 +20,7 @@ class VendorCard extends StatelessWidget {
 
     return Container(
       child: FlatButton(
-        child: Expanded(
+        child: Container(
           child: Column(
             children: [
               Text(
