@@ -34,6 +34,8 @@ class AddBillPopup extends StatelessWidget {
   final TextEditingController addShopBillIdController =
       new TextEditingController();
 
+  SelectGroupDropDown dropDown = new SelectGroupDropDown();
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AddBillPositionAppBar('Beleg \n hinzufügen', 86),
@@ -52,7 +54,7 @@ class AddBillPopup extends StatelessWidget {
                   AddBillInputField('Stadt', addShopLocationCityController),
                   AddBillInputField('Land', addShopLocationCountryController),
                   AddBillInputField('Vendor Name', addShopVendorNameController),
-                  SelectGroupDropDown(),
+                  dropDown,
                   // AddBillInputField(
                   //     'Vendor Kategorie', addShopVendorCategoryController),
                   AddBillInputField('Bill ID', addShopBillIdController),
@@ -92,7 +94,7 @@ class AddBillPopup extends StatelessWidget {
 
                             Vendor newVendor = Vendor(
                               name: addShopVendorNameController.text,
-                              category: SelectGroupDropDown().getCurrentValue(),
+                              category: dropDown.getCurrentValue(),
                             );
 
                             Shop newShop = Shop(
@@ -108,6 +110,7 @@ class AddBillPopup extends StatelessWidget {
 
                             Bill bill = await latestUser.addBill(newBill);
 
+                            print(dropDown.getCurrentValue());
                             print(bill.id);
 
                             Route route = MaterialPageRoute(
