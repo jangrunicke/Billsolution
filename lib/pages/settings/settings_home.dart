@@ -109,18 +109,23 @@ class SettingsHome extends StatelessWidget {
             ),
           ),
           Consumer<User>(builder: (context, user, child) {
-            return StreamBuilder(
-              stream: user.calculatedSumOfVendor(Vendor(category: 'Lebensmittel Discounter', name: 'Edeka'), startingAt: DateTime.parse('2020-12-01 20:18:04Z')),
-              builder: (context, AsyncSnapshot<double> snapshot) {
-                if (snapshot.hasError) {
-                  return Text(snapshot.error.toString());
-                }
-                if (!snapshot.hasData) {
-                  return Text('Empty');
-                }
-                return Text(snapshot.data.toString());
-              },
-            );
+            if (user != null) {
+              return StreamBuilder(
+                stream: user.calculatedSumOfVendor(
+                    Vendor(category: 'Lebensmittel Discounter', name: 'Edeka'),
+                    startingAt: DateTime.parse('2020-12-01 20:18:04Z')),
+                builder: (context, AsyncSnapshot<double> snapshot) {
+                  if (snapshot.hasError) {
+                    return Text(snapshot.error.toString());
+                  }
+                  if (!snapshot.hasData) {
+                    return Text('Empty');
+                  }
+                  return Text(snapshot.data.toString());
+                },
+              );
+            } else
+              return Text('Waiting');
           }),
           Expanded(
             child: Container(
@@ -139,7 +144,8 @@ class SettingsHome extends StatelessWidget {
                       return buildBillListView(snapshot.data);
                     },
                   );
-                }
+                } else
+                  return Text('Waiting');
               }),
             ),
           ),
