@@ -69,6 +69,7 @@ class _AnalyticsCategoryListState extends State<AnalyticsCategoryList> {
     return Container(
       child: Consumer<User>(
         builder: (context, user, child) {
+          // TODO: if (user!=null)
           return StreamBuilder(
             stream: user.getAllCategories(),
             builder: (BuildContext context,

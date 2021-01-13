@@ -45,9 +45,10 @@ class BelegeListe extends StatelessWidget {
 
                   return _buildBillListView(finalBills, context);
                 }
-                return Text('Waiting');
+                // TODO return Text('Waiting');
               });
         }
+        return Text('Waiting');
       }),
       margin: EdgeInsets.all(5),
     );
