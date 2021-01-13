@@ -74,6 +74,18 @@ class User {
     }
   }
 
+  Stream<List<List<String>>> getAllCategories() async* {
+    await for (List<Bill> bills in this.getBills()) {
+      List<Stream<List<String>>> streams = List<Stream<List<String>>>();
+      bills.forEach((Bill bill) {
+        streams.add(bill.getCategories());
+      });
+      Stream<List<List<String>>> combinedStream =
+          CombineLatestStream.list(streams);
+      yield* combinedStream;
+    }
+  }
+
   Stream<double> calculatedSumOfVendor(Vendor vendor,
       {DateTime startingAt}) async* {
     assert(vendor != null);

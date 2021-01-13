@@ -46,6 +46,18 @@ class Bill {
     });
   }
 
+  Stream<List<String>> getCategories() {
+    return this
+        .getBillpositions()
+        .map<List<String>>((List<Billposition> bills) {
+      List<String> categories = List<String>();
+      bills.forEach((Billposition billposition) {
+        categories.add(billposition.category);
+      });
+      return categories;
+    });
+  }
+
   // double roundDouble(double value, int places) {
   //   double mod = pow(10.0, places);
   //   return ((value * mod).round().toDouble() / mod);
@@ -60,12 +72,12 @@ class Bill {
     Stream<double> sum = BillpositionRepository()
         .find(criterias: criterias)
         .map<double>((List<Billposition> billpositions) {
-          double sum = 0;
-          billpositions.forEach((Billposition billposition) {
-            sum += _calculateBillposition(billposition);
-          });
-          return sum;
-        });
+      double sum = 0;
+      billpositions.forEach((Billposition billposition) {
+        sum += _calculateBillposition(billposition);
+      });
+      return sum;
+    });
 
     return sum;
   }
