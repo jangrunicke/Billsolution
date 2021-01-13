@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 
 class AnalyticsGraphicCard extends StatelessWidget {
-  Stream<double> stream;
-  AnalyticsGraphicCard({this.stream});
+  final Stream<double> stream;
+  final Color color;
+  AnalyticsGraphicCard({this.stream, this.color});
 
   static double _getReferenz(double betrag) {
     int referenz = (betrag ~/ 100);
     return (referenz * 100 + 100).toDouble();
   }
 
-  static List<charts.Series<Billposition, String>> _generateData(
-      String betrag) {
+  List<charts.Series<Billposition, String>> _generateData(String betrag) {
     double doubleBetrag = double.parse(betrag);
     final desktopSaleData = [
       Billposition(category: '', price: _getReferenz(doubleBetrag)),
@@ -22,6 +22,8 @@ class AnalyticsGraphicCard extends StatelessWidget {
         id: 'Sales',
         domainFn: (Billposition billposition, _) => billposition.category,
         measureFn: (Billposition billposition, _) => billposition.price,
+        colorFn: (Billposition billposition, _) =>
+            charts.ColorUtil.fromDartColor(color),
         data: desktopSaleData,
       )
     ];

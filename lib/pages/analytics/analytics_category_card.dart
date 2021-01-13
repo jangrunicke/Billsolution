@@ -9,8 +9,9 @@ import 'package:provider/provider.dart';
 
 class AnalyticsCategoryCard extends StatelessWidget {
   final String category;
+  final Color color;
 
-  AnalyticsCategoryCard({this.category});
+  AnalyticsCategoryCard({this.category, this.color});
 
   double roundDouble(String ergebnis) {
     double sum = double.parse(ergebnis);
@@ -21,7 +22,7 @@ class AnalyticsCategoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(8),
+      padding: EdgeInsets.fromLTRB(10, 15, 10, 15),
       child: Container(
         width: 500,
         height: 184,
@@ -39,6 +40,9 @@ class AnalyticsCategoryCard extends StatelessWidget {
         child: Center(
           child: Consumer<User>(
             builder: (context, user, child) {
+              if (user == null) {
+                return Text('Empty');
+              }
               return StreamBuilder(
                 stream: user.calculateSumOfCategory(category),
                 builder: (context, AsyncSnapshot<double> snapshot) {
@@ -58,6 +62,7 @@ class AnalyticsCategoryCard extends StatelessWidget {
                     Text(roundDouble(snapshot.data.toString()).toString()),
                     AnalyticsGraphicCard(
                       stream: user.calculateSumOfCategory(category),
+                      color: color,
                     ),
                     SizedBox(height: 50.0),
                     AnalyticsDetailsButton(

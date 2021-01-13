@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:billsolution_app/aggregates/bill/bill.dart';
 import 'package:billsolution_app/aggregates/billposition/billposition.dart';
 import 'package:billsolution_app/aggregates/user.dart';
+import 'package:billsolution_app/components/secondary_button.dart';
 import 'package:billsolution_app/pages/analytics/analytics_category_card.dart';
+import 'package:billsolution_app/pages/analytics/widgets/analytics_category_list.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +19,7 @@ class AnalyticsHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromRGBO(249, 249, 249, 1.0),
       appBar: AppBar(
         title: Text(
           'Auswertung',
@@ -32,30 +35,12 @@ class AnalyticsHome extends StatelessWidget {
               }),
         ],
       ),
-      body: Center(
-          child: Container(
-        child: Padding(
-          padding: const EdgeInsets.all(36),
-          child: ListView(
-            // crossAxisAlignment: CrossAxisAlignment.center,
-            // mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              AnalyticsCategoryCard(
-                category: 'Lebensmittel',
-              ),
-              AnalyticsCategoryCard(
-                category: 'Hygiene',
-              ),
-              AnalyticsCategoryCard(
-                category: 'Reisen',
-              ),
-              AnalyticsCategoryCard(
-                category: 'Auto',
-              ),
-            ],
-          ),
-        ),
-      )),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          AnalyticsCategoryList(),
+        ],
+      ),
     );
   }
 }
