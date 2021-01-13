@@ -104,6 +104,7 @@ class _VendorListState extends State<VendorList> {
               return Text('Waiting inner');
             });
       }
+      return Text('Waiting');
     });
   }
 
@@ -152,6 +153,7 @@ class _VendorListState extends State<VendorList> {
                     return _buildList(snapshot.data, lastValidDate);
                   });
             }
+            return Text('Waiting');
           },
         ));
   }
