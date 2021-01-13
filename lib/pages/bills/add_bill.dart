@@ -72,14 +72,74 @@ class AddBillPopup extends StatelessWidget {
                     onPressed: () async {
                       try {
                         User latestUser = user;
-                        var inputDate = DateFormat("dd.MM.yyyy")
-                            .parse(addBillDateController.text);
 
-                        var outputDate = DateFormat("yyyy-MM-dd")
-                            .parse("$inputDate")
-                            .toString();
+                        if (addShopNameController.text == "" ||
+                            addBillDateController.text == "" ||
+                            addShopBillIdController.text == "" ||
+                            addShopLocationCityController.text == "" ||
+                            addShopLocationCountryController.text == "" ||
+                            addShopLocationStreetController.text == "" ||
+                            addShopLocationZipController.text == "" ||
+                            addShopNameController.text == "" ||
+                            addShopVendorCategoryController.text == "" ||
+                            addShopVendorNameController.text == "") {
+                          return showDialog(
+                            barrierColor: Color.fromARGB(210, 0, 0, 0),
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Dialog(
+                                backgroundColor:
+                                    Color.fromARGB(255, 29, 53, 87),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8.0)),
+                                child: Container(
+                                  width: 400,
+                                  height: 200,
+                                  child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          30, 20, 25, 20),
+                                      child: Column(
+                                        children: <Widget>[
+                                          Padding(
+                                            padding: EdgeInsets.fromLTRB(
+                                                0, 0, 0, 20),
+                                            child: Icon(
+                                              Icons.error_outline_outlined,
+                                              color: Colors.red,
+                                              size: 50,
+                                            ),
+                                          ),
+                                          Center(
+                                            child: Padding(
+                                              padding: EdgeInsets.fromLTRB(
+                                                  10, 0, 10, 15),
+                                              child: Text(
+                                                'Zum Anlegen eines Belegs müssen alle Felder müssen befüllt sein !',
+                                                style: TextStyle(
+                                                    fontFamily: 'SF Pro Text',
+                                                    color: Colors.white),
+                                                textAlign: TextAlign.left,
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      )),
+                                ),
+                              );
+                            },
+                          );
+                        }
+                        DateTime newDate;
+                        if (addBillDateController.text != null) {
+                          var inputDate = DateFormat("dd.MM.yyyy")
+                              .parse(addBillDateController.text);
 
-                        DateTime newDate = DateTime.parse(outputDate);
+                          var outputDate = DateFormat("yyyy-MM-dd")
+                              .parse("$inputDate")
+                              .toString();
+
+                          newDate = DateTime.parse(outputDate);
+                        }
 
                         Location newLocation = Location(
                             street: addShopLocationStreetController.text,
@@ -117,7 +177,6 @@ class AddBillPopup extends StatelessWidget {
                     }),
               );
             }
-            return Text('Waiting');
           }),
         ],
       ),
