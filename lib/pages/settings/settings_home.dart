@@ -110,7 +110,7 @@ class SettingsHome extends StatelessWidget {
           ),
           Consumer<User>(builder: (context, user, child) {
             return StreamBuilder(
-              stream: user.calculatedSumOfVendor(Vendor(category: 'Lebensmittel Discounter', name: 'Edeka')),
+              stream: user.calculatedSumOfVendor(Vendor(category: 'Lebensmittel Discounter', name: 'Edeka'), startingAt: DateTime.parse('2020-12-01 20:18:04Z')),
               builder: (context, AsyncSnapshot<double> snapshot) {
                 if (snapshot.hasError) {
                   return Text(snapshot.error.toString());

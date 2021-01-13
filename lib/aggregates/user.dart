@@ -59,10 +59,11 @@ class User {
     }
   }
 
-  Stream<double> calculatedSumOfVendor(Vendor vendor) async* {
+  Stream<double> calculatedSumOfVendor(
+      Vendor vendor,{ DateTime startingAt }) async* {
     assert(vendor != null);
     List<Criteria> criterias = [];
-    
+
     if (vendor.name != null) {
       criterias.add(Criteria(
           field: 'shop.vendor.name',
@@ -75,6 +76,14 @@ class User {
           field: 'shop.vendor.category',
           operator: 'isEqualTo',
           value: vendor.category));
+    }
+
+    if (startingAt != null) {
+      criterias.add(Criteria(
+        field: 'created_at',
+        operator: 'isGreaterThanOrEqualTo',
+        value: startingAt,
+      ));
     }
 
     Stream<List<Bill>> billsStream =
