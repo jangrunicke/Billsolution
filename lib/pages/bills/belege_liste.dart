@@ -12,51 +12,42 @@ import 'package:provider/provider.dart';
 class BelegeListe extends StatelessWidget {
   Widget _buildBelege(BuildContext context) {
     return Container(
-      child: Consumer<UserModel>(builder: (context, user, child) {
-        return StreamBuilder(
-          stream: user.user,
-          builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
-            if (snapshot.hasError) {
-              return Text(snapshot.error.toString());
-            }
-            if (snapshot.hasData) {
-              return StreamBuilder(
-                  stream: snapshot.data.getBills(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<List<Bill>> snapshot) {
-                    if (snapshot.hasError) {
-                      return Text(snapshot.error.toString());
+      child: Consumer<User>(builder: (context, user, child) {
+        if (user != null) {
+          return StreamBuilder(
+              stream: user.getBills(),
+              builder:
+                  (BuildContext context, AsyncSnapshot<List<Bill>> snapshot) {
+                if (snapshot.hasError) {
+                  return Text(snapshot.error.toString());
+                }
+                if (snapshot.hasData) {
+                  var tempbills = List<Bill>();
+                  var finalBills = List<Bill>();
+                  var zeitraumfilter = context.watch<ZeitraumfilterModel>();
+                  var lastValidDate = zeitraumfilter.getLastValidDate();
+
+                  var vendorfilter = context.watch<VendorFilterModel>();
+                  snapshot.data.forEach((bill) {
+                    if (vendorfilter.selectedFilter == '') {
+                      tempbills.add(bill);
+                    } else if (bill.shop.vendor.name ==
+                        vendorfilter.selectedFilter) {
+                      tempbills.add(bill);
                     }
-                    if (snapshot.hasData) {
-                      var tempbills = List<Bill>();
-                      var finalBills = List<Bill>();
-                      var zeitraumfilter = context.watch<ZeitraumfilterModel>();
-                      var lastValidDate = zeitraumfilter.getLastValidDate();
-
-                      var vendorfilter = context.watch<VendorFilterModel>();
-                      snapshot.data.forEach((bill) {
-                        if (vendorfilter.selectedFilter == '') {
-                          tempbills.add(bill);
-                        } else if (bill.shop.vendor.name ==
-                            vendorfilter.selectedFilter) {
-                          tempbills.add(bill);
-                        }
-                      });
-
-                      tempbills.forEach((bill) {
-                        if (bill.created_at.isAfter(lastValidDate)) {
-                          finalBills.add(bill);
-                        }
-                      });
-
-                      return _buildBillListView(finalBills, context);
-                    }
-                    return Text('Waiting');
                   });
-            }
-            return Text('Waiting');
-          },
-        );
+
+                  tempbills.forEach((bill) {
+                    if (bill.created_at.isAfter(lastValidDate)) {
+                      finalBills.add(bill);
+                    }
+                  });
+
+                  return _buildBillListView(finalBills, context);
+                }
+                return Text('Waiting');
+              });
+        }
       }),
       margin: EdgeInsets.all(5),
     );
