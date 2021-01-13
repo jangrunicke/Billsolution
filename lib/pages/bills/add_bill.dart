@@ -81,7 +81,6 @@ class AddBillPopup extends StatelessWidget {
                             addShopLocationStreetController.text == "" ||
                             addShopLocationZipController.text == "" ||
                             addShopNameController.text == "" ||
-                            addShopVendorCategoryController.text == "" ||
                             addShopVendorNameController.text == "") {
                           return showDialog(
                             barrierColor: Color.fromARGB(210, 0, 0, 0),
@@ -128,49 +127,51 @@ class AddBillPopup extends StatelessWidget {
                               );
                             },
                           );
+                        } else {
+                          DateTime newDate;
+                          if (addBillDateController.text != null) {
+                            var inputDate = DateFormat("dd.MM.yyyy")
+                                .parse(addBillDateController.text);
+
+                            var outputDate = DateFormat("yyyy-MM-dd")
+                                .parse("$inputDate")
+                                .toString();
+
+                            newDate = DateTime.parse(outputDate);
+                          }
+
+                          Location newLocation = Location(
+                              street: addShopLocationStreetController.text,
+                              city: addShopLocationCityController.text,
+                              zip: addShopLocationZipController.text,
+                              country: addShopLocationCountryController.text);
+
+                          Vendor newVendor = Vendor(
+                            name: addShopVendorNameController.text,
+                            category: dropDown.getCurrentValue(),
+                          );
+
+                          Shop newShop = Shop(
+                              name: addShopNameController.text,
+                              location: newLocation,
+                              vendor: newVendor);
+
+                          Bill newBill = new Bill(
+                            created_at: newDate,
+                            shopBillId: addShopBillIdController.text,
+                            shop: newShop,
+                          );
+
+                          Bill bill = await latestUser.addBill(newBill);
+
+                          print(dropDown.getCurrentValue());
+                          print(bill.id);
+
+                          Route route = MaterialPageRoute(
+                              builder: (context) =>
+                                  AddBillPositionDetails(bill));
+                          Navigator.push(context, route);
                         }
-                        DateTime newDate;
-                        if (addBillDateController.text != null) {
-                          var inputDate = DateFormat("dd.MM.yyyy")
-                              .parse(addBillDateController.text);
-
-                          var outputDate = DateFormat("yyyy-MM-dd")
-                              .parse("$inputDate")
-                              .toString();
-
-                          newDate = DateTime.parse(outputDate);
-                        }
-
-                        Location newLocation = Location(
-                            street: addShopLocationStreetController.text,
-                            city: addShopLocationCityController.text,
-                            zip: addShopLocationZipController.text,
-                            country: addShopLocationCountryController.text);
-
-                        Vendor newVendor = Vendor(
-                          name: addShopVendorNameController.text,
-                          category: dropDown.getCurrentValue(),
-                        );
-
-                        Shop newShop = Shop(
-                            name: addShopNameController.text,
-                            location: newLocation,
-                            vendor: newVendor);
-
-                        Bill newBill = new Bill(
-                          created_at: newDate,
-                          shopBillId: addShopBillIdController.text,
-                          shop: newShop,
-                        );
-
-                        Bill bill = await latestUser.addBill(newBill);
-
-                        print(dropDown.getCurrentValue());
-                        print(bill.id);
-
-                        Route route = MaterialPageRoute(
-                            builder: (context) => AddBillPositionDetails(bill));
-                        Navigator.push(context, route);
                       } catch (error) {
                         print(error.toString());
                       }

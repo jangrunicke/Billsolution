@@ -82,6 +82,56 @@ class AddBillPositionDetails extends StatelessWidget {
             child: HinzufuegenButton(
                 label: 'Hinzufügen',
                 onPressed: () async {
+                  if (amountController.text == "" ||
+                      priceController.text == "" ||
+                      taxController.text == "" ||
+                      discountController.text == "" ||
+                      categoryController.text == "") {
+                    return showDialog(
+                      barrierColor: Color.fromARGB(210, 0, 0, 0),
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Dialog(
+                          backgroundColor: Color.fromARGB(255, 29, 53, 87),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0)),
+                          child: Container(
+                            width: 400,
+                            height: 200,
+                            child: Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(30, 20, 25, 20),
+                                child: Column(
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
+                                      child: Icon(
+                                        Icons.error_outline_outlined,
+                                        color: Colors.red,
+                                        size: 50,
+                                      ),
+                                    ),
+                                    Center(
+                                      child: Padding(
+                                        padding:
+                                            EdgeInsets.fromLTRB(10, 0, 10, 15),
+                                        child: Text(
+                                          'Zum Anlegen einer Position müssen alle Felder befüllt sein !',
+                                          style: TextStyle(
+                                              fontFamily: 'SF Pro Text',
+                                              color: Colors.white),
+                                          textAlign: TextAlign.left,
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                )),
+                          ),
+                        );
+                      },
+                    );
+                  }
+
                   Billposition newBillposition = Billposition(
                     productName: productNameController.text,
                     amount: double.parse(amountController.text),
