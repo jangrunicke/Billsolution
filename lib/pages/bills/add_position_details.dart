@@ -34,10 +34,8 @@ class AddBillPositionDetails extends StatelessWidget {
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.fromLTRB(20, 20, 45, 10),
-                  child: AddBillInputField(
-                    'Name',
-                    productNameController,
-                  ),
+                  child: AddBillInputField('Name', productNameController,
+                      'Gebe hier die Bezeichnung des Produkts ein'),
                 ),
                 Row(
                   children: <Widget>[
@@ -46,10 +44,8 @@ class AddBillPositionDetails extends StatelessWidget {
                       child: Container(
                         width: 255,
                         alignment: Alignment.centerLeft,
-                        child: AddBillInputField(
-                          'Preis',
-                          priceController,
-                        ),
+                        child: AddBillInputField('Preis', priceController,
+                            'Gebe hier den Preis ohne Währungseinheit ein, z.B 21.32'),
                       ),
                     ),
                     Padding(
@@ -57,23 +53,24 @@ class AddBillPositionDetails extends StatelessWidget {
                       child: Container(
                         width: 100,
                         alignment: Alignment.centerRight,
-                        child: AddBillInputField(
-                          'Anzahl',
-                          amountController,
-                        ),
+                        child: AddBillInputField('Anzahl', amountController,
+                            'Gebe hier die Anzahl ein'),
                       ),
                     ),
                   ],
                 ),
                 Padding(
                     padding: EdgeInsets.fromLTRB(20, 10, 0, 10),
-                    child: AddBillInputField('Mwst.', taxController)),
+                    child: AddBillInputField('Mwst.', taxController,
+                        'Gebe hier den Satz der Mwst. ein (0-1), z.B 0.19')),
                 Padding(
                     padding: EdgeInsets.fromLTRB(20, 10, 0, 10),
-                    child: AddBillInputField('Rabatt', discountController)),
+                    child: AddBillInputField('Rabatt', discountController,
+                        'Gebe hier den Rabatt als Dezimalzahl ein, z.B 0.20')),
                 Padding(
                     padding: EdgeInsets.fromLTRB(20, 10, 0, 0),
-                    child: AddBillInputField('Kategorie', categoryController)),
+                    child: AddBillInputField('Kategorie', categoryController,
+                        'Gebe hier die Kategorie des Produkts ein, z.B Hygiene')),
               ],
             ),
           ),

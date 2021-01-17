@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 class SelectGroupDropDown extends StatefulWidget {
   _SelectGroupDropDownState createState() => _SelectGroupDropDownState();
   String currentValue;
+  String dropdownLabel;
+
+  SelectGroupDropDown(this.dropdownLabel);
 
   String getCurrentValue() {
     return currentValue;
@@ -25,7 +28,7 @@ class _SelectGroupDropDownState extends State<SelectGroupDropDown> {
         Padding(
           padding: EdgeInsets.fromLTRB(5, 15, 0, 5),
           child: Text(
-            'Gruppe',
+            widget.dropdownLabel,
             style: TextStyle(
               fontSize: 14,
               fontFamily: 'SF Pro Text',

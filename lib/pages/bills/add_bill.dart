@@ -36,7 +36,8 @@ class AddBillPopup extends StatelessWidget {
   final TextEditingController addShopBillIdController =
       new TextEditingController();
 
-  SelectGroupDropDown dropDown = new SelectGroupDropDown();
+  SelectGroupDropDown dropDown =
+      new SelectGroupDropDown('Kategorie des Händlers');
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,16 +50,25 @@ class AddBillPopup extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
               child: ListView(
                 children: <Widget>[
-                  AddBillInputField('Shop', addShopNameController),
-                  AddBillInputField('Straße', addShopLocationStreetController),
+                  AddBillInputField('Shop', addShopNameController,
+                      'Gebe hier den Namen des Shops ein, z.B ...'),
+                  AddBillInputField('Straße', addShopLocationStreetController,
+                      'Gebe hier die Straße des Shops ein'),
                   AddBillInputField(
-                      'Postleitzahl', addShopLocationZipController),
-                  AddBillInputField('Stadt', addShopLocationCityController),
-                  AddBillInputField('Land', addShopLocationCountryController),
-                  AddBillInputField('Vendor Name', addShopVendorNameController),
+                      'Postleitzahl',
+                      addShopLocationZipController,
+                      'Gebe hier die Postleitzahl des Shops ein'),
+                  AddBillInputField('Stadt', addShopLocationCityController,
+                      'Gebe hier die Stadt des Shops ein'),
+                  AddBillInputField('Land', addShopLocationCountryController,
+                      'Gebe hier das Land des Shops ein'),
+                  AddBillInputField('Vendor Name', addShopVendorNameController,
+                      'Gebe hier den Namen der Kette ein, z.B Edeka'),
                   dropDown,
-                  AddBillInputField('Bill ID', addShopBillIdController),
-                  AddBillInputField('Datum', addBillDateController),
+                  AddBillInputField('Bill ID', addShopBillIdController,
+                      'Gebe hier die ... des Kassenzettels ein '),
+                  AddBillInputField('Datum', addBillDateController,
+                      'Gebe hier das Datum ein'),
                 ],
               ),
             ),
@@ -113,7 +123,7 @@ class AddBillPopup extends StatelessWidget {
                                               padding: EdgeInsets.fromLTRB(
                                                   10, 0, 10, 15),
                                               child: Text(
-                                                'Zum Anlegen eines Belegs müssen alle Felder müssen befüllt sein !',
+                                                'Zum Anlegen eines Belegs müssen alle Felder befüllt sein !',
                                                 style: TextStyle(
                                                     fontFamily: 'SF Pro Text',
                                                     color: Colors.white),
