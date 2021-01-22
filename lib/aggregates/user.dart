@@ -59,8 +59,8 @@ class User {
     }
   }
 
-  Stream<double> calculatedSumOfVendor(
-      Vendor vendor,{ DateTime startingAt }) async* {
+  Stream<double> calculatedSumOfVendor(Vendor vendor,
+      {DateTime startingAt}) async* {
     assert(vendor != null);
     List<Criteria> criterias = [];
 
@@ -94,6 +94,9 @@ class User {
       bills.forEach((Bill bill) {
         streams.add(bill.getCalculatedSum());
       });
+      if (streams.isEmpty) {
+        yield 0;
+      }
       Stream<List<double>> combinedStream = CombineLatestStream.list(streams);
       Stream<double> sumStream = combinedStream.map<double>(
           (List<double> list) => list.fold(
