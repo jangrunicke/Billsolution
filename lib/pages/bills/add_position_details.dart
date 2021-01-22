@@ -2,7 +2,6 @@ import 'package:billsolution_app/aggregates/billposition/billposition.dart';
 import 'package:billsolution_app/pages/bills/add_bill_position.dart';
 import 'package:flutter/material.dart';
 import './widgets/add_bill_widgets.dart';
-import './select_group_dropdown.dart';
 import 'package:billsolution_app/aggregates/bill/bill.dart';
 
 class AddBillPositionDetails extends StatelessWidget {
@@ -19,7 +18,7 @@ class AddBillPositionDetails extends StatelessWidget {
 
   final TextEditingController categoryController = new TextEditingController();
 
-  Bill bill;
+  final Bill bill;
 
   AddBillPositionDetails(this.bill);
 
@@ -36,11 +35,10 @@ class AddBillPositionDetails extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.fromLTRB(20, 20, 45, 10),
                   child: AddBillInputField(
-                    'Name',
+                    'Produkt',
                     productNameController,
                   ),
                 ),
-                //SelectGroupDropDown(),
                 Row(
                   children: <Widget>[
                     Padding(
@@ -48,10 +46,8 @@ class AddBillPositionDetails extends StatelessWidget {
                       child: Container(
                         width: 255,
                         alignment: Alignment.centerLeft,
-                        child: AddBillInputField(
-                          'Preis',
-                          priceController,
-                        ),
+                        child: AddBillInputField('Preis', priceController,
+                            hintText: 'Preis ohne Währungseinheit, z.B 21.32'),
                       ),
                     ),
                     Padding(
@@ -64,18 +60,23 @@ class AddBillPositionDetails extends StatelessWidget {
                           amountController,
                         ),
                       ),
-                    ),
+                    )
                   ],
                 ),
                 Padding(
                     padding: EdgeInsets.fromLTRB(20, 10, 0, 10),
-                    child: AddBillInputField('Mwst.', taxController)),
+                    child: AddBillInputField('Mwst.', taxController,
+                        hintText:
+                            'Mwst.: Dezimalzahl zwischen 0 und 1 , z.B 0.19')),
                 Padding(
                     padding: EdgeInsets.fromLTRB(20, 10, 0, 10),
-                    child: AddBillInputField('Rabatt', discountController)),
+                    child: AddBillInputField('Rabatt', discountController,
+                        hintText:
+                            'Rabatt: Dezimalzahl zwischen 0 und 1, z.B 0.20')),
                 Padding(
                     padding: EdgeInsets.fromLTRB(20, 10, 0, 0),
-                    child: AddBillInputField('Kategorie', categoryController)),
+                    child: AddBillInputField('Kategorie', categoryController,
+                        hintText: 'Kategorie des Produkts ein, z.B Hygiene')),
               ],
             ),
           ),
@@ -84,6 +85,56 @@ class AddBillPositionDetails extends StatelessWidget {
             child: HinzufuegenButton(
                 label: 'Hinzufügen',
                 onPressed: () async {
+                  if (amountController.text == "" ||
+                      priceController.text == "" ||
+                      taxController.text == "" ||
+                      discountController.text == "" ||
+                      categoryController.text == "") {
+                    return showDialog(
+                      barrierColor: Color.fromARGB(210, 0, 0, 0),
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Dialog(
+                          backgroundColor: Color.fromARGB(255, 29, 53, 87),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0)),
+                          child: Container(
+                            width: 400,
+                            height: 200,
+                            child: Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(30, 20, 25, 20),
+                                child: Column(
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
+                                      child: Icon(
+                                        Icons.error_outline_outlined,
+                                        color: Colors.red,
+                                        size: 50,
+                                      ),
+                                    ),
+                                    Center(
+                                      child: Padding(
+                                        padding:
+                                            EdgeInsets.fromLTRB(10, 0, 10, 15),
+                                        child: Text(
+                                          'Zum Anlegen einer Position müssen alle Felder befüllt sein !',
+                                          style: TextStyle(
+                                              fontFamily: 'SF Pro Text',
+                                              color: Colors.white),
+                                          textAlign: TextAlign.left,
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                )),
+                          ),
+                        );
+                      },
+                    );
+                  }
+
                   Billposition newBillposition = Billposition(
                     productName: productNameController.text,
                     amount: double.parse(amountController.text),

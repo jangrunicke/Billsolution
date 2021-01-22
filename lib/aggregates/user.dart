@@ -59,6 +59,33 @@ class User {
     }
   }
 
+  Stream<double> calculateSum() async* {
+    await for (List<Bill> bills in this.getBills()) {
+      List<Stream<double>> streams = List<Stream<double>>();
+      bills.forEach((Bill bill) {
+        streams.add(bill.getCalculatedSum());
+      });
+      Stream<List<double>> combinedStream = CombineLatestStream.list(streams);
+      Stream<double> sumStream = combinedStream.map<double>(
+          (List<double> list) => list.fold(
+              0, (previousValue, element) => previousValue + element));
+      // Flattening streams
+      yield* sumStream;
+    }
+  }
+
+  Stream<List<List<String>>> getAllCategories() async* {
+    await for (List<Bill> bills in this.getBills()) {
+      List<Stream<List<String>>> streams = List<Stream<List<String>>>();
+      bills.forEach((Bill bill) {
+        streams.add(bill.getCategories());
+      });
+      Stream<List<List<String>>> combinedStream =
+          CombineLatestStream.list(streams);
+      yield* combinedStream;
+    }
+  }
+
   Stream<double> calculatedSumOfVendor(Vendor vendor,
       {DateTime startingAt}) async* {
     assert(vendor != null);

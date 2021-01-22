@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:billsolution_app/aggregates/bill/bill.dart';
 import 'package:billsolution_app/aggregates/bill/location.dart';
 import 'package:billsolution_app/aggregates/bill/shop.dart';
@@ -34,6 +36,9 @@ class AddBillPopup extends StatelessWidget {
   final TextEditingController addShopBillIdController =
       new TextEditingController();
 
+  SelectGroupDropDown dropDown =
+      new SelectGroupDropDown('Kategorie des Händlers');
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AddBillPositionAppBar('Beleg \n hinzufügen', 86),
@@ -45,36 +50,106 @@ class AddBillPopup extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
               child: ListView(
                 children: <Widget>[
-                  AddBillInputField('Shop', addShopNameController),
-                  AddBillInputField('Straße', addShopLocationStreetController),
                   AddBillInputField(
-                      'Postleitzahl', addShopLocationZipController),
-                  AddBillInputField('Stadt', addShopLocationCityController),
-                  AddBillInputField('Land', addShopLocationCountryController),
-                  AddBillInputField('Vendor Name', addShopVendorNameController),
-                  SelectGroupDropDown(),
-                  // AddBillInputField(
-                  //     'Vendor Kategorie', addShopVendorCategoryController),
-                  AddBillInputField('Bill ID', addShopBillIdController),
-                  AddBillInputField('Datum', addBillDateController),
+                    'Shop',
+                    addShopNameController,
+                  ),
+                  AddBillInputField(
+                    'Straße',
+                    addShopLocationStreetController,
+                  ),
+                  AddBillInputField(
+                    'Postleitzahl',
+                    addShopLocationZipController,
+                  ),
+                  AddBillInputField(
+                    'Stadt',
+                    addShopLocationCityController,
+                  ),
+                  AddBillInputField(
+                    'Land',
+                    addShopLocationCountryController,
+                  ),
+                  AddBillInputField('Händler', addShopVendorNameController,
+                      hintText: 'Name des Händlers: z.B Edeka'),
+                  dropDown,
+                  AddBillInputField('Bill ID', addShopBillIdController,
+                      hintText: 'Steuernummer des Kassenzettels  '),
+                  AddBillInputField(
+                    'Datum',
+                    addBillDateController,
+                  ),
                 ],
               ),
             ),
           ),
-          StreamBuilder(
-              stream: UserService.instance.findById('hVPLNhZ4UBfJdPWkemK3'),
-              builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
-                if (snapshot.hasError) {
-                  return Text(snapshot.error.toString());
-                }
-                if (snapshot.hasData) {
-                  return Padding(
-                    padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                    child: HinzufuegenButton(
-                        label: 'Hinzufügen',
-                        onPressed: () async {
-                          try {
-                            User latestUser = snapshot.data;
+          Consumer<User>(builder: (context, user, child) {
+            if (user != null) {
+              return Padding(
+                padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                child: HinzufuegenButton(
+                    label: 'Hinzufügen',
+                    onPressed: () async {
+                      try {
+                        User latestUser = user;
+
+                        if (addShopNameController.text == "" ||
+                            addBillDateController.text == "" ||
+                            addShopBillIdController.text == "" ||
+                            addShopLocationCityController.text == "" ||
+                            addShopLocationCountryController.text == "" ||
+                            addShopLocationStreetController.text == "" ||
+                            addShopLocationZipController.text == "" ||
+                            addShopNameController.text == "" ||
+                            addShopVendorNameController.text == "") {
+                          return showDialog(
+                            barrierColor: Color.fromARGB(210, 0, 0, 0),
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Dialog(
+                                backgroundColor:
+                                    Color.fromARGB(255, 29, 53, 87),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8.0)),
+                                child: Container(
+                                  width: 400,
+                                  height: 200,
+                                  child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          30, 20, 25, 20),
+                                      child: Column(
+                                        children: <Widget>[
+                                          Padding(
+                                            padding: EdgeInsets.fromLTRB(
+                                                0, 0, 0, 20),
+                                            child: Icon(
+                                              Icons.error_outline_outlined,
+                                              color: Colors.red,
+                                              size: 50,
+                                            ),
+                                          ),
+                                          Center(
+                                            child: Padding(
+                                              padding: EdgeInsets.fromLTRB(
+                                                  10, 0, 10, 15),
+                                              child: Text(
+                                                'Zum Anlegen eines Belegs müssen alle Felder befüllt sein !',
+                                                style: TextStyle(
+                                                    fontFamily: 'SF Pro Text',
+                                                    color: Colors.white),
+                                                textAlign: TextAlign.left,
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      )),
+                                ),
+                              );
+                            },
+                          );
+                        } else {
+                          DateTime newDate;
+                          if (addBillDateController.text != null) {
                             var inputDate = DateFormat("dd.MM.yyyy")
                                 .parse(addBillDateController.text);
 
@@ -82,46 +157,48 @@ class AddBillPopup extends StatelessWidget {
                                 .parse("$inputDate")
                                 .toString();
 
-                            DateTime newDate = DateTime.parse(outputDate);
-
-                            Location newLocation = Location(
-                                street: addShopLocationStreetController.text,
-                                city: addShopLocationCityController.text,
-                                zip: addShopLocationZipController.text,
-                                country: addShopLocationCountryController.text);
-
-                            Vendor newVendor = Vendor(
-                              name: addShopVendorNameController.text,
-                              category: SelectGroupDropDown().getCurrentValue(),
-                            );
-
-                            Shop newShop = Shop(
-                                name: addShopNameController.text,
-                                location: newLocation,
-                                vendor: newVendor);
-
-                            Bill newBill = new Bill(
-                              created_at: newDate,
-                              shopBillId: addShopBillIdController.text,
-                              shop: newShop,
-                            );
-
-                            Bill bill = await latestUser.addBill(newBill);
-
-                            print(bill.id);
-
-                            Route route = MaterialPageRoute(
-                                builder: (context) =>
-                                    AddBillPositionDetails(bill));
-                            Navigator.push(context, route);
-                          } catch (error) {
-                            print(error.toString());
+                            newDate = DateTime.parse(outputDate);
                           }
-                        }),
-                  );
-                }
-                return Text('Waiting');
-              }),
+
+                          Location newLocation = Location(
+                              street: addShopLocationStreetController.text,
+                              city: addShopLocationCityController.text,
+                              zip: addShopLocationZipController.text,
+                              country: addShopLocationCountryController.text);
+
+                          Vendor newVendor = Vendor(
+                            name: addShopVendorNameController.text,
+                            category: dropDown.getCurrentValue(),
+                          );
+
+                          Shop newShop = Shop(
+                              name: addShopNameController.text,
+                              location: newLocation,
+                              vendor: newVendor);
+
+                          Bill newBill = new Bill(
+                            created_at: newDate,
+                            shopBillId: addShopBillIdController.text,
+                            shop: newShop,
+                          );
+
+                          Bill bill = await latestUser.addBill(newBill);
+
+                          print(dropDown.getCurrentValue());
+                          print(bill.id);
+
+                          Route route = MaterialPageRoute(
+                              builder: (context) =>
+                                  AddBillPositionDetails(bill));
+                          Navigator.push(context, route);
+                        }
+                      } catch (error) {
+                        print(error.toString());
+                      }
+                    }),
+              );
+            }
+          }),
         ],
       ),
     );

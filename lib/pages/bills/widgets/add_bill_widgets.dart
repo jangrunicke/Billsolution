@@ -4,11 +4,10 @@ import 'package:flutter/material.dart';
 class AddBillInputField extends StatelessWidget {
   final String _textInputLabel;
   final TextEditingController _textEditingController;
+  final String hintText;
 
-  AddBillInputField(
-    this._textInputLabel,
-    this._textEditingController,
-  );
+  AddBillInputField(this._textInputLabel, this._textEditingController,
+      {this.hintText});
 
   Widget build(BuildContext context) {
     return Column(
@@ -31,6 +30,7 @@ class AddBillInputField extends StatelessWidget {
             controller: _textEditingController,
             style: TextStyle(fontFamily: 'SF Pro Text', fontSize: 15.0),
             decoration: InputDecoration(
+              hintText: hintText,
               contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8.0),

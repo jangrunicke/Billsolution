@@ -85,11 +85,15 @@ class _VendorListState extends State<VendorList> {
   //   return filteredBills;
   // }
 
-  Widget _buildVendorCard(Vendor vendor) {
+  Widget _buildVendorCard(Vendor vendor, DateTime lastValidDate) {
+    var zeitraumfilter = context.read<ZeitraumfilterModel>();
+    var lastValidDate = zeitraumfilter.getLastValidDate();
+
     return Consumer<User>(builder: (context, user, child) {
       if (user != null) {
         return StreamBuilder(
-            stream: user.calculatedSumOfVendor(vendor),
+            stream:
+                user.calculatedSumOfVendor(vendor, startingAt: lastValidDate),
             builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
               if (snapshot.hasError) {
                 return Text(snapshot.error.toString());
@@ -100,17 +104,18 @@ class _VendorListState extends State<VendorList> {
               return Text('Waiting inner');
             });
       }
+      return Text('Waiting');
     });
   }
 
-  _buildList(List<Bill> bills, DateTime lastValidDate) {
+  Widget _buildList(List<Bill> bills, DateTime lastValidDate) {
     if (bills != null) {
       List<Vendor> vendors = _getDistinctVendors(bills);
 
       var cards = List<Widget>();
 
       vendors.forEach((vendor) {
-        cards.add(_buildVendorCard(vendor));
+        cards.add(_buildVendorCard(vendor, lastValidDate));
       });
 
       return ListView(
@@ -132,30 +137,25 @@ class _VendorListState extends State<VendorList> {
 
     return Container(
         constraints: BoxConstraints(maxHeight: 140),
-        child: Consumer<UserModel>(
+        child: Consumer<User>(
           builder: (context, user, child) {
-            return StreamBuilder(
-                stream: user.user,
-                builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
-                  if (snapshot.hasError) {
-                    return Text(snapshot.error.toString());
-                  }
-                  if (snapshot.hasData) {
-                    return StreamBuilder(
-                        stream: snapshot.data.getBills(),
-                        // .map((list) =>
-                        //     list.map((Bill bill) => bill.shop.vendor))
-                        // .map((list) => list.toList()),
-                        builder: (BuildContext context,
-                            AsyncSnapshot<List<Bill>> snapshot) {
-                          if (snapshot.hasError) {
-                            print(snapshot.error.toString());
-                          }
-                          return _buildList(snapshot.data, lastValidDate);
-                        });
-                  }
-                  return Text('No Data');
-                });
+            if (user != null) {
+              return StreamBuilder(
+                  stream: user.getBills(),
+                  // .map((list) =>
+                  //     list.map((Bill bill) => bill.shop.vendor))
+                  // .map((list) => list.toList()),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<List<Bill>> snapshot) {
+                    if (snapshot.hasError) {
+                      print(snapshot.error.toString());
+                    }
+                    if (snapshot.hasData) {
+                      return _buildList(snapshot.data, lastValidDate);
+                    }
+                  });
+            }
+            return Text('Waiting');
           },
         ));
   }
