@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "459712792868",
+    "project_id": "billsolution-f4fdb",
+    "storage_bucket": "billsolution-f4fdb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:459712792868:android:b3b6cd2364523495844bb1",
+        "android_client_info": {
+          "package_name": "com.example.billsolution_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "459712792868-jjl2lc6sirsfs1vfvlioapg8ple64vl6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCC5HLUEO0TaklHuVExiaIOgL3r5W-uuW8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "459712792868-jjl2lc6sirsfs1vfvlioapg8ple64vl6.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "459712792868-eb6kc0g9e0f3hfkf6f361hud52cjj6te.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "de.hska"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
