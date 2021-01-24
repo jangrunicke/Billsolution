@@ -53,7 +53,7 @@ class _AnalyticsCategoryListState extends State<AnalyticsCategoryList> {
         counter = counter + 1;
       });
 
-      return Flexible(
+      return Container(
         child: ListView(
           children: [
             ...cards,
