@@ -1,7 +1,5 @@
-import 'package:billsolution_app/aggregates/billposition/billposition.dart';
 import 'package:billsolution_app/aggregates/user.dart';
 import 'package:billsolution_app/pages/analytics/analytics_category_card.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -44,7 +42,7 @@ class _AnalyticsCategoryListState extends State<AnalyticsCategoryList> {
         Colors.blue,
         Colors.brown,
         Colors.yellow,
-        Colors.amber
+        Colors.teal,
       ];
       categories.forEach((category) {
         cards.add(_buildCategoryCard(category, colors[counter]));
@@ -69,7 +67,9 @@ class _AnalyticsCategoryListState extends State<AnalyticsCategoryList> {
     return Container(
       child: Consumer<User>(
         builder: (context, user, child) {
-          // TODO: if (user!=null)
+          if (user == null) {
+            return Text('Waiting');
+          }
           return StreamBuilder(
             stream: user.getAllCategories(),
             builder: (BuildContext context,
