@@ -78,6 +78,7 @@ class AddBillPopup extends StatelessWidget {
                   AddBillInputField(
                     'Datum',
                     addBillDateController,
+                    hintText: 'z.B 17.09.2020',
                   ),
                 ],
               ),
