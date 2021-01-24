@@ -27,13 +27,13 @@ class AnalyticsGraphicCard extends StatelessWidget {
     return [
       charts.Series<Billposition, String>(
         id: 'Sales',
+        data: desktopSaleData,
         domainFn: (Billposition billposition, _) => billposition.category,
         measureFn: (Billposition billposition, _) => billposition.price,
         colorFn: (Billposition billposition, _) =>
             charts.ColorUtil.fromDartColor(color),
         labelAccessorFn: (Billposition billposition, _) =>
             '${_roundDouble(billposition.price.toString()).toString()}' + '€',
-        data: desktopSaleData,
       )
     ];
   }

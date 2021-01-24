@@ -36,21 +36,25 @@ class _AnalyticsCategoryListState extends State<AnalyticsCategoryList> {
 
       List<Color> colors = [
         Colors.red,
-        Colors.orange,
-        Colors.purple,
         Colors.green,
+        Colors.orange,
         Colors.blue,
+        Colors.purple,
         Colors.brown,
         Colors.yellow,
+        Colors.lightGreen,
+        Colors.pink,
         Colors.teal,
+        Colors.deepOrange,
       ];
+
       categories.forEach((category) {
         cards.add(_buildCategoryCard(category, colors[counter]));
         counter = counter + 1;
       });
 
       return Container(
-        height: 600,
+        constraints: BoxConstraints(maxHeight: 500),
         child: ListView(
           children: [
             ...cards,
@@ -58,7 +62,6 @@ class _AnalyticsCategoryListState extends State<AnalyticsCategoryList> {
         ),
       );
     }
-
     return Text('Waiting');
   }
 
@@ -81,7 +84,6 @@ class _AnalyticsCategoryListState extends State<AnalyticsCategoryList> {
                 return Text('Empty');
               }
               List<String> list = new List<String>();
-
               snapshot.data.forEach((element) {
                 element.forEach((element) {
                   list.add(element);

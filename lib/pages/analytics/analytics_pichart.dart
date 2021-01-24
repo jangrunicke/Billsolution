@@ -45,7 +45,6 @@ class AnalyticsPiChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 200,
       child: Consumer<User>(
         builder: (context, user, child) {
           if (user == null) {
@@ -61,7 +60,7 @@ class AnalyticsPiChart extends StatelessWidget {
                 if (!snapshot.hasData) {
                   return Text('Empty');
                 }
-                return Text(snapshot.data.first.category);
+                return Text('hallo');
               });
         },
       ),
