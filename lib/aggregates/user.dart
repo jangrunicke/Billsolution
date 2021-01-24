@@ -98,12 +98,12 @@ class User {
           value: vendor.name));
     }
 
-    if (vendor.category != null) {
-      criterias.add(Criteria(
-          field: 'shop.vendor.category',
-          operator: 'isEqualTo',
-          value: vendor.category));
-    }
+    // if (vendor.category != null) {
+    //   criterias.add(Criteria(
+    //       field: 'shop.vendor.category',
+    //       operator: 'isEqualTo',
+    //       value: vendor.category));
+    // }
 
     if (startingAt != null) {
       criterias.add(Criteria(
@@ -117,6 +117,7 @@ class User {
         BillRepository().find(criterias: criterias);
 
     await for (List<Bill> bills in billsStream) {
+      print(bills);
       List<Stream<double>> streams = List<Stream<double>>();
       bills.forEach((Bill bill) {
         streams.add(bill.getCalculatedSum());
@@ -125,9 +126,12 @@ class User {
         yield 0;
       }
       Stream<List<double>> combinedStream = CombineLatestStream.list(streams);
-      Stream<double> sumStream = combinedStream.map<double>(
-          (List<double> list) => list.fold(
-              0, (previousValue, element) => previousValue + element));
+      Stream<double> sumStream =
+          combinedStream.map<double>((List<double> list) {
+        print(list);
+        return list.fold(
+            0, (previousValue, element) => previousValue + element);
+      });
 
       yield* sumStream;
     }
