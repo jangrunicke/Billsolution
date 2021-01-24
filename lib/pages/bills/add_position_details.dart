@@ -47,7 +47,7 @@ class AddBillPositionDetails extends StatelessWidget {
                         width: 255,
                         alignment: Alignment.centerLeft,
                         child: AddBillInputField('Preis', priceController,
-                            hintText: 'Preis ohne Währungseinheit, z.B 21.32'),
+                            hintText: 'Preis in Euro, z.B 21.32'),
                       ),
                     ),
                     Padding(
@@ -66,13 +66,11 @@ class AddBillPositionDetails extends StatelessWidget {
                 Padding(
                     padding: EdgeInsets.fromLTRB(20, 10, 0, 10),
                     child: AddBillInputField('Mwst.', taxController,
-                        hintText:
-                            'Mwst.: Dezimalzahl zwischen 0 und 1 , z.B 0.19')),
+                        hintText: 'Dezimalzahl zwischen 0 und 1 , z.B 0.19')),
                 Padding(
                     padding: EdgeInsets.fromLTRB(20, 10, 0, 10),
                     child: AddBillInputField('Rabatt', discountController,
-                        hintText:
-                            'Rabatt: Dezimalzahl zwischen 0 und 1, z.B 0.20')),
+                        hintText: 'Dezimalzahl zwischen 0 und 1, z.B 0.20')),
                 Padding(
                     padding: EdgeInsets.fromLTRB(20, 10, 0, 0),
                     child: AddBillInputField('Kategorie', categoryController,
@@ -138,7 +136,7 @@ class AddBillPositionDetails extends StatelessWidget {
                   Billposition newBillposition = Billposition(
                     productName: productNameController.text,
                     amount: double.parse(amountController.text),
-                    price: double.parse(priceController.text),
+                    price: double.parse(priceController.text) / 1.19,
                     tax: double.parse(taxController.text),
                     discount: double.parse(discountController.text),
                     category: categoryController.text,
