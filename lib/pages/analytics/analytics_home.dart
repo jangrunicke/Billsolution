@@ -18,11 +18,11 @@ class AnalyticsHome extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              AnalyticsPiChart(),
               AnalyticsCategoryCard(
                 category: 'Gesamt',
                 color: Theme.of(context).primaryColor,
               ),
+              AnalyticsPiChart(),
               Expanded(
                 child: AnalyticsCategoryList(),
               )
