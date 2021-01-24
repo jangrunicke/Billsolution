@@ -22,55 +22,109 @@ class AnalyticsPiChart extends StatelessWidget {
     return ((sum * mod).round().toDouble() / mod);
   }
 
-  // List<charts.Series<PiChartPos, String>> _generateData(
-  //     List<PiChartPos> pichartData) {
-  //
-  //   return [
-  //     charts.Series<PiChartPos, String>(
-  //       id: 'Pichart',
-  //       data: pichartData,
-  //       domainFn: (PiChartPos pichartpos, _) => pichartpos.categorty,
-  //       measureFn: (PiChartPos pichartpos, _) => pichartpos.sum,
-  //     )
-  //   ];
-  // }
+  List<PiChartPos> setcolors(List<PiChartPos> pichart) {
+    int counter = 0;
+    List<PiChartPos> pi = pichart;
+    List<Color> colors = [
+      Colors.red,
+      Colors.green,
+      Colors.orange,
+      Colors.blue,
+      Colors.purple,
+      Colors.brown,
+      Colors.yellow,
+      Colors.lightGreen,
+      Colors.pink,
+      Colors.teal,
+      Colors.deepOrange,
+    ];
 
-  // pichart(List<PiChartPos> pichartData) {
-  //   return charts.PieChart(
-  //     _generateData(pichartData),
-  //     animate: true,
-  //   );
-  // }
+    pi.forEach((element) {
+      element.color = colors[counter];
+      counter = counter + 1;
+    });
+    return pi;
+  }
+
+  List<charts.Series<PiChartPos, String>> _generateData(pichartData) {
+    var mockdata = [
+      PiChartPos(categorty: 'Auto', sum: 20),
+      PiChartPos(categorty: 'Büroartikel', sum: 50),
+    ];
+
+    var colormockdata = setcolors(mockdata);
+    return [
+      charts.Series<PiChartPos, String>(
+        id: 'Pichart',
+        data: colormockdata,
+        //data: pichartData,
+        domainFn: (PiChartPos pichartpos, _) => pichartpos.categorty,
+        measureFn: (PiChartPos pichartpos, _) => pichartpos.sum,
+        colorFn: (PiChartPos pichartpos, _) =>
+            charts.ColorUtil.fromDartColor(pichartpos.color),
+        labelAccessorFn: (PiChartPos row, _) => '${row.categorty}',
+      )
+    ];
+  }
+
+  pichart(List<PiChartPos> pichartData) {
+    return charts.PieChart(
+      _generateData(pichartData),
+      animate: true,
+      animationDuration: Duration(seconds: 3),
+      // behaviors: [
+      //   new charts.DatumLegend(
+      //     outsideJustification: charts.OutsideJustification.endDrawArea,
+      //     horizontalFirst: false,
+      //     desiredMaxRows: 2,
+      //     cellPadding: new EdgeInsets.only(right: 4.0, bottom: 4.0),
+      //     entryTextStyle: charts.TextStyleSpec(
+      //         color: charts.MaterialPalette.black,
+      //         fontFamily: 'Roboto',
+      //         fontSize: 10),
+      //   ),
+      // ],
+      defaultRenderer: new charts.ArcRendererConfig(
+          arcWidth: 100,
+          arcRendererDecorators: [
+            new charts.ArcLabelDecorator(
+                labelPosition: charts.ArcLabelPosition.outside)
+          ]),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Consumer<User>(
-        builder: (context, user, child) {
-          if (user == null) {
-            return Text('Waiting');
-          }
-          return StreamBuilder(
-              stream: user.getPieChartStream(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<List<PiChartPos>> snapshot) {
-                if (snapshot.hasError) {
-                  return Text(snapshot.error.toString());
-                }
-                if (!snapshot.hasData) {
-                  return Text('Empty');
-                }
-                return Text('hallo');
-              });
-        },
-      ),
+      height: 150,
+      child: pichart([]),
+      // child: Consumer<User>(
+      //   builder: (context, user, child) {
+      //     if (user == null) {
+      //       return Text('Waiting');
+      //     }
+      // return StreamBuilder(
+      //     stream: user.getPieChartStream(),
+      //     builder: (BuildContext context,
+      //         AsyncSnapshot<List<PiChartPos>> snapshot) {
+      //       if (snapshot.hasError) {
+      //         return Text(snapshot.error.toString());
+      //       }
+      //       if (!snapshot.hasData) {
+      //         return Text('Empty');
+      //       }
+      //       return Text('hallo');
+      //    });
+      // },
+      //),
     );
   }
 }
 
-// class PiChartPos {
-//   String categorty;
-//   double sum;
+class PiChartPos {
+  String categorty;
+  double sum;
+  Color color;
 
-//   PiChartPos({this.categorty, this.sum});
-// }
+  PiChartPos({this.categorty, this.sum});
+}
