@@ -14,16 +14,6 @@ class AnalyticsHome extends StatelessWidget {
         title: Text(
           'Auswertung',
         ),
-        actions: [
-          IconButton(
-              icon: Icon(
-                Icons.more_horiz,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                return null;
-              }),
-        ],
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.end,
