@@ -44,25 +44,23 @@ class AnalyticsCategoryCard extends StatelessWidget {
                     if (!snapshot.hasData) {
                       return Text('Empty');
                     }
-                    return Column(children: <Widget>[
-                      Row(
-                        children: [
-                          SizedBox(width: 10),
-                          Text(
-                            category,
-                          ),
-                        ],
-                      ),
-                      AnalyticsGraphicCard(
-                        stream: user.calculateSum(),
-                        color: color,
-                      ),
-                      SizedBox(height: 40),
-                      // AnalyticsDetailsButton(
-                      //   onPressed: null,
-                      //   text: 'Details',
-                      // )
-                    ]);
+                    return Column(
+                      children: <Widget>[
+                        Row(
+                          children: [
+                            SizedBox(width: 10),
+                            Text(
+                              category,
+                            ),
+                          ],
+                        ),
+                        AnalyticsGraphicCard(
+                          stream: user.calculateSum(),
+                          color: color,
+                        ),
+                        SizedBox(height: 40),
+                      ],
+                    );
                   },
                 );
               }
@@ -76,28 +74,25 @@ class AnalyticsCategoryCard extends StatelessWidget {
                     return Text('Empty');
                   }
                   return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        SizedBox(height: 5),
-                        Row(
-                          children: [
-                            SizedBox(width: 10),
-                            Text(
-                              category,
-                            ),
-                          ],
-                        ),
-                        AnalyticsGraphicCard(
-                          stream: user.calculateSumOfCategory(category),
-                          color: color,
-                        ),
-                        SizedBox(height: 40.0),
-                        // AnalyticsDetailsButton(
-                        //   onPressed: null,
-                        //   text: 'Details',
-                        // )
-                      ]);
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      SizedBox(height: 5),
+                      Row(
+                        children: [
+                          SizedBox(width: 10),
+                          Text(
+                            category,
+                          ),
+                        ],
+                      ),
+                      AnalyticsGraphicCard(
+                        stream: user.calculateSumOfCategory(category),
+                        color: color,
+                      ),
+                      SizedBox(height: 40.0),
+                    ],
+                  );
                 },
               );
             },
