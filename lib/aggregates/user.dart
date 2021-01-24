@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:billsolution_app/aggregates/bill/bill.dart';
 import 'package:billsolution_app/aggregates/bill/vendor.dart';
 import 'package:billsolution_app/aggregates/billposition/billposition.dart';
+import 'package:billsolution_app/pages/analytics/analytics_pichart.dart';
 import 'package:billsolution_app/repositorys/bill_repository.dart';
 import 'package:billsolution_app/repositorys/criteria.dart';
 import 'package:billsolution_app/utils/datetime_converter.dart';
@@ -136,4 +137,32 @@ class User {
       yield* sumStream;
     }
   }
+
+  Stream<List<PiChartPos>> getPieChartStream() async* {
+    await for (List<List<String>> categories in this.getAllCategories()) {
+      List<PiChartPos> pichartData = List<PiChartPos>();
+      List<String> cats = List<String>();
+      categories.forEach((categorie) {
+        categorie.forEach((categorie) {
+          cats.add(categorie);
+          if (!cats.contains(categorie)) {
+            cats.add(categorie);
+          }
+        });
+      });
+      cats.forEach((element) async {
+        //pichartData.add(PiChartPos(category: element, sum: 20.00));
+        await for (double sum in this.calculateSumOfCategory(element)) {
+          pichartData.add(PiChartPos(category: element, sum: sum));
+        }
+      });
+      yield pichartData;
+    }
+  }
+}
+
+class PiChartPos {
+  String category;
+  double sum;
+  PiChartPos({this.category, this.sum});
 }

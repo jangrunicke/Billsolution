@@ -16,9 +16,11 @@ class VendorList extends StatefulWidget {
 }
 
 class _VendorListState extends State<VendorList> {
-  List<Vendor> _getDistinctVendors(List<Bill> bills) {
+  List<Vendor> _getDistinctVendors(List<Bill> bills, DateTime lastValidDate) {
     var vendornames = List<String>();
     var vendors = List<Vendor>();
+    bills.removeWhere((element) => element.created_at.isBefore(lastValidDate));
+
     bills.map((bill) => bill.shop.vendor).forEach((vendor) {
       if (!vendornames.contains(vendor.name)) {
         vendornames.add(vendor.name);
@@ -27,63 +29,6 @@ class _VendorListState extends State<VendorList> {
     });
     return vendors;
   }
-
-  // VendorCardData _calculateVendorCardData(Stream<Bill> stream, String vendor) {
-  //   var aggPrice = 0.0;
-
-  //   StreamBuilder(
-  //     stream: stream.where((bill) => bill.shop.vendor.name == vendor),
-  //     builder: (BuildContext context, AsyncSnapshot<Bill> snapshot) {
-  //       snapshot.data.getCalculatedSum().listen((sum) {
-
-  //       }).onDone(() {
-  //         return VendorCardData(name: vendor, aggPrice: 2.0);
-  //       });
-  //     },
-  //   );
-  // }
-
-  // List<VendorCardData> _getVendorCardData(
-  //     List<Bill> bills, List<String> vendors) {
-  //   var result = List<VendorCardData>();
-  //   var stream = Stream<Bill>.fromIterable(bills);
-
-  //   vendors.forEach((vendor) {
-  //     // result.add(_calculateVendorCardData(stream, vendor));
-
-  //     double aggPrice = 0;
-
-  //     bills.forEach((bill) async {
-  //       if (bill.shop.vendor.name == vendor) {
-  //         var sum = 0.0;
-  //         await for (var value in bill.getCalculatedSum()) {
-  //           sum += value;
-  //         }
-  //         aggPrice += sum;
-  //       }
-  //     });
-
-  //     result.add(VendorCardData(name: vendor, aggPrice: aggPrice));
-  //   });
-
-  //   result.sort((a, b) => a.aggPrice.compareTo(b.aggPrice));
-  //   var orderedResult = result.reversed.toList();
-  //   return orderedResult;
-  // }
-
-  // List<Bill> _filterBillList(List<Bill> bills, DateTime lastValidDate) {
-  //   var zeitfilter = context.read<ZeitraumfilterModel>();
-  //   var lastValidDate = zeitfilter.getLastValidDate();
-  //   var filteredBills = List<Bill>();
-
-  //   bills.forEach((bill) {
-  //     if (bill.created_at.isAfter(lastValidDate)) {
-  //       filteredBills.add(bill);
-  //     }
-  //   });
-
-  //   return filteredBills;
-  // }
 
   Widget _buildVendorCard(Vendor vendor, DateTime lastValidDate) {
     var zeitraumfilter = context.read<ZeitraumfilterModel>();
@@ -110,13 +55,23 @@ class _VendorListState extends State<VendorList> {
 
   Widget _buildList(List<Bill> bills, DateTime lastValidDate) {
     if (bills != null) {
-      List<Vendor> vendors = _getDistinctVendors(bills);
+      List<Vendor> vendors = _getDistinctVendors(bills, lastValidDate);
 
       var cards = List<Widget>();
 
       vendors.forEach((vendor) {
         cards.add(_buildVendorCard(vendor, lastValidDate));
       });
+
+      // cards.forEach((element) {
+      //   if (element is VendorCard) {
+      //     if (element.summierteAusgaben == 0) {
+      //       cards.remove(element);
+      //     }
+      //   }
+      // });
+
+      // cards.removeWhere((element) => element.summierteAusgaben == 0);
 
       return ListView(
         scrollDirection: Axis.horizontal,
@@ -153,6 +108,7 @@ class _VendorListState extends State<VendorList> {
                     if (snapshot.hasData) {
                       return _buildList(snapshot.data, lastValidDate);
                     }
+                    return Text('Waiting');
                   });
             }
             return Text('Waiting');

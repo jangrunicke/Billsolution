@@ -153,7 +153,7 @@ class BillDetails extends StatelessWidget {
                                 trailing: SizedBox(
                                   width: 100,
                                   child: Text(
-                                    snapshot.data[index].price
+                                    (snapshot.data[index].price * 1.19)
                                             .toStringAsFixed(2) +
                                         '€',
                                     style: TextStyle(

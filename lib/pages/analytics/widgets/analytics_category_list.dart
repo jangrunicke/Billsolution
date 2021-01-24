@@ -1,7 +1,5 @@
-import 'package:billsolution_app/aggregates/billposition/billposition.dart';
 import 'package:billsolution_app/aggregates/user.dart';
 import 'package:billsolution_app/pages/analytics/analytics_category_card.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -38,21 +36,24 @@ class _AnalyticsCategoryListState extends State<AnalyticsCategoryList> {
 
       List<Color> colors = [
         Colors.red,
-        Colors.orange,
-        Colors.purple,
         Colors.green,
+        Colors.orange,
         Colors.blue,
+        Colors.purple,
         Colors.brown,
         Colors.yellow,
-        Colors.amber
+        Colors.lightGreen,
+        Colors.pink,
+        Colors.teal,
+        Colors.deepOrange,
       ];
+
       categories.forEach((category) {
         cards.add(_buildCategoryCard(category, colors[counter]));
         counter = counter + 1;
       });
 
-      return Container(
-        height: 600,
+      return Flexible(
         child: ListView(
           children: [
             ...cards,
@@ -60,7 +61,6 @@ class _AnalyticsCategoryListState extends State<AnalyticsCategoryList> {
         ),
       );
     }
-
     return Text('Waiting');
   }
 
@@ -69,7 +69,9 @@ class _AnalyticsCategoryListState extends State<AnalyticsCategoryList> {
     return Container(
       child: Consumer<User>(
         builder: (context, user, child) {
-          // TODO: if (user!=null)
+          if (user == null) {
+            return Text('Waiting');
+          }
           return StreamBuilder(
             stream: user.getAllCategories(),
             builder: (BuildContext context,
@@ -81,7 +83,6 @@ class _AnalyticsCategoryListState extends State<AnalyticsCategoryList> {
                 return Text('Empty');
               }
               List<String> list = new List<String>();
-
               snapshot.data.forEach((element) {
                 element.forEach((element) {
                   list.add(element);

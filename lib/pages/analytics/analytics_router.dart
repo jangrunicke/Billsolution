@@ -9,8 +9,6 @@ class AnalyticsRouter extends StatelessWidget {
     switch (settings.name) {
       case homePath:
         return MaterialPageRoute(builder: (context) => AnalyticsHome());
-      // case demoChart:
-      //   return MaterialPageRoute(builder: (context) => AnalyticsGraphic());
     }
   }
 
