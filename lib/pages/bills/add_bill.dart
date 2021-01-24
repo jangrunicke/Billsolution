@@ -44,8 +44,7 @@ class AddBillPopup extends StatelessWidget {
       appBar: AddBillPositionAppBar('Beleg \n hinzufügen', 86),
       body: Column(
         children: [
-          Container(
-            height: 600,
+          Flexible(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
               child: ListView(
