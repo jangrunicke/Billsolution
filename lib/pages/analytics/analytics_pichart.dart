@@ -5,6 +5,11 @@ import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:provider/provider.dart';
 
 class AnalyticsPiChart extends StatelessWidget {
+  static int _roundPercent(double ergebnis) {
+    double mod = pow(10.0, 2);
+    return ((ergebnis * mod) ~/ mod);
+  }
+
   List<PiChartPos> setcolors(List<PiChartPos> pichart) {
     int counter = 0;
 
@@ -34,6 +39,12 @@ class AnalyticsPiChart extends StatelessWidget {
   List<charts.Series<PiChartPos, String>> _generateData(
       List<PiChartPos> pichartData) {
     var colorizeddata = setcolors(pichartData);
+    double gesamt = 0;
+    pichartData.forEach(
+      (element) {
+        gesamt = gesamt + element.sum;
+      },
+    );
     return [
       charts.Series<PiChartPos, String>(
         id: 'Pichart',
@@ -42,7 +53,8 @@ class AnalyticsPiChart extends StatelessWidget {
         measureFn: (PiChartPos pichartpos, _) => pichartpos.sum,
         colorFn: (PiChartPos pichartpos, _) =>
             charts.ColorUtil.fromDartColor(pichartpos.color),
-        labelAccessorFn: (PiChartPos row, _) => '${row.categorty}',
+        labelAccessorFn: (PiChartPos row, _) =>
+            '${row.categorty} ${_roundPercent((row.sum / gesamt * 100))}%',
       )
     ];
   }
@@ -52,19 +64,18 @@ class AnalyticsPiChart extends StatelessWidget {
       _generateData(pichartData),
       animate: true,
       //animationDuration: Duration(seconds: 3),
-      defaultRenderer: new charts.ArcRendererConfig(
-          arcWidth: 100,
-          arcRendererDecorators: [
-            new charts.ArcLabelDecorator(
-                labelPosition: charts.ArcLabelPosition.outside)
-          ]),
+      defaultRenderer:
+          new charts.ArcRendererConfig(arcWidth: 100, arcRendererDecorators: [
+        new charts.ArcLabelDecorator(
+            labelPosition: charts.ArcLabelPosition.outside),
+      ]),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 200,
+      height: 150,
       child: Consumer<User>(
         builder: (context, user, child) {
           if (user == null) {
