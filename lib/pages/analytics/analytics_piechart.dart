@@ -4,17 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:provider/provider.dart';
 
-class AnalyticsPiChart extends StatelessWidget {
+class AnalyticsPieChart extends StatelessWidget {
   static int _roundPercent(double ergebnis) {
     double mod = pow(10.0, 2);
     return ((ergebnis * mod) ~/ mod);
   }
 
-  List<PiChartPos> setcolors(List<PiChartPos> pichart) {
+  List<PieChartPos> setcolors(List<PieChartPos> piechart) {
     int counter = 0;
 
-    List<PiChartPos> pi = pichart;
-    pi.sort((a, b) => a.categorty.compareTo(b.categorty));
+    List<PieChartPos> pie = piechart;
+    pie.sort((a, b) => a.categorty.compareTo(b.categorty));
     List<Color> colors = [
       Colors.red,
       Colors.green,
@@ -29,39 +29,39 @@ class AnalyticsPiChart extends StatelessWidget {
       Colors.deepOrange,
     ];
 
-    pi.forEach((element) {
+    pie.forEach((element) {
       element.color = colors[counter];
       counter = counter + 1;
     });
-    return pi;
+    return pie;
   }
 
-  List<charts.Series<PiChartPos, String>> _generateData(
-      List<PiChartPos> pichartData) {
-    var colorizeddata = setcolors(pichartData);
+  List<charts.Series<PieChartPos, String>> _generateData(
+      List<PieChartPos> piechartData) {
+    var colorizedData = setcolors(piechartData);
     double gesamt = 0;
-    pichartData.forEach(
+    piechartData.forEach(
       (element) {
         gesamt = gesamt + element.sum;
       },
     );
     return [
-      charts.Series<PiChartPos, String>(
-        id: 'Pichart',
-        data: colorizeddata,
-        domainFn: (PiChartPos pichartpos, _) => pichartpos.categorty,
-        measureFn: (PiChartPos pichartpos, _) => pichartpos.sum,
-        colorFn: (PiChartPos pichartpos, _) =>
-            charts.ColorUtil.fromDartColor(pichartpos.color),
-        labelAccessorFn: (PiChartPos row, _) =>
+      charts.Series<PieChartPos, String>(
+        id: 'Piechart',
+        data: colorizedData,
+        domainFn: (PieChartPos piechartpos, _) => piechartpos.categorty,
+        measureFn: (PieChartPos piechartpos, _) => piechartpos.sum,
+        colorFn: (PieChartPos piechartpos, _) =>
+            charts.ColorUtil.fromDartColor(piechartpos.color),
+        labelAccessorFn: (PieChartPos row, _) =>
             '${row.categorty} ${_roundPercent((row.sum / gesamt * 100))}%',
       )
     ];
   }
 
-  pichart(List<PiChartPos> pichartData) {
+  piechart(List<PieChartPos> piechartData) {
     return charts.PieChart(
-      _generateData(pichartData),
+      _generateData(piechartData),
       animate: true,
       //animationDuration: Duration(seconds: 3),
       defaultRenderer:
@@ -84,20 +84,20 @@ class AnalyticsPiChart extends StatelessWidget {
           return StreamBuilder(
             stream: user.getPieChartStream(),
             builder: (BuildContext context,
-                AsyncSnapshot<List<PiChartPos>> snapshot) {
+                AsyncSnapshot<List<PieChartPos>> snapshot) {
               if (snapshot.hasError) {
                 return Text(snapshot.error.toString());
               }
               if (!snapshot.hasData) {
                 return Text('Empty');
               }
-              List<PiChartPos> list = new List<PiChartPos>();
+              List<PieChartPos> list = new List<PieChartPos>();
               snapshot.data.forEach(
                 (element) {
                   list.add(element);
                 },
               );
-              return pichart(list);
+              return piechart(list);
             },
           );
         },
@@ -106,10 +106,10 @@ class AnalyticsPiChart extends StatelessWidget {
   }
 }
 
-class PiChartPos {
+class PieChartPos {
   String categorty;
   double sum;
   Color color;
 
-  PiChartPos({this.categorty, this.sum});
+  PieChartPos({this.categorty, this.sum});
 }

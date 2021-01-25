@@ -5,7 +5,7 @@ import 'dart:math';
 import 'package:billsolution_app/aggregates/bill/bill.dart';
 import 'package:billsolution_app/aggregates/bill/vendor.dart';
 import 'package:billsolution_app/aggregates/billposition/billposition.dart';
-import 'package:billsolution_app/pages/analytics/analytics_pichart.dart';
+import 'package:billsolution_app/pages/analytics/analytics_piechart.dart';
 import 'package:billsolution_app/repositorys/bill_repository.dart';
 import 'package:billsolution_app/repositorys/criteria.dart';
 import 'package:billsolution_app/utils/datetime_converter.dart';
@@ -140,10 +140,10 @@ class User {
     }
   }
 
-  Stream<List<PiChartPos>> getPieChartStream() async* {
+  Stream<List<PieChartPos>> getPieChartStream() async* {
     await for (List<List<String>> categories in this.getAllCategories()) {
       // Map<String, Stream<double>> sumGroupedByCategory = Map();
-      List<Stream<PiChartPos>> pichartData = List<Stream<PiChartPos>>();
+      List<Stream<PieChartPos>> pichartData = List<Stream<PieChartPos>>();
       List<String> cats = List<String>();
       categories.forEach((categorie) {
         categorie.forEach((categorie) {
@@ -158,15 +158,16 @@ class User {
         pichartData.add(buildPiChartPos(cat, sumOfCategory));
       }
 
-      Stream<List<PiChartPos>> test = CombineLatestStream.list(pichartData).asBroadcastStream();
+      Stream<List<PieChartPos>> test =
+          CombineLatestStream.list(pichartData).asBroadcastStream();
       yield* test.asBroadcastStream();
     }
   }
 
-  Stream<PiChartPos> buildPiChartPos(
+  Stream<PieChartPos> buildPiChartPos(
       String category, Stream<double> sumStream) async* {
     await for (double sum in sumStream) {
-      yield PiChartPos(categorty: category, sum: sum);
+      yield PieChartPos(categorty: category, sum: sum);
     }
   }
 }
