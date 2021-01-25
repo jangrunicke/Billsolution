@@ -41,7 +41,7 @@ class _AnalyticsCategoryListState extends State<AnalyticsCategoryList> {
         Colors.blue,
         Colors.purple,
         Colors.brown,
-        Colors.yellow,
+        Colors.grey,
         Colors.lightGreen,
         Colors.pink,
         Colors.teal,

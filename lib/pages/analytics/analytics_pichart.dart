@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:math';
 import 'package:billsolution_app/aggregates/user.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,9 @@ class AnalyticsPiChart extends StatelessWidget {
 
   List<PiChartPos> setcolors(List<PiChartPos> pichart) {
     int counter = 0;
+
     List<PiChartPos> pi = pichart;
+    pi.sort((a, b) => a.categorty.compareTo(b.categorty));
     List<Color> colors = [
       Colors.red,
       Colors.green,
@@ -32,7 +35,7 @@ class AnalyticsPiChart extends StatelessWidget {
       Colors.blue,
       Colors.purple,
       Colors.brown,
-      Colors.yellow,
+      Colors.grey,
       Colors.lightGreen,
       Colors.pink,
       Colors.teal,
@@ -46,13 +49,14 @@ class AnalyticsPiChart extends StatelessWidget {
     return pi;
   }
 
-  List<charts.Series<PiChartPos, String>> _generateData(pichartData) {
+  List<charts.Series<PiChartPos, String>> _generateData(
+      List<PiChartPos> pichartData) {
     var mockdata = [
       PiChartPos(categorty: 'Auto', sum: 20),
       PiChartPos(categorty: 'Büroartikel', sum: 50),
     ];
 
-    var colormockdata = setcolors(mockdata);
+    var colormockdata = setcolors(pichartData);
     return [
       charts.Series<PiChartPos, String>(
         id: 'Pichart',
@@ -71,19 +75,7 @@ class AnalyticsPiChart extends StatelessWidget {
     return charts.PieChart(
       _generateData(pichartData),
       animate: true,
-      animationDuration: Duration(seconds: 3),
-      // behaviors: [
-      //   new charts.DatumLegend(
-      //     outsideJustification: charts.OutsideJustification.endDrawArea,
-      //     horizontalFirst: false,
-      //     desiredMaxRows: 2,
-      //     cellPadding: new EdgeInsets.only(right: 4.0, bottom: 4.0),
-      //     entryTextStyle: charts.TextStyleSpec(
-      //         color: charts.MaterialPalette.black,
-      //         fontFamily: 'Roboto',
-      //         fontSize: 10),
-      //   ),
-      // ],
+      //animationDuration: Duration(seconds: 3),
       defaultRenderer: new charts.ArcRendererConfig(
           arcWidth: 100,
           arcRendererDecorators: [
@@ -97,26 +89,39 @@ class AnalyticsPiChart extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 150,
-      child: pichart([]),
-      // child: Consumer<User>(
-      //   builder: (context, user, child) {
-      //     if (user == null) {
-      //       return Text('Waiting');
-      //     }
-      // return StreamBuilder(
-      //     stream: user.getPieChartStream(),
-      //     builder: (BuildContext context,
-      //         AsyncSnapshot<List<PiChartPos>> snapshot) {
-      //       if (snapshot.hasError) {
-      //         return Text(snapshot.error.toString());
-      //       }
-      //       if (!snapshot.hasData) {
-      //         return Text('Empty');
-      //       }
-      //       return Text('hallo');
-      //    });
-      // },
-      //),
+      // child: pichart([]),
+      child: Consumer<User>(
+        builder: (context, user, child) {
+          if (user == null) {
+            return Text('Waiting');
+          }
+          return StreamBuilder(
+            stream: user.getPieChartStream(),
+            builder: (BuildContext context,
+                AsyncSnapshot<HashMap<String, Stream<double>>> snapshot) {
+              if (snapshot.hasError) {
+                return Text(snapshot.error.toString());
+              }
+              if (!snapshot.hasData) {
+                return Text('Empty');
+              }
+              List<PiChartPos> list = new List<PiChartPos>();
+              snapshot.data.forEach(
+                (key, value) {
+                  double zahl1 = 0;
+                  value.listen((event) {
+                    return zahl1 = event;
+                  });
+                  list.add(
+                    PiChartPos(categorty: key, sum: 20),
+                  );
+                },
+              );
+              return pichart(list);
+            },
+          );
+        },
+      ),
     );
   }
 }
