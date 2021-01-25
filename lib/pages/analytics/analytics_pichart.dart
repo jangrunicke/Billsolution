@@ -96,17 +96,24 @@ class AnalyticsPiChart extends StatelessWidget {
             return Text('Waiting');
           }
           return StreamBuilder(
-              stream: user.getPieChartStream(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<List<PiChartPos>> snapshot) {
-                if (snapshot.hasError) {
-                  return Text(snapshot.error.toString());
-                }
-                if (!snapshot.hasData) {
-                  return Text('Empty');
-                }
-                return Text('hallo');
-              });
+            stream: user.getPieChartStream(),
+            builder: (BuildContext context,
+                AsyncSnapshot<List<PiChartPos>> snapshot) {
+              if (snapshot.hasError) {
+                return Text(snapshot.error.toString());
+              }
+              if (!snapshot.hasData) {
+                return Text('Empty');
+              }
+              List<PiChartPos> list = new List<PiChartPos>();
+              snapshot.data.forEach(
+                (element) {
+                  list.add(element);
+                },
+              );
+              return pichart(list);
+            },
+          );
         },
       ),
     );
