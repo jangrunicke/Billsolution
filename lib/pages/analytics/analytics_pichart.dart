@@ -97,26 +97,26 @@ class AnalyticsPiChart extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 150,
-      child: pichart([]),
-      // child: Consumer<User>(
-      //   builder: (context, user, child) {
-      //     if (user == null) {
-      //       return Text('Waiting');
-      //     }
-      // return StreamBuilder(
-      //     stream: user.getPieChartStream(),
-      //     builder: (BuildContext context,
-      //         AsyncSnapshot<List<PiChartPos>> snapshot) {
-      //       if (snapshot.hasError) {
-      //         return Text(snapshot.error.toString());
-      //       }
-      //       if (!snapshot.hasData) {
-      //         return Text('Empty');
-      //       }
-      //       return Text('hallo');
-      //    });
-      // },
-      //),
+      // child: pichart([]),
+      child: Consumer<User>(
+        builder: (context, user, child) {
+          if (user == null) {
+            return Text('Waiting');
+          }
+      return StreamBuilder(
+          stream: user.getPieChartStream(),
+          builder: (BuildContext context,
+              AsyncSnapshot<List<PiChartPos>> snapshot) {
+            if (snapshot.hasError) {
+              return Text(snapshot.error.toString());
+            }
+            if (!snapshot.hasData) {
+              return Text('Empty');
+            }
+            return Text('hallo');
+         });
+      },
+      ),
     );
   }
 }
