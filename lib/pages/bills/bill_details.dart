@@ -5,11 +5,18 @@ import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+/// Widget zur Darstellung des Bill-Details Screnn (nach click auf ein Element aus der Bill-List)
 class BillDetails extends StatelessWidget {
+  /// Übergebener Bill, der dargestellt werden muss
   Bill _bill;
 
+  /// Konstruktor
+  /// Parameter: der zu übergebende Bill
   BillDetails(this._bill);
 
+  /// Methode, dient der Darstellung der Informationen zum Beleg
+  /// Parameter context: Build-Context
+  /// returned geschachtelten Container
   Widget _buildInfos(BuildContext context) {
     return Container(
       child: StreamBuilder(
@@ -105,6 +112,8 @@ class BillDetails extends StatelessWidget {
     );
   }
 
+  /// Methode, die die Billpositionen in einer Scrollable Liste darstellt
+  /// returned ein Containe Widget, jedoch sehr geschachelt.
   Widget _buildPositons() {
     return Container(
       child: Column(
@@ -240,6 +249,10 @@ class BillDetails extends StatelessWidget {
     );
   }
 
+  /// Build-Methode, die das Widget erstellt
+  /// Parameter: Build-Context
+  /// returned: Scaffold mit AppBar und Body
+  /// body wird in Methoden _buildInfos() und _buildPositions()
   @override
   Widget build(BuildContext context) {
     final DateFormat formatter = DateFormat('dd.MM.yyyy');

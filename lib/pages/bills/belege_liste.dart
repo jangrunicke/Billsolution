@@ -9,7 +9,13 @@ import 'package:intl/intl.dart';
 
 import 'package:provider/provider.dart';
 
+/// Widget der Belege-Liste
 class BelegeListe extends StatelessWidget {
+  /// Methode die sich dem allgemeinen Darstellen der Belege widmet
+  /// auslagerung durch buildBillListView().
+  /// Es wird der aktuelle User genommen und auf diesem Objekt wird die Methode getBills() aufgerufen,
+  /// welche Bills des Users liefert
+  /// returned Container Widget, dass die Liste beinhaltet
   Widget _buildBelege(BuildContext context) {
     return Container(
       child: Consumer<User>(builder: (context, user, child) {
@@ -54,6 +60,10 @@ class BelegeListe extends StatelessWidget {
     );
   }
 
+  ///Methode die dem erstellen des List-View Widgets dient
+  /// Parameter bills: Liste der Bills die dargestellt werden sollen
+  /// context: Build-Context
+  /// returned ListView Element sobald die Daten aus dem Stream da sind
   Widget _buildBillListView(List<Bill> bills, BuildContext context) {
     if (bills != null) {
       return ListView.separated(
@@ -68,6 +78,10 @@ class BelegeListe extends StatelessWidget {
     return Text('Waiting');
   }
 
+  /// Methode baut ein einzelnes Listen-Element
+  /// Parameter bill: Der Bill, der dargestellt werden soll
+  /// Parameter context: BuildContext
+  /// returned: ListTile-Widget, dass das Element beinhaltet
   Widget _buildBillListTile(Bill bill, BuildContext context) {
     return ListTile(
         title: Row(
@@ -120,6 +134,9 @@ class BelegeListe extends StatelessWidget {
     return formatter.format(date);
   }
 
+  /// Build-Methode, die aufgerufen wird wenn das Widget dargestellt werden soll
+  /// returned ein Expanded Widgeet in dem die Liste liegt
+  /// Liste wurde in _buildBelege() ausgelagert
   @override
   Widget build(BuildContext context) {
     return Expanded(
