@@ -23,6 +23,8 @@ class _SelectGroupDropDownState extends State<SelectGroupDropDown> {
     'Hygiene',
     'Elektronik',
     'Klamotten',
+    'Freizeit',
+    'Sonstiges'
   ];
 
   @override
