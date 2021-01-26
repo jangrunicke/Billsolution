@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+/*
+  Ein TextInput Feld mit anpassbarem Hinweistext und der Möglichkeit zum Verdecken
+  der Eingabe (bool obscureText)
+ */
 class AuthInputTextField extends StatelessWidget {
   final String hintText;
   final bool obscureText;

@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 
 import 'forgot_password_page.dart';
 
+/*
+  Hier werden Routen anhand von Pfaden deklariert
+ */
+
 class AuthRouter extends StatelessWidget {
   static const homePath = '/';
   static const registryPath = '/registry';

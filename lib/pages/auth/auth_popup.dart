@@ -1,6 +1,10 @@
 import 'package:billsolution_app/components/primary_button.dart';
 import 'package:flutter/material.dart';
 
+/*
+  Ein Popup, dass eine Meldung (text) mit einem Titel (title) anzeigt,
+  z.B. wenn der User sich erfolgreich registriert hat 
+ */
 class AuthPopup extends StatelessWidget {
   final String text;
   final String title;
