@@ -10,12 +10,19 @@ import 'package:provider/provider.dart';
 
 import 'vendor_card.dart';
 
+/// Widget, das der Darstellung der Liste von Vendor-Cards dient
 class VendorList extends StatefulWidget {
   @override
   _VendorListState createState() => _VendorListState();
 }
 
+/// Status des Widgets
 class _VendorListState extends State<VendorList> {
+  /// Methode um eine Liste von Händlern zu bekommen ohne Duplikate und ohne
+  ///   Elemente, die keine Bills im aktuellen Zeitfilterraum haben
+  /// Parameter bills: Liste aller Bills eines Users
+  /// Parameter lastValidDate: ermittelter Letzter Tag nach auswahl des Zeitraumfilters
+  /// returned eine Liste von Objekten der Vendor-Klasse
   List<Vendor> _getDistinctVendors(List<Bill> bills, DateTime lastValidDate) {
     var vendornames = List<String>();
     var vendors = List<Vendor>();
@@ -30,6 +37,10 @@ class _VendorListState extends State<VendorList> {
     return vendors;
   }
 
+  /// Methode um eine VendorCards zu bauen für einen Händler
+  /// Parameter vendor: Der Händler für den die Karte gebaut werden soll
+  /// Parameter lastValidDate: der letzte beachtete Tag, nach auswahl des Zeitraumfilters
+  /// returned: eine VendorCard wenn, sobald die Daten des Streams da sind
   Widget _buildVendorCard(Vendor vendor, DateTime lastValidDate) {
     var zeitraumfilter = context.read<ZeitraumfilterModel>();
     var lastValidDate = zeitraumfilter.getLastValidDate();
@@ -53,6 +64,10 @@ class _VendorListState extends State<VendorList> {
     });
   }
 
+  /// Methode um die Liste der Karten zu bauen.
+  /// Parameter bills: die Liste der Belege eines Users.
+  /// Parameter lastValidDate: der letzte beachtete Tag, unter Berücksichtigung des Zeitraumfilters.
+  /// returned: ListView Widget, sobald die Liste der Bills vollkommmen geladen wurde
   Widget _buildList(List<Bill> bills, DateTime lastValidDate) {
     if (bills != null) {
       List<Vendor> vendors = _getDistinctVendors(bills, lastValidDate);
@@ -62,16 +77,6 @@ class _VendorListState extends State<VendorList> {
       vendors.forEach((vendor) {
         cards.add(_buildVendorCard(vendor, lastValidDate));
       });
-
-      // cards.forEach((element) {
-      //   if (element is VendorCard) {
-      //     if (element.summierteAusgaben == 0) {
-      //       cards.remove(element);
-      //     }
-      //   }
-      // });
-
-      // cards.removeWhere((element) => element.summierteAusgaben == 0);
 
       return ListView(
         scrollDirection: Axis.horizontal,
@@ -85,6 +90,9 @@ class _VendorListState extends State<VendorList> {
     return Text('Waiting');
   }
 
+  /// Build-Methode die aufgerufen wird von der Engine, sobald das Widget dargestellt werdens soll.
+  /// returned: Container, der die Liste beinhaltet. Liste wurde in Methode
+  ///   _buildList() ausgelagert.
   @override
   Widget build(BuildContext context) {
     var zeitraumfilter = context.watch<ZeitraumfilterModel>();

@@ -10,19 +10,13 @@ import 'widgets/zeitraum_filter.dart';
 import 'add_bill.dart';
 import './belege_liste.dart';
 
+/// Widget, für den Bills-Home-Screen
 class BillsHome extends StatelessWidget {
-  final mockData = ['Rewe', 'DM', 'Edeka', 'Penny', 'Aldi'];
-
-  final colors = [
-    Color.fromRGBO(230, 57, 70, 1.0),
-    Color.fromRGBO(168, 218, 220, 1.0),
-    Color.fromRGBO(254, 168, 168, 1.0),
-    Color.fromRGBO(69, 123, 157, 1.0),
-    Color.fromRGBO(255, 33, 0, 1.0),
-  ];
-
-  final rng = new Random();
-
+  /// build-Funktion, die den Inhalt des Widgets enthält
+  /// Multi-Provider um auf die ausgewählten Filter durch Provider-Bibliothek zugreifen kann
+  /// returned: Scaffold Widget um Standard Material-Design Bildschirm mit App-Bar zu erstellen
+  /// Appbar beinhaltet den Knopf zum manuellen anlegen eines neuen Beleges
+  /// Body beinhaltet das Zeitraumfilter-Model, die Händler-Karten-Liste und die Belege-Liste
   @override
   Widget build(BuildContext context) {
     return MultiProvider(

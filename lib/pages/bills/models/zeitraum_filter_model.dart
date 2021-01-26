@@ -1,9 +1,16 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+/// Klasse, die den Status des aktuellen ausgewählten Zeitraumfilter bereitstellt.
+/// Erweitert durch die Provider Bibliothek, wodurch von außen auf den Zustand zugegriffen werden kann
+///   --> Observer-Patttern
 class ZeitraumfilterModel with ChangeNotifier {
+  /// Enum, das den aktuell ausgewählten Zeitfilter repräsentiert
+  /// Default = none
   SelectedFilter ausgewaehlt = SelectedFilter.none;
 
+  /// Methode um den aktuellen Zeitfilter auszuwählen / zu ändern
+  /// notifyListeners, benachrichtigt Observer.
   void select(int index) {
     switch (index) {
       case 0:
@@ -28,6 +35,9 @@ class ZeitraumfilterModel with ChangeNotifier {
     }
   }
 
+  /// Methode um den letzten Tag, der im gültigen Zeitraum liegt zu berechnnen,
+  ///   unter der Berücksichtigung des aktuell ausgewählten Filters.
+  /// returned: Letzes Datum im Zeitraum
   DateTime getLastValidDate() {
     switch (ausgewaehlt) {
       case SelectedFilter.none:

@@ -3,17 +3,26 @@ import 'package:billsolution_app/pages/bills/models/zeitraum_filter_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+/// Widget zur Darstellung einer Händler-Karte
 class VendorCard extends StatelessWidget {
+  /// Name des Händlers
   final String vendorName;
+
+  /// aggregierte Summe, aller Ausgaben bei diesem Händler.
   final double summierteAusgaben;
 
+  /// Konstruktor
   VendorCard(this.vendorName, this.summierteAusgaben);
 
+  /// Methode, die ausgeführt wird, wenn auf eine der Karten gedrücktt wird.
+  /// setzt im VendorFilterModel den ausgewählten Händlername.
   void _auswaehlen(BuildContext context) {
     var filterModel = context.read<VendorFilterModel>();
     filterModel.selectFilter(this.vendorName);
   }
 
+  /// Build-Methode, die von der WordPress-Engine aufgerufen wird, wenn das Widget dargestellt werden soll.
+  /// returned Widget, dass einen Karte inn einem Button darstellt.
   @override
   Widget build(BuildContext context) {
     final filter = context.watch<VendorFilterModel>();
