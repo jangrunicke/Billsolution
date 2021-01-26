@@ -4,6 +4,10 @@ import 'package:billsolution_app/pages/analytics/widgets/analytics_category_list
 
 import 'package:flutter/material.dart';
 
+/**
+ * Startseite des Analytics-Tabs
+ */
+
 class AnalyticsHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -25,7 +29,7 @@ class AnalyticsHome extends StatelessWidget {
             AnalyticsPieChart(),
             Expanded(
               child: AnalyticsCategoryList(),
-            )
+            ),
           ],
         ),
       ),

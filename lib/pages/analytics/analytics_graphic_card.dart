@@ -18,6 +18,9 @@ class AnalyticsGraphicCard extends StatelessWidget {
     return ((sum * mod).round().toDouble() / mod);
   }
 
+  /**
+   * Funktion, welche die Daten für das Barchart generiert 
+   */
   List<charts.Series<Billposition, String>> _generateData(String betrag) {
     double doubleBetrag = double.parse(betrag);
     final desktopSaleData = [
@@ -38,10 +41,9 @@ class AnalyticsGraphicCard extends StatelessWidget {
     ];
   }
 
-  // charts.BarLabelDecorator bardecorater() {
-  //   charts.BarLabelDecorator bl = new charts.BarLabelDecorator(labelAnchor: charts.BarLabelAnchor.end);
-  // }
-
+  /**
+   * Funktion, welche ein Barchart mit den generierten Daten erzeugt
+   */
   barchart(String streamString) {
     return charts.BarChart(
       _generateData(streamString),

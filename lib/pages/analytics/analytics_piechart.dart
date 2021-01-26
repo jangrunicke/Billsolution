@@ -4,12 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:provider/provider.dart';
 
+/**
+ * Klasse die das Piechart anzeigt
+ */
 class AnalyticsPieChart extends StatelessWidget {
+  /**
+   * Funktion die ein double in Prozent umwandelt
+   */
   static int _roundPercent(double ergebnis) {
     double mod = pow(10.0, 2);
     return ((ergebnis * mod) ~/ mod);
   }
 
+  /**
+   * Funktion, die den Pie Stücken Farben zuordnet
+   */
   List<PieChartPos> setcolors(List<PieChartPos> piechart) {
     int counter = 0;
 
@@ -36,6 +45,9 @@ class AnalyticsPieChart extends StatelessWidget {
     return pie;
   }
 
+  /**
+   * Funktion, die die Daten des Picharts generiert
+   */
   List<charts.Series<PieChartPos, String>> _generateData(
       List<PieChartPos> piechartData) {
     var colorizedData = setcolors(piechartData);
@@ -59,6 +71,9 @@ class AnalyticsPieChart extends StatelessWidget {
     ];
   }
 
+  /**
+   * Funktion liefert das Piechart zurück
+   */
   piechart(List<PieChartPos> piechartData) {
     return charts.PieChart(
       _generateData(piechartData),
@@ -72,6 +87,9 @@ class AnalyticsPieChart extends StatelessWidget {
     );
   }
 
+  /**
+   * Widget welches auf dem Screen angezeigt wird
+   */
   @override
   Widget build(BuildContext context) {
     return Container(

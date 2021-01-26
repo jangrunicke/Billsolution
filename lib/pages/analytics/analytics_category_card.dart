@@ -3,6 +3,9 @@ import 'package:billsolution_app/pages/analytics/analytics_graphic_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+/**
+ * Klasse, die eine Card zurückliefert in der eine Graphic zu der Kategorie angezeigt wird 
+ */
 class AnalyticsCategoryCard extends StatelessWidget {
   final String category;
   final Color color;

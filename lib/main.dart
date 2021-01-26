@@ -8,19 +8,15 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (context) => UserModel(),
-        ),
-        StreamProvider(
-          create: (context) => UserService.instance.findById(Provider.of<UserModel>(context, listen: false).userId),
-        ),
-      ],
-      child: App()
-    )
-  );
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(
+      create: (context) => UserModel(),
+    ),
+    StreamProvider(
+      create: (context) => UserService.instance
+          .findById(Provider.of<UserModel>(context, listen: false).userId),
+    ),
+  ], child: App()));
 }
 
 class App extends StatefulWidget {
@@ -29,7 +25,6 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  // TODO: Quickfix solution, statemanagement needed
   bool _initalized = false;
   bool _error = false;
 
@@ -53,14 +48,12 @@ class _AppState extends State<App> {
   }
 
   Widget buildScreen() {
-    return Consumer<UserModel>(
-      builder: (context, user, child) {
-        if (user.isLoggedIn) {
-          return AppShell();
-        }
-        return AuthRouter();
+    return Consumer<UserModel>(builder: (context, user, child) {
+      if (user.isLoggedIn) {
+        return AppShell();
       }
-    );
+      return AuthRouter();
+    });
   }
 
   @override
