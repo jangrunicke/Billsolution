@@ -1,6 +1,13 @@
+/*
+    Eine Klasse um wiederverwendbare Widgets im Zusammenhang mit dem Hinzufügen
+    eines Belegs zu definieren
+ */
 import 'package:flutter/material.dart';
 
-// InputFelder mit Label über den Textfeldern
+/*
+ Wiederverwendbare InputFelder mit anpassbarem Label über den Textfeldern und 
+ anpassbarem Hinweistext
+*/
 class AddBillInputField extends StatelessWidget {
   final String _textInputLabel;
   final TextEditingController _textEditingController;
@@ -52,7 +59,11 @@ class AddBillInputField extends StatelessWidget {
   }
 }
 
-// Button zum Hinzufügen
+/* 
+  Button zum Hinzufügen
+  Wiederverwendbarer Button, beim das Design gleichbleibt,
+  die Funktion und das Label allerdings angepasst werden können
+*/
 class HinzufuegenButton extends StatelessWidget {
   final VoidCallback onPressed;
   final label;
@@ -87,6 +98,10 @@ class HinzufuegenButton extends StatelessWidget {
   }
 }
 
+/*
+  Wiederverwendbare AppBar mit dem gleichen Design, aber mit anpassbarem Titel
+  und anpassbarer Höhe
+ */
 class AddBillPositionAppBar extends StatelessWidget
     implements PreferredSizeWidget {
   final String _titel;

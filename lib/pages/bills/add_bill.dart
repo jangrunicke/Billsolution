@@ -1,3 +1,7 @@
+/*
+  Eine Klasse zum manuellen Hinzufügen von Belegen 
+ */
+
 import 'dart:ui';
 
 import 'package:billsolution_app/aggregates/bill/bill.dart';
@@ -16,7 +20,7 @@ import 'widgets/add_bill_widgets.dart';
 import 'add_bill_position.dart';
 import 'package:provider/provider.dart';
 
-class AddBillPopup extends StatelessWidget {
+class AddBill extends StatelessWidget {
   final TextEditingController addShopNameController =
       new TextEditingController();
   final TextEditingController addShopVendorNameController =
@@ -36,6 +40,10 @@ class AddBillPopup extends StatelessWidget {
   final TextEditingController addShopBillIdController =
       new TextEditingController();
 
+/*
+  Ein Dropdown um die Kategorie des Händlers auszuwählen
+  (siehe select_group_dropdown.dart)
+ */
   SelectGroupDropDown dropDown =
       new SelectGroupDropDown('Kategorie des Händlers');
 
@@ -83,6 +91,11 @@ class AddBillPopup extends StatelessWidget {
               ),
             ),
           ),
+          /*
+            Hier wird auf der neusten Instanz des Users die Funktion
+            addBill(bill) aufgerufen, wobei der Parameter bill, eine Instanz
+            der Bill-Klasse, aus den Werten der TextInputs erstellt wird
+           */
           Consumer<User>(builder: (context, user, child) {
             if (user != null) {
               return Padding(
@@ -93,6 +106,10 @@ class AddBillPopup extends StatelessWidget {
                       try {
                         User latestUser = user;
 
+                        /*
+                          Falls Felder keinen Wert besitzen soll ein Popup 
+                          mit einer Fehlermeldung angezeigt werden 
+                         */
                         if (addShopNameController.text == "" ||
                             addBillDateController.text == "" ||
                             addShopBillIdController.text == "" ||
@@ -187,6 +204,10 @@ class AddBillPopup extends StatelessWidget {
                           print(dropDown.getCurrentValue());
                           print(bill.id);
 
+                          /*
+                            gebe die bill Instanz an den nächsten Screen AddBillPositionDetails weiter
+                            und navigiere dorthin
+                          */
                           Route route = MaterialPageRoute(
                               builder: (context) =>
                                   AddBillPositionDetails(bill));

@@ -1,3 +1,11 @@
+/*
+  Klasse um Belegpositionen anzulegen
+
+  Diese Klasse nimmt eine Bill Instanz entgegen, erstellt dann aus den Werten
+  der TextInput Feldern eine neue Instanz der Klasse Billposition und fügt diese
+  dann dem Bill hinzu
+ */
+
 import 'package:billsolution_app/aggregates/billposition/billposition.dart';
 import 'package:billsolution_app/pages/bills/add_bill_position.dart';
 import 'package:flutter/material.dart';
@@ -82,6 +90,10 @@ class AddBillPositionDetails extends StatelessWidget {
             padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
             child: HinzufuegenButton(
                 label: 'Hinzufügen',
+                /*
+                  Falls eines der Felder leer ist, soll ein Popup mit einer 
+                  Fehlermeldung angezeigt werden
+                */
                 onPressed: () async {
                   if (amountController.text == "" ||
                       priceController.text == "" ||
