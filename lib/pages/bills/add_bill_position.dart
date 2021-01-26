@@ -1,3 +1,8 @@
+/*
+  Klasse zum Anzeigen von Belegpositionen und der Möglichkeit
+  zum weiteren Anlegen von Belegpositionen oder dem Anlegen des Belegs
+ */
+
 import 'package:billsolution_app/pages/bills/bills_home.dart';
 import 'package:billsolution_app/repositorys/bill_repository.dart';
 import 'package:billsolution_app/services/billposition_service.dart';
@@ -18,6 +23,11 @@ class AddBillPosition extends StatelessWidget {
       child: Column(
         children: [
           Expanded(
+            /*
+              Diese Klasse nimmt eine Bill Instanz entgegen und führt auf dieser die Funktion
+              getBillPositions() auf, um einen Stream der Belegpositionen zu erhalten 
+              und diese anzuzeigen
+             */
             child: StreamBuilder(
               stream: bill.getBillpositions(),
               builder: (BuildContext context,
@@ -89,6 +99,10 @@ class AddBillPosition extends StatelessWidget {
     );
   }
 
+/*
+  Hier werden die 2 Buttons zum weiteren Hinzufügen von Belegpositionen,
+  bzw. dem Anlegen des Belegs definiert und designt
+ */
   @override
   Widget build(BuildContext context) {
     return Scaffold(

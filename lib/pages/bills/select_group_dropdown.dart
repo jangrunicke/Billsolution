@@ -1,3 +1,8 @@
+/*
+  Eine Klasse, die das Dropdown für das Auswählen einer Händlerkategorie
+  im Add_Bill Screen definiert
+ */
+
 import 'package:flutter/material.dart';
 
 class SelectGroupDropDown extends StatefulWidget {
@@ -13,7 +18,7 @@ class SelectGroupDropDown extends StatefulWidget {
 }
 
 class _SelectGroupDropDownState extends State<SelectGroupDropDown> {
-  var _gruppen = [
+  var _kategorien = [
     'Lebensmittel',
     'Hygiene',
     'Elektronik',
@@ -68,7 +73,7 @@ class _SelectGroupDropDownState extends State<SelectGroupDropDown> {
                         },
                       );
                     },
-                    items: _gruppen.map((String value) {
+                    items: _kategorien.map((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
                         child: Text(

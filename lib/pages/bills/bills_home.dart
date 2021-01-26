@@ -43,7 +43,7 @@ class BillsHome extends StatelessWidget {
                   icon: Icon(Icons.add),
                   onPressed: () {
                     Route route =
-                        MaterialPageRoute(builder: (context) => AddBillPopup());
+                        MaterialPageRoute(builder: (context) => AddBill());
                     Navigator.push(context, route);
                   }),
             ],
