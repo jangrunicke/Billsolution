@@ -16,6 +16,8 @@ import 'package:rxdart/streams.dart';
 
 part 'user.g.dart';
 
+/// AggregateRoot des Aggregates Users im Sinne von DDD
+
 @JsonSerializable(explicitToJson: true)
 @DateTimeConverter()
 class User {
@@ -34,19 +36,24 @@ class User {
       @required this.email,
       this.groups});
 
+  /// Factory Method zum erstellen eines User aus einem JSON Datensatz
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
+  /// liefert das User Object als JSON zurück
   Map<String, dynamic> toJson() => _$UserToJson(this);
 
+  /// gibt alle Bills des Users zurück
   Stream<List<Bill>> getBills() {
     return BillRepository().findByUser(this.id);
   }
 
+  /// fügt einen Bill den User hinzu
   Future<Bill> addBill(Bill bill) {
     bill.userId = this.id;
     return BillRepository().add(bill);
   }
 
+  /// berechnet die Summe aller Bills mit Billposition der gleichen Kategorie
   Stream<double> calculateSumOfCategory(String category) async* {
     await for (List<Bill> bills in this.getBills()) {
       List<Stream<double>> streams = List<Stream<double>>();
@@ -62,6 +69,7 @@ class User {
     }
   }
 
+  /// berechnet die Summe über alle Billpositions der Bills, die der User hat
   Stream<double> calculateSum() async* {
     await for (List<Bill> bills in this.getBills()) {
       List<Stream<double>> streams = List<Stream<double>>();
@@ -77,6 +85,7 @@ class User {
     }
   }
 
+  /// gibt alle Categorien des Users zurück
   Stream<List<List<String>>> getAllCategories() async* {
     await for (List<Bill> bills in this.getBills()) {
       List<Stream<List<String>>> streams = List<Stream<List<String>>>();
@@ -89,6 +98,7 @@ class User {
     }
   }
 
+  /// berechnet die Summe der Billpositions nach Vendor
   Stream<double> calculatedSumOfVendor(Vendor vendor,
       {DateTime startingAt}) async* {
     assert(vendor != null);
@@ -140,6 +150,7 @@ class User {
     }
   }
 
+  /// liefer Daten für das PieChart als Stream zurück
   Stream<List<PieChartPos>> getPieChartStream() async* {
     await for (List<List<String>> categories in this.getAllCategories()) {
       // Map<String, Stream<double>> sumGroupedByCategory = Map();

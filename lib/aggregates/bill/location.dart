@@ -2,6 +2,8 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'location.g.dart';
 
+/// ValueObject Location des Aggregates Bill im Sinne von DDD
+
 @JsonSerializable(explicitToJson: true)
 class Location {
   String street;

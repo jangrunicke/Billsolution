@@ -3,6 +3,8 @@ import 'package:billsolution_app/pages/bills/add_bill_position.dart';
 import 'package:billsolution_app/repositorys/criteria.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+/// Repository für das AggregateRoot Billposition im Sinne von DDD
+/// stellt also die Schnittstelle zwischen der Entity Billposition und der Datenbank dar
 class BillpositionRepository {
   CollectionReference _collectionReference;
   // Singelton
@@ -14,6 +16,7 @@ class BillpositionRepository {
   }
   factory BillpositionRepository() => _instance;
 
+  /// gib alles Billpositions anhand von Kriterian als Stream zurück 
   Stream<List<Billposition>> find({List<Criteria> criterias}) {
     // TODO: Error handling
     Query query = _collectionReference;
@@ -33,12 +36,14 @@ class BillpositionRepository {
     return result;
   }
 
+  /// gib die Billpositions andhand seiner ID zurück
   Stream<Billposition> findById(String id) {
     return _collectionReference.doc(id).snapshots().map(
         (DocumentSnapshot document) =>
             _buildBillpositionFromDocumentSnapshot(document));
   }
 
+  /// finde alle Billpositions anhand der BillId und gib diese als Stream zurück
   Stream<List<Billposition>> findByBill(String billId) {
     return _collectionReference
         .where('billId', isEqualTo: billId)
@@ -50,6 +55,7 @@ class BillpositionRepository {
             .toList());
   }
 
+  /// füge einen Bill der Datenbank hinzu
   Future<Billposition> add(Billposition billposition) async {
     try {
       Map<String, dynamic> billpositionAsJson = billposition.toJson();
@@ -66,6 +72,7 @@ class BillpositionRepository {
     }
   }
 
+  /// baue aus einem Firebase DocumentSnapshot Object ein Billposition Objekt
   Billposition _buildBillpositionFromDocumentSnapshot(
       DocumentSnapshot document) {
     Billposition billposition = Billposition.fromJson(document.data());

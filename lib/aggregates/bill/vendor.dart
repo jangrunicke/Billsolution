@@ -3,6 +3,8 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'vendor.g.dart';
 
+/// ValueObject Vendor des Aggregates Bill im Sinne von DDD
+
 @JsonSerializable()
 class Vendor {
   String name;

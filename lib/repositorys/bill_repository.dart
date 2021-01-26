@@ -2,9 +2,13 @@ import 'package:billsolution_app/aggregates/bill/bill.dart';
 import 'package:billsolution_app/repositorys/criteria.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+/// Repository für das AggregateRoot Bill im Sinne von DDD
+/// stellt also die Schnittstelle zwischen der Entity Bill und der Datenbank dar
+
 class BillRepository {
   CollectionReference _collectionReference;
 
+  /// Singelton Pattern Instanz erstellung
   static final BillRepository _instance = BillRepository._internal();
 
   factory BillRepository() => _instance;
@@ -13,6 +17,7 @@ class BillRepository {
     _collectionReference = FirebaseFirestore.instance.collection('bills');
   }
 
+  /// Finde alle Bills in der Datenbank anhand von Kriterien und liefer diese anhand eines Streams zurück (RealtimeData)
   Stream<List<Bill>> find({List<Criteria> criterias}) {
     // TODO: Error Handling
     Query query = _collectionReference;
@@ -32,6 +37,7 @@ class BillRepository {
     return billsStream;
   }
 
+  /// Finde den Bill anhand seiner Id
   Stream<Bill> findById(String id) {
     return _collectionReference
         .doc(id)
@@ -39,6 +45,7 @@ class BillRepository {
         .map((DocumentSnapshot document) => Bill.fromJson(document.data()));
   }
 
+  /// Finde alle Bills anhand der UserId
   Stream<List<Bill>> findByUser(String userId) {
     return _collectionReference
         .snapshots()
@@ -49,6 +56,7 @@ class BillRepository {
             .toList());
   }
 
+  /// Füge einen Bill dem User hinzu
   Future<Bill> add(Bill bill) async {
     try {
       Map<String, dynamic> billAsJson = bill.toJson();
@@ -63,6 +71,7 @@ class BillRepository {
     }
   }
 
+  /// Baue ein Bill Object aus einem Firebase DocumentSnapshot Objekts
   Bill _buildBillFromDocumentSnapshot(DocumentSnapshot document) {
     Bill bill = Bill.fromJson(document.data());
     bill.id = document.id;

@@ -13,7 +13,7 @@ import 'login_forgot_password_text.dart';
 import 'package:flutter/material.dart';
 
 /*
-  Eine Klasse die den Login Screen definiert, wennd er User die App startet
+  Eine Klasse die den Login Screen definiert, wennd der User die App startet
 
   Beim Klicken des Einloggen oder des Registrieren Buttons, wird eine User Instanz 
   erstellt (.login())

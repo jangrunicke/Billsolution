@@ -4,6 +4,8 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'shop.g.dart';
 
+/// ValueObject Shop des Aggregates Bill im Sinne von DDD
+
 @JsonSerializable(explicitToJson: true)
 class Shop {
   String name;

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+/// Criteria Klasse um Kriterien für Firebase zu definieren
 class Criteria {
   String field;
   String operator;
