@@ -2,6 +2,8 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'billposition.g.dart';
 
+/// AggregateRoot des Aggregates Billposition im Sinne von DDD
+
 @JsonSerializable()
 class Billposition {
   @JsonKey(ignore: true)

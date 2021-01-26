@@ -11,6 +11,9 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'bill.g.dart';
 
+/// AggregateRoot vom Aggregate Bill nach den Prinzipien von DomainDrivenDesign
+
+
 @JsonSerializable(explicitToJson: true)
 @DateTimeConverter()
 class Bill {
@@ -27,15 +30,18 @@ class Bill {
   factory Bill.fromJson(Map<String, dynamic> json) => _$BillFromJson(json);
   Map<String, dynamic> toJson() => _$BillToJson(this);
 
+  /// liefert alle Billpositions des Bills
   Stream<List<Billposition>> getBillpositions() {
     return BillpositionRepository().findByBill(this.id);
   }
 
+  /// fügt eine Billpositions dem Bill hinzug
   Future<Billposition> addBillposition(Billposition billposition) {
     billposition.billId = this.id;
     return BillpositionRepository().add(billposition);
   }
 
+  /// gibt die Summe des Bills zurück
   Stream<double> getCalculatedSum() {
     return this.getBillpositions().map<double>((List<Billposition> bills) {
       double sum = 0;
@@ -46,6 +52,7 @@ class Bill {
     });
   }
 
+  /// liefert die Kategorien der Billpositions des Bills
   Stream<List<String>> getCategories() {
     return this
         .getBillpositions()
@@ -58,11 +65,8 @@ class Bill {
     });
   }
 
-  // double roundDouble(double value, int places) {
-  //   double mod = pow(10.0, places);
-  //   return ((value * mod).round().toDouble() / mod);
-  // }
 
+  /// liefert die Summe aller Billpositions mit gleicher Kategorie
   Stream<double> getCalculatedSumOfCategory(String category) {
     List<Criteria> criterias = [
       Criteria(field: 'category', operator: 'isEqualTo', value: category),
@@ -82,6 +86,7 @@ class Bill {
     return sum;
   }
 
+  /// berechnet den Preis einer Billposition nach Aanzahl Mwst. und Rabatten
   double _calculateBillposition(Billposition billposition) {
     final double netto = billposition.price * billposition.amount;
     double brutto = netto + netto * billposition.tax;
